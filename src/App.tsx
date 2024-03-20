@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useState } from 'react';
 import { Project, Todo } from './Classes';
 import ProjectDisplay from './components/ProjectDisplay'
+import ProjectSelect from './components/ProjectSelect'
 
 const Container = styled.div`
   width: 100vw;
@@ -17,6 +18,10 @@ const Sidebar = styled.div`
   grid-column: 1 \ 2;
   grid-row: 1 / 3;
   background-color: red;
+  display:flex;
+  flex-direction:column;
+  justify-content:start;
+  align-items:center;
 `;
 const Header = styled.header`
   grid-column: 1 \ 3;
@@ -39,6 +44,11 @@ function App() {
     setTodos([...currentProject.todos]);
   })
 
+  const addNewProject = ((name:string) => {
+    const newProject = new Project(name);
+    setProjects([...projects, newProject]);
+  })
+
   return (
     <Container>
       <Sidebar>
@@ -46,6 +56,10 @@ function App() {
         <Button variant="outlined" 
           onClick={() => {addNewTodo("hi","hi",new Date("1/1/23"),2)}}
         >Add Todo</Button>
+        <ProjectSelect projects={projects} setCurrentProject={setCurrentProject}/>
+        <Button variant='outlined'
+          onClick={() => {addNewProject("hi")}}
+        >Add Project</Button>
       </Sidebar>
       <Header>
         Todo Manager
