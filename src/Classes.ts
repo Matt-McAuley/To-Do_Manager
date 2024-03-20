@@ -33,4 +33,5 @@ class Project {
         this.todos.splice(i, 1);
     }
 }
-export default {Project, Todo}
+
+export {Project, Todo}
