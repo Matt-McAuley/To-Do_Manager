@@ -23,7 +23,8 @@ const TodoPopup = () => {
     const { todoPopupDisplayed, setTodoPopupDisplayed, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
 
     return todoPopupDisplayed ? (
-        <Container onSubmit={() => {
+        <Container onSubmit={(evt) => {
+            evt.preventDefault;
             addNewTodo(title, description, new Date(date), priority);
             setTitle("");
             setDescription("");

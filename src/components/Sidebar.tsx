@@ -1,7 +1,6 @@
 import { Button } from '@mui/material'
 import styled from '@emotion/styled'
 import { useContext } from 'react';
-import { Todo } from '../Classes';
 import ProjectSelect from '../components/ProjectSelect'
 import {TodoListContext, TodoListContextType} from '../TodoListContext';
 
@@ -16,21 +15,31 @@ const Container = styled.div`
 `;
 
 const Sidebar = () => {
-  const { allTodos, setTodos, projects, setCurrentProject, addNewProject, setTodoPopupDisplayed  } = useContext(TodoListContext) as TodoListContextType;
+  const { allTodos, setTodos, projects, setCurrentProject, addNewProject, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
       <Button variant='outlined'
         onClick={() => {
-          allTodos.sort(function(a: Todo, b: Todo) {
-            return (a.dueDate).getTime() - (b.dueDate).getTime();
-        });
-          setTodos(allTodos)
+          setTodos([...allTodos.todos])
+          console.log(allTodos.todos)
+          setCurrentProject(allTodos);
         }}
       >All Todos
       </Button>
       <Button variant="outlined" 
-        onClick={() => {setTodoPopupDisplayed(true)}}
+        onClick={() => {
+          console.log(currentProject);
+          console.log(allTodos);
+          console.log(currentProject === allTodos);
+          console.log(currentProject == allTodos);
+          if (currentProject == allTodos) {
+            alert("Please select a project");
+            console.log('hi')
+            return false;
+          }
+          setTodoPopupDisplayed(true)
+        }}
       >Add Todo
       </Button>
       <ProjectSelect projects={projects} setCurrentProject={setCurrentProject} setTodos={setTodos}/>
