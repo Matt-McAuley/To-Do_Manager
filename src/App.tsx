@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Project, Todo } from './Classes';
 import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
+import {TodoListContext} from './TodoListContext';
 
 const Container = styled.div`
   width: 100vw;
@@ -31,15 +32,43 @@ exampleProject.addTodo(exampleTodo);
 
 function App() {
   const [todos, setTodos] = useState(allTodos)
+  const [projects, setProjects] = useState([exampleProject]);
+  const [currentProject, setCurrentProject] = useState(projects[0]);
+
+  const addNewTodo = ((name:string, description:string, date:Date, priority:number) => {
+    const newTodo = new Todo(name, description, date, priority);
+    allTodos.push(newTodo);
+    currentProject.addTodo(newTodo);
+    setTodos([...currentProject.todos]);
+  })
+
+  const addNewProject = ((name:string) => {
+    const newProject = new Project(name);
+    setProjects([...projects, newProject]);
+  })
 
   return (
-    <Container>
-      <Sidebar allTodos={allTodos} exampleProject={exampleProject} setTodos={setTodos}/>
-      <Header>
-        Todo Manager
-      </Header>
-      <ProjectDisplay todos={todos}/>
-    </Container>
+    <TodoListContext.Provider 
+      value={{
+        allTodos,
+        todos,
+        setTodos,
+        projects,
+        setProjects,
+        currentProject,
+        setCurrentProject,
+        addNewTodo,
+        addNewProject
+      }}
+    >
+      <Container>
+        <Sidebar/>
+        <Header>
+          Todo Manager
+        </Header>
+        <ProjectDisplay todos={todos}/>
+      </Container>
+    </TodoListContext.Provider>
   )
 }
 

@@ -1,6 +1,7 @@
 import {Todo} from "../Classes";
 import TodoContainer from "./TodoContainer";
 import styled from '@emotion/styled'
+import TodoPopup from '../components/TodoPopup';
 
 const Container = styled.div`
   grid-column: 2 \ 3;
@@ -11,6 +12,7 @@ const Container = styled.div`
   justify-content:start;
   align-items:center;
   overflow: scroll;
+  position: relative;
 `;
 
 type Props = {
@@ -22,8 +24,9 @@ const ProjectDisplay = (props: Props) => {
     return (
         <Container>
             {todos.map((todo) => (
-                <TodoContainer todo={todo}/>
+                <TodoContainer key={todo.title} todo={todo}/>
             ))}
+            <TodoPopup/>
         </Container>
     );
 }

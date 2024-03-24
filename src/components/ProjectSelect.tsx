@@ -25,7 +25,7 @@ const ProjectSelect = (props: Props) => {
     return (
         <Container>
             {projects.map((project) => (
-                <Button onClick={() => {
+                <Button key={project.title} onClick={() => {
                         setCurrentProject(project)
                         setTodos([...project.todos])
                     }

@@ -1,8 +1,9 @@
 import { Button } from '@mui/material'
 import styled from '@emotion/styled'
-import { useState } from 'react';
-import { Project, Todo } from '../Classes';
+import { useContext } from 'react';
+import { Todo } from '../Classes';
 import ProjectSelect from '../components/ProjectSelect'
+import {TodoListContext, TodoListContextType} from '../TodoListContext';
 
 const Container = styled.div`
   grid-column: 1 \ 2;
@@ -14,38 +15,17 @@ const Container = styled.div`
   align-items:center;
 `;
 
-type Props = {
-  allTodos: Todo[];
-  exampleProject: Project;
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-}
-
-const Sidebar = (props: Props) => {
-  const {allTodos, exampleProject, setTodos} = {...props};
-  
-  const [projects, setProjects] = useState([exampleProject])
-  const [currentProject, setCurrentProject] = useState(projects[0])
-
-  const addNewTodo = ((name:string, description:string, date:Date, priority:number) => {
-    const newTodo = new Todo(name, description, date, priority);
-    allTodos.push(newTodo);
-    currentProject.addTodo(newTodo);
-    setTodos([...currentProject.todos]);
-  })
-
-  const addNewProject = ((name:string) => {
-    const newProject = new Project(name);
-    setProjects([...projects, newProject]);
-  })
+const Sidebar = () => {
+  const { allTodos, setTodos, addNewTodo, projects, setCurrentProject, addNewProject  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
       <Button variant='outlined'
         onClick={() => {
-          setTodos(allTodos)
           allTodos.sort(function(a: Todo, b: Todo) {
             return (a.dueDate).getTime() - (b.dueDate).getTime();
         });
+          setTodos(allTodos)
         }}
       >All Todos
       </Button>
