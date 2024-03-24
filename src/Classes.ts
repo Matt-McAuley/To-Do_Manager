@@ -2,9 +2,9 @@ class Todo {
     title: string;
     description: string;
     dueDate: Date;
-    priority: number;
+    priority: string;
 
-    constructor(title: string, description: string, dueDate: Date, priority: number) {
+    constructor(title: string, description: string, dueDate: Date, priority: string) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;

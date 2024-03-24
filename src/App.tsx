@@ -26,16 +26,17 @@ const Header = styled.header`
 
 const allTodos: Todo[] = [];
 const exampleProject = new Project("Example");
-const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/1999"), 1);
+const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/1999"), "low");
 allTodos.push(exampleTodo);
 exampleProject.addTodo(exampleTodo);
 
 function App() {
-  const [todos, setTodos] = useState(allTodos)
+  const [todos, setTodos] = useState(allTodos);
   const [projects, setProjects] = useState([exampleProject]);
   const [currentProject, setCurrentProject] = useState(projects[0]);
+  const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
 
-  const addNewTodo = ((name:string, description:string, date:Date, priority:number) => {
+  const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
     const newTodo = new Todo(name, description, date, priority);
     allTodos.push(newTodo);
     currentProject.addTodo(newTodo);
@@ -45,6 +46,8 @@ function App() {
   const addNewProject = ((name:string) => {
     const newProject = new Project(name);
     setProjects([...projects, newProject]);
+    setCurrentProject(newProject);
+    setTodos([...currentProject.todos]);
   })
 
   return (
@@ -58,7 +61,9 @@ function App() {
         currentProject,
         setCurrentProject,
         addNewTodo,
-        addNewProject
+        addNewProject,
+        todoPopupDisplayed,
+        setTodoPopupDisplayed
       }}
     >
       <Container>
