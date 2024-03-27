@@ -37,6 +37,14 @@ function App() {
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
 
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
+
+    for (let i = 0; i < currentProject.todos.length; i++) {
+      if (currentProject.todos[i].title == name) {
+        alert("Cannot have two todos with the same name in one project!")
+        return false;
+      }
+    }
+    
     const newTodo = new Todo(name, description, date, priority);
     allTodos.addTodo(newTodo);
     currentProject.addTodo(newTodo);

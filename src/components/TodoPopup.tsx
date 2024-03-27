@@ -32,8 +32,8 @@ const TodoPopup = () => {
             setPriority("");
             setTodoPopupDisplayed(false);
             }}>
-            <TextField id="outlined-basic" value="a" label="Title" variant="outlined" placeholder='Title' onChange={(evt) => setTitle(evt.target.value)} required/>
-            <TextField id="outlined-basic" value="a" label="Description" variant="outlined" placeholder='Description' onChange={(evt) => setDescription(evt.target.value)} required/>
+            <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' onChange={(evt) => setTitle(evt.target.value)} required/>
+            <TextField id="outlined-basic" label="Description" variant="outlined" placeholder='Description' onChange={(evt) => setDescription(evt.target.value)} required/>
             <FormLabel id="demo-radio-buttons-group-label">Priority</FormLabel>
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -42,9 +42,9 @@ const TodoPopup = () => {
                 
                 onChange={(evt) => setPriority(evt.target.value)}
             >
-                <FormControlLabel checked value="low" control={<Radio />} label="low" required/>
-                <FormControlLabel value="medium" control={<Radio />} label="medium" required/>
-                <FormControlLabel value="high" control={<Radio />} label="high" required/>
+                <FormControlLabel value="low" control={<Radio />} label="low" required/>
+                <FormControlLabel value="medium" control={<Radio />} label="medium" />
+                <FormControlLabel value="high" control={<Radio />} label="high" />
             </RadioGroup>
             <input type="Date" onChange={(evt) => setDate(evt.target.value)} required/>
             <button type="submit">Submit</button>
