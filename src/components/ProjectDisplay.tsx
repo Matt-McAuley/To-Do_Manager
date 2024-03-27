@@ -1,4 +1,4 @@
-import {Todo} from "../Classes";
+import {Todo, Project} from "../Classes";
 import TodoContainer from "./TodoContainer";
 import styled from '@emotion/styled'
 import TodoPopup from '../components/TodoPopup';
@@ -17,12 +17,18 @@ const Container = styled.div`
 
 type Props = {
     todos: Todo[];
+    project: Project;
 }
 
 const ProjectDisplay = (props: Props) => {
     const todos = props.todos;
+    const project = props.project;
+
     return (
         <Container>
+            <h1>
+            {project.title}
+            </h1>
             {todos.map((todo) => (
                 <TodoContainer key={todo.title} todo={todo}/>
             ))}

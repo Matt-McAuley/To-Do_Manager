@@ -47,7 +47,7 @@ function App() {
     const newProject = new Project(name);
     setProjects([...projects, newProject]);
     setCurrentProject(newProject);
-    setTodos([...currentProject.todos]);
+    setTodos([]);
   })
 
   return (
@@ -71,7 +71,7 @@ function App() {
         <Header>
           Todo Manager
         </Header>
-        <ProjectDisplay todos={todos}/>
+        <ProjectDisplay project={currentProject} todos={todos}/>
       </Container>
     </TodoListContext.Provider>
   )

@@ -21,21 +21,15 @@ const Sidebar = () => {
     <Container>
       <Button variant='outlined'
         onClick={() => {
-          setTodos([...allTodos.todos])
-          console.log(allTodos.todos)
           setCurrentProject(allTodos);
+          setTodos([...currentProject.todos]);
         }}
       >All Todos
       </Button>
       <Button variant="outlined" 
         onClick={() => {
-          console.log(currentProject);
-          console.log(allTodos);
-          console.log(currentProject === allTodos);
-          console.log(currentProject == allTodos);
-          if (currentProject == allTodos) {
+          if (currentProject.equals(allTodos)) {
             alert("Please select a project");
-            console.log('hi')
             return false;
           }
           setTodoPopupDisplayed(true)

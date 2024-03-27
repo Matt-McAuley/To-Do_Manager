@@ -12,8 +12,7 @@ class Todo {
     }
 
     equals(todo: Todo) {
-        if (this.title == todo.title && this.description == todo.description && 
-            this.dueDate == todo.dueDate && this.priority == todo.priority) {
+        if (this.title == todo.title) {
                 return true;
             }
         return false;
@@ -44,14 +43,6 @@ class Project {
     equals(project : Project) {
         if (this.title != project.title) {
             return false;
-        }
-        if (this.todos.length != project.todos.length) {
-            return false;
-        }
-        for (let i = 0; i < this.todos.length; i++) {
-            if (!(this.todos[i].equals(project.todos[i]))) {
-                return false;
-            }
         }
         return true;
     }
