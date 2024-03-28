@@ -4,6 +4,8 @@ import { Project, Todo } from './Classes';
 import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
 import {TodoListContext} from './TodoListContext';
+import TodoPopup from './components/TodoPopup';
+import ProjectPopup from './components/ProjectPopup';
 
 const Container = styled.div`
   width: 100vw;
@@ -22,6 +24,17 @@ const Header = styled.header`
   align-items:center;
   justify-content:center;
   font-size: x-large;
+`;
+const Backdrop = styled.div`
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color:rgba(0,0,0,0.3);
+  z-index: 1;
 `;
 
 function App() {
@@ -87,6 +100,10 @@ function App() {
         </Header>
         <ProjectDisplay/>
       </Container>
+      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed) ? "" : "none"}}>
+        <TodoPopup/>
+        <ProjectPopup/>
+      </Backdrop>
     </TodoListContext.Provider>
   )
 }

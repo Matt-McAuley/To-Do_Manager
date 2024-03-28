@@ -1,8 +1,6 @@
 import {Todo} from "../Classes";
 import TodoContainer from "./TodoContainer";
 import styled from '@emotion/styled'
-import TodoPopup from '../components/TodoPopup';
-import ProjectPopup from "./ProjectPopup";
 import { TodoListContext, TodoListContextType } from "../TodoListContext";
 import { useContext } from "react";
 
@@ -31,8 +29,6 @@ const ProjectDisplay = () => {
             {currentProject.todos.map((todo: Todo, index: number) => (
                 <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
             ))}
-            <TodoPopup/>
-            <ProjectPopup/>
         </Container>
     );
 }

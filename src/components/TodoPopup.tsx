@@ -7,7 +7,7 @@ const Container = styled.form`
   width: 70%;
   height 70%;
   position: absolute;
-  background-color: white;
+  background-color:white;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -48,7 +48,7 @@ const TodoPopup = () => {
             </RadioGroup>
             <input type="Date" onChange={(evt) => setDate(evt.target.value)} required/>
             <button type="submit">Submit</button>
-        </Container>
+        </Container> 
     ) : null;
 
 }
