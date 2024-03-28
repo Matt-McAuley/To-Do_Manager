@@ -28,8 +28,8 @@ const ProjectDisplay = () => {
             <h1>
             {currentProject.title}
             </h1>
-            {currentProject.todos.map((todo: Todo) => (
-                <TodoContainer key={todo.title} todo={todo}/>
+            {currentProject.todos.map((todo: Todo, index: number) => (
+                <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
             ))}
             <TodoPopup/>
             <ProjectPopup/>

@@ -17,7 +17,7 @@ const Container = styled.div`
 const Header = styled.header`
   grid-column: 1 \ 3;
   grid-row: 1 / 2;
-  background-color: blue;
+  background-color: lightblue;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -26,17 +26,16 @@ const Header = styled.header`
 
 function App() {
   const exampleProject = new Project("Example");
-  const allTodos = new Project("All Todos");
   const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/2024"), "low");
+  const allTodosProject = new Project("All Todos");
+  allTodosProject.addTodo(exampleTodo);
   exampleProject.addTodo(exampleTodo);
-  allTodos.addTodo(exampleTodo);
 
   const [projects, setProjects] = useState([exampleProject]);
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
   const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
-  // const [allTodos, setAllTodos] = useState(new Project("All Todos"));
-
+  const [allTodos, ] = useState(allTodosProject);
 
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
 
@@ -49,6 +48,7 @@ function App() {
     
     const newTodo = new Todo(name, description, date, priority);
     currentProject.addTodo(newTodo);
+    allTodos.addTodo(newTodo);
   });
 
   const addNewProject = ((name:string) => {
