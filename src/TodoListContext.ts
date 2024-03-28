@@ -13,6 +13,8 @@ export type TodoListContextType = {
     setTodoPopupDisplayed : React.Dispatch<React.SetStateAction<boolean>>;
     projectPopupDisplayed : boolean;
     setProjectPopupDisplayed : React.Dispatch<React.SetStateAction<boolean>>;
+    alertPopup : string;
+    setAlertPopup : React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TodoListContext = createContext<TodoListContextType | null>(null);

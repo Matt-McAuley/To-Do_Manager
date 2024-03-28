@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Sidebar = () => {
-  const { allTodos, projects, setCurrentProject, setProjectPopupDisplayed, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
+  const { setAlertPopup, allTodos, projects, setCurrentProject, setProjectPopupDisplayed, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
@@ -29,7 +29,7 @@ const Sidebar = () => {
       <Button variant="outlined" 
         onClick={() => {
           if (currentProject.equals(allTodos)) {
-            alert("Please select a project");
+            setAlertPopup("Please select a project");
             return false;
           }
           setTodoPopupDisplayed(true)

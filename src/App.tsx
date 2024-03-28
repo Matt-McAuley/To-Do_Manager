@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar';
 import {TodoListContext} from './TodoListContext';
 import TodoPopup from './components/TodoPopup';
 import ProjectPopup from './components/ProjectPopup';
+import AlertPopup from './components/AlertPopup';
 
 const Container = styled.div`
   padding: 0;
@@ -51,13 +52,14 @@ function App() {
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
   const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
+  const [alertPopup, setAlertPopup] = useState("");
   const [allTodos, ] = useState(allTodosProject);
 
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
 
     for (let i = 0; i < currentProject.todos.length; i++) {
       if (currentProject.todos[i].title == name) {
-        alert("Cannot have two todos with the same name in one project!")
+        setAlertPopup("Cannot have two todos with the same name in one project!")
         return false;
       }
     }
@@ -70,7 +72,7 @@ function App() {
   const addNewProject = ((name:string) => {
     for (let i = 0; i < projects.length; i++) {
       if (name.toLocaleLowerCase() == "all todos" || projects[i].title.toLocaleLowerCase() == name.toLocaleLowerCase()) {
-        alert("Cannot have two projects with the same name!")
+        setAlertPopup("Cannot have two projects with the same name!")
         return false;
       }
     }
@@ -93,7 +95,9 @@ function App() {
         todoPopupDisplayed,
         setTodoPopupDisplayed,
         projectPopupDisplayed,
-        setProjectPopupDisplayed
+        setProjectPopupDisplayed,
+        alertPopup,
+        setAlertPopup
       }}
     >
       <Container>
@@ -103,9 +107,10 @@ function App() {
         </Header>
         <ProjectDisplay/>
       </Container>
-      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed) ? "" : "none"}}>
+      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed || alertPopup) ? "" : "none"}}>
         <TodoPopup/>
         <ProjectPopup/>
+        <AlertPopup/>
       </Backdrop>
     </TodoListContext.Provider>
   )
