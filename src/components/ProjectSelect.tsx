@@ -1,5 +1,6 @@
 import { Project } from "../Classes"
 import styled from '@emotion/styled'
+import DeleteIcon from "../assets/delete.svg"
 import { Button } from '@mui/material'
 
 const Container = styled.div`
@@ -13,6 +14,21 @@ const Container = styled.div`
   background-color:pink;
 `;
 
+const Image = styled.img`
+    width: 30px;
+    cursor: pointer;
+    &:hover {
+        background-color: red;
+    }
+    &:active {
+        background-color: blue;
+    }
+`
+
+const Proj = styled.div`
+    display: flex;
+`
+
 type Props = {
     projects: Project[];
     setCurrentProject: React.Dispatch<React.SetStateAction<Project>>;
@@ -24,10 +40,13 @@ const ProjectSelect = (props: Props) => {
     return (
         <Container>
             {projects.map((project) => (
-                <Button key={project.title} onClick={() => {
-                        setCurrentProject(project)
-                    }
-                }> {project.title}</Button>
+                <Proj key={project.title}>
+                    <Button onClick={() => {
+                            setCurrentProject(project)
+                        }
+                    }> {project.title}</Button>
+                    <Image src={DeleteIcon}/>
+                </Proj>
             ))}
         </Container>
     );
