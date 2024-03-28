@@ -53,7 +53,7 @@ function App() {
 
   const addNewProject = ((name:string) => {
     for (let i = 0; i < projects.length; i++) {
-      if (projects[i].title == name) {
+      if (name.toLocaleLowerCase() == "all todos" || projects[i].title.toLocaleLowerCase() == name.toLocaleLowerCase()) {
         alert("Cannot have two projects with the same name!")
         return false;
       }
