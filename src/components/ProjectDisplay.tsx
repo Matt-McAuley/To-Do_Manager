@@ -1,7 +1,10 @@
-import {Todo, Project} from "../Classes";
+import {Todo} from "../Classes";
 import TodoContainer from "./TodoContainer";
 import styled from '@emotion/styled'
 import TodoPopup from '../components/TodoPopup';
+import ProjectPopup from "./ProjectPopup";
+import { TodoListContext, TodoListContextType } from "../TodoListContext";
+import { useContext } from "react";
 
 const Container = styled.div`
   grid-column: 2 \ 3;
@@ -15,24 +18,21 @@ const Container = styled.div`
   position: relative;
 `;
 
-type Props = {
-    todos: Todo[];
-    project: Project;
-}
 
-const ProjectDisplay = (props: Props) => {
-    const todos = props.todos;
-    const project = props.project;
+const ProjectDisplay = () => {
+
+    const { currentProject } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             <h1>
-            {project.title}
+            {currentProject.title}
             </h1>
-            {todos.map((todo) => (
+            {currentProject.todos.map((todo: Todo) => (
                 <TodoContainer key={todo.title} todo={todo}/>
             ))}
             <TodoPopup/>
+            <ProjectPopup/>
         </Container>
     );
 }

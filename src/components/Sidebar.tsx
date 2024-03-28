@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import styled from '@emotion/styled'
-import { useContext } from 'react';
+import { useContext} from 'react';
 import ProjectSelect from '../components/ProjectSelect'
 import {TodoListContext, TodoListContextType} from '../TodoListContext';
 
@@ -15,14 +15,14 @@ const Container = styled.div`
 `;
 
 const Sidebar = () => {
-  const { allTodos, setTodos, projects, setCurrentProject, addNewProject, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
+  const { allTodos, projects, setCurrentProject, setProjectPopupDisplayed, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
       <Button variant='outlined'
+        key={"allTodos"}
         onClick={() => {
           setCurrentProject(allTodos);
-          setTodos([...currentProject.todos]);
         }}
       >All Todos
       </Button>
@@ -36,9 +36,9 @@ const Sidebar = () => {
         }}
       >Add Todo
       </Button>
-      <ProjectSelect projects={projects} setCurrentProject={setCurrentProject} setTodos={setTodos}/>
+      <ProjectSelect projects={projects} setCurrentProject={setCurrentProject}/>
       <Button variant='outlined'
-        onClick={() => {addNewProject("hi")}}
+        onClick={() => {setProjectPopupDisplayed(true)}}
       >Add Project
       </Button>
     </Container>

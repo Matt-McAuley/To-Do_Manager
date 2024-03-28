@@ -1,4 +1,4 @@
-import { Todo, Project } from "../Classes"
+import { Project } from "../Classes"
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
 
@@ -16,18 +16,16 @@ const Container = styled.div`
 type Props = {
     projects: Project[];
     setCurrentProject: React.Dispatch<React.SetStateAction<Project>>;
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 const ProjectSelect = (props: Props) => {
-    const {projects, setCurrentProject, setTodos} = {...props};
+    const {projects, setCurrentProject} = {...props};
 
     return (
         <Container>
             {projects.map((project) => (
                 <Button key={project.title} onClick={() => {
                         setCurrentProject(project)
-                        setTodos([...project.todos])
                     }
                 }> {project.title}</Button>
             ))}

@@ -25,16 +25,18 @@ const Header = styled.header`
 `;
 
 function App() {
-  const allTodos = new Project("All Todos");
   const exampleProject = new Project("Example");
-  const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/1999"), "low");
-  allTodos.addTodo(exampleTodo);
+  const allTodos = new Project("All Todos");
+  const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/2024"), "low");
   exampleProject.addTodo(exampleTodo);
+  allTodos.addTodo(exampleTodo);
 
-  const [todos, setTodos] = useState(exampleProject.todos);
   const [projects, setProjects] = useState([exampleProject]);
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
+  const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
+  // const [allTodos, setAllTodos] = useState(new Project("All Todos"));
+
 
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
 
@@ -46,24 +48,26 @@ function App() {
     }
     
     const newTodo = new Todo(name, description, date, priority);
-    allTodos.addTodo(newTodo);
     currentProject.addTodo(newTodo);
-    setTodos([...currentProject.todos]);
-  })
+  });
 
   const addNewProject = ((name:string) => {
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].title == name) {
+        alert("Cannot have two projects with the same name!")
+        return false;
+      }
+    }
+
     const newProject = new Project(name);
     setProjects([...projects, newProject]);
     setCurrentProject(newProject);
-    setTodos([]);
-  })
+  });
 
   return (
     <TodoListContext.Provider 
       value={{
         allTodos,
-        todos,
-        setTodos,
         projects,
         setProjects,
         currentProject,
@@ -71,7 +75,9 @@ function App() {
         addNewTodo,
         addNewProject,
         todoPopupDisplayed,
-        setTodoPopupDisplayed
+        setTodoPopupDisplayed,
+        projectPopupDisplayed,
+        setProjectPopupDisplayed
       }}
     >
       <Container>
@@ -79,7 +85,7 @@ function App() {
         <Header>
           Todo Manager
         </Header>
-        <ProjectDisplay project={currentProject} todos={todos}/>
+        <ProjectDisplay/>
       </Container>
     </TodoListContext.Provider>
   )
