@@ -8,6 +8,8 @@ import TodoPopup from './components/TodoPopup';
 import ProjectPopup from './components/ProjectPopup';
 
 const Container = styled.div`
+  padding: 0;
+  margin: 0;
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -33,6 +35,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   background-color:rgba(0,0,0,0.3);
   z-index: 1;
 `;
