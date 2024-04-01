@@ -49,11 +49,21 @@ function App() {
   exampleProject.addTodo(exampleTodo);
 
   const [projects, setProjects] = useState([exampleProject]);
+  const [currentTodo, setCurrentTodo] = useState(exampleTodo);
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
   const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
+  const [expandPopupDisplayed, setExpandPopupDisplayed] = useState(false);
   const [alertPopup, setAlertPopup] = useState("");
+  const [editPopup, setEditPopup] = useState("");
+  const [deletePopup, setDeletePopup] = useState("");
   const [allTodos, ] = useState(allTodosProject);
+  const [editInfo, setEditInfo] = useState({
+    title: "",
+    description: "",
+    date: "",
+    priority: ""
+  });
 
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
 
@@ -63,8 +73,8 @@ function App() {
         return false;
       }
     }
-    
-    const newTodo = new Todo(name, description, date, priority);
+    const localDate = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
+    const newTodo = new Todo(name, description, localDate, priority);
     currentProject.addTodo(newTodo);
     allTodos.addTodo(newTodo);
   });
@@ -97,7 +107,17 @@ function App() {
         projectPopupDisplayed,
         setProjectPopupDisplayed,
         alertPopup,
-        setAlertPopup
+        setAlertPopup,
+        currentTodo,
+        setCurrentTodo,
+        editPopup,
+        setEditPopup,
+        deletePopup,
+        setDeletePopup,
+        expandPopupDisplayed,
+        setExpandPopupDisplayed,
+        editInfo,
+        setEditInfo
       }}
     >
       <Container>
@@ -107,7 +127,8 @@ function App() {
         </Header>
         <ProjectDisplay/>
       </Container>
-      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed || alertPopup) ? "" : "none"}}>
+      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed || 
+        alertPopup || expandPopupDisplayed || deletePopup || editPopup) ? "" : "none"}}>
         <TodoPopup/>
         <ProjectPopup/>
         <AlertPopup/>

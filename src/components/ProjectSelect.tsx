@@ -1,6 +1,7 @@
 import { Project } from "../Classes"
 import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
+import EditIcon from "../assets/note-edit.svg"
 import { Button } from '@mui/material'
 
 const Container = styled.div`
@@ -45,6 +46,7 @@ const ProjectSelect = (props: Props) => {
                             setCurrentProject(project)
                         }
                     }> {project.title}</Button>
+                    <Image src={EditIcon}/>
                     <Image src={DeleteIcon}/>
                 </Proj>
             ))}

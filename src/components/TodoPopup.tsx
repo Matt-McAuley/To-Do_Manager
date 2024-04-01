@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { TextField, RadioGroup, FormLabel, FormControlLabel, Radio } from '@mui/material'
 import { TodoListContext, TodoListContextType } from '../TodoListContext';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 const Container = styled.form`
   width: 70%;
@@ -15,38 +15,38 @@ const Container = styled.form`
 
 const TodoPopup = () => {
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
-    const [priority, setPriority] = useState("");
-
-    const { todoPopupDisplayed, setTodoPopupDisplayed, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, todoPopupDisplayed, setTodoPopupDisplayed, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
 
     return todoPopupDisplayed ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
-            addNewTodo(title, description, new Date(date), priority);
-            setTitle("");
-            setDescription("");
-            setDate("");
-            setPriority("");
+            addNewTodo(editInfo.title, editInfo.description, new Date(editInfo.date), editInfo.priority);
+            setEditInfo({
+                title : "",
+                description : "",
+                date : "",
+                priority : ""
+            })
             setTodoPopupDisplayed(false);
             }}>
-            <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' onChange={(evt) => setTitle(evt.target.value)} required/>
-            <TextField id="outlined-basic" label="Description" variant="outlined" placeholder='Description' onChange={(evt) => setDescription(evt.target.value)} required/>
+            <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' 
+            onChange={(evt) => setEditInfo({...editInfo, title : (evt.target.value)})} value={editInfo.title} required/>
+            <TextField id="outlined-basic" label="Description" variant="outlined" placeholder='Description' 
+            onChange={(evt) => setEditInfo({...editInfo, description : (evt.target.value)})} value={editInfo.description} required/>
             <FormLabel id="demo-radio-buttons-group-label">Priority</FormLabel>
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="female"
                 name="radio-buttons-group"
-                
-                onChange={(evt) => setPriority(evt.target.value)}
+                value={editInfo.priority}
+                onChange={(evt) => setEditInfo({...editInfo, priority : evt.target.value})}
             >
                 <FormControlLabel value="low" control={<Radio />} label="low" required/>
                 <FormControlLabel value="medium" control={<Radio />} label="medium" />
                 <FormControlLabel value="high" control={<Radio />} label="high" />
             </RadioGroup>
-            <input type="Date" onChange={(evt) => setDate(evt.target.value)} required/>
+            <input type="Date" onChange={(evt) => setEditInfo({...editInfo, date : evt.target.value})} 
+            value={editInfo.date} required/>
             <button type="submit">Submit</button>
         </Container> 
     ) : null;

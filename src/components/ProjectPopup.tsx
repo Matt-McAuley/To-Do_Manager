@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { TextField} from '@mui/material'
 import { TodoListContext, TodoListContextType } from '../TodoListContext';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 const Container = styled.form`
   width: 70%;
@@ -15,17 +15,16 @@ const Container = styled.form`
 
 const ProjectPopup = () => {
 
-    const [title, setTitle] = useState("");
-    const { projectPopupDisplayed, setProjectPopupDisplayed, addNewProject } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projectPopupDisplayed, setProjectPopupDisplayed, addNewProject } = useContext(TodoListContext) as TodoListContextType;
 
     return projectPopupDisplayed ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
-            addNewProject(title);
-            setTitle("");
+            addNewProject(editInfo.title);
+            setEditInfo({...editInfo, title : ""});
             setProjectPopupDisplayed(false);
             }}>
-            <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' onChange={(evt) => setTitle(evt.target.value)} required/>
+            <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' onChange={(evt) => setEditInfo({...editInfo, title: evt.target.value})} required/>
             <button type="submit">Submit</button>
         </Container>
     ) : null;

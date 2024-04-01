@@ -4,6 +4,7 @@ import DeleteIcon from "../assets/delete.svg"
 import ExpandIcon from "../assets/dots-horizontal.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { useContext } from "react"
+import { format } from 'date-fns'
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 
 const Container = styled.div`
@@ -31,23 +32,33 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { currentProject, allTodos } = useContext(TodoListContext) as TodoListContextType;
+    const { currentProject, allTodos, setTodoPopupDisplayed, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
 
     return currentProject.equals(allTodos) ? (
         <Container>
             <div>{todo.title}</div>
             <div>{todo.description}</div>
-            <div>{todo.dueDate.toString()}</div>
+            <div>{format(todo.dueDate, 'MM/dd/yyyy')}</div>
             <div>{todo.priority}</div>
         </Container>
     ) : (
         <Container>
             <div>{todo.title}</div>
             <div>{todo.description}</div>
-            <div>{todo.dueDate.toString()}</div>
+            <div>{format(todo.dueDate, 'MM/dd/yyyy')}</div>
             <div>{todo.priority}</div>
             <Image src={ExpandIcon}/>
-            <Image src={EditIcon}/>
+            <Image src={EditIcon} onClick={() => {
+                setEditInfo({
+                    title : todo.title,
+                    description : todo.description,
+                    date : format(todo.dueDate, 'yyyy-MM-dd'),
+                    priority : todo.priority
+                })
+                currentProject.removeTodo(todo);
+                allTodos.removeTodo(todo);
+                setTodoPopupDisplayed(true);
+            }}/>
             <Image src={DeleteIcon}/>
         </Container>
     );
