@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Sidebar = () => {
-  const { setAlertPopup, allTodos, projects, setCurrentProject, setProjectPopupDisplayed, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
+  const { setAlertPopup, allTodos, setCurrentProject, setProjectPopupDisplayed, setTodoPopupDisplayed, currentProject  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
@@ -36,7 +36,7 @@ const Sidebar = () => {
         }}
       >Add Todo
       </Button>
-      <ProjectSelect projects={projects} setCurrentProject={setCurrentProject}/>
+      <ProjectSelect/>
       <Button variant='outlined'
         onClick={() => {setProjectPopupDisplayed(true)}}
       >Add Project

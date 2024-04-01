@@ -20,9 +20,10 @@ const TodoPopup = () => {
     return todoPopupDisplayed ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
-            addNewTodo(editInfo.title, editInfo.description, new Date(editInfo.date), editInfo.priority);
+            addNewTodo(editInfo.todoTitle, editInfo.description, new Date(editInfo.date), editInfo.priority);
             setEditInfo({
-                title : "",
+                ...editInfo,
+                todoTitle : "",
                 description : "",
                 date : "",
                 priority : ""
@@ -30,7 +31,7 @@ const TodoPopup = () => {
             setTodoPopupDisplayed(false);
             }}>
             <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' 
-            onChange={(evt) => setEditInfo({...editInfo, title : (evt.target.value)})} value={editInfo.title} required/>
+            onChange={(evt) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} value={editInfo.todoTitle} required/>
             <TextField id="outlined-basic" label="Description" variant="outlined" placeholder='Description' 
             onChange={(evt) => setEditInfo({...editInfo, description : (evt.target.value)})} value={editInfo.description} required/>
             <FormLabel id="demo-radio-buttons-group-label">Priority</FormLabel>

@@ -7,6 +7,7 @@ import {TodoListContext} from './TodoListContext';
 import TodoPopup from './components/TodoPopup';
 import ProjectPopup from './components/ProjectPopup';
 import AlertPopup from './components/AlertPopup';
+import EditPopup from './components/EditPopup';
 
 const Container = styled.div`
   padding: 0;
@@ -49,17 +50,16 @@ function App() {
   exampleProject.addTodo(exampleTodo);
 
   const [projects, setProjects] = useState([exampleProject]);
-  const [currentTodo, setCurrentTodo] = useState(exampleTodo);
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
   const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
   const [expandPopupDisplayed, setExpandPopupDisplayed] = useState(false);
   const [alertPopup, setAlertPopup] = useState("");
-  const [editPopup, setEditPopup] = useState("");
-  const [deletePopup, setDeletePopup] = useState("");
+  const [editProjectPopup, setEditProjectPopup] = useState(false);
   const [allTodos, ] = useState(allTodosProject);
   const [editInfo, setEditInfo] = useState({
-    title: "",
+    projectTitle: "",
+    todoTitle: "",
     description: "",
     date: "",
     priority: ""
@@ -108,12 +108,8 @@ function App() {
         setProjectPopupDisplayed,
         alertPopup,
         setAlertPopup,
-        currentTodo,
-        setCurrentTodo,
-        editPopup,
-        setEditPopup,
-        deletePopup,
-        setDeletePopup,
+        editProjectPopup,
+        setEditProjectPopup,
         expandPopupDisplayed,
         setExpandPopupDisplayed,
         editInfo,
@@ -128,10 +124,11 @@ function App() {
         <ProjectDisplay/>
       </Container>
       <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed || 
-        alertPopup || expandPopupDisplayed || deletePopup || editPopup) ? "" : "none"}}>
+        alertPopup || expandPopupDisplayed || editProjectPopup) ? "" : "none"}}>
         <TodoPopup/>
         <ProjectPopup/>
         <AlertPopup/>
+        <EditPopup/>
       </Backdrop>
     </TodoListContext.Provider>
   )

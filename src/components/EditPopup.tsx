@@ -13,16 +13,21 @@ const Container = styled.form`
   transform: translate(-50%, -50%);
 `;
 
-const ProjectPopup = () => {
+const EditPopup = () => {
 
-    const { editInfo, setEditInfo, projectPopupDisplayed, setProjectPopupDisplayed, addNewProject } = useContext(TodoListContext) as TodoListContextType;
+    const { setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
 
-    return projectPopupDisplayed ? (
+    return editProjectPopup ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
-            addNewProject(editInfo.projectTitle);
-            setEditInfo({...editInfo, projectTitle : ""});
-            setProjectPopupDisplayed(false);
+            if (editInfo.projectTitle.toLowerCase() === "all todos") {
+                setAlertPopup("Cannot have two projects with the same name!")
+                setEditProjectPopup(false);
+            }
+            else {
+                currentProject.title = editInfo.projectTitle;
+                setEditProjectPopup(false);
+            }
             }}>
             <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' 
             onChange={(evt) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
@@ -32,4 +37,4 @@ const ProjectPopup = () => {
 
 }
 
-export default ProjectPopup;
+export default EditPopup;

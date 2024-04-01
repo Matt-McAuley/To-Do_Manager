@@ -32,7 +32,7 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { currentProject, allTodos, setTodoPopupDisplayed, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, currentProject, allTodos, setTodoPopupDisplayed, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
 
     return currentProject.equals(allTodos) ? (
         <Container>
@@ -50,7 +50,8 @@ const TodoContainer = (props: Props) => {
             <Image src={ExpandIcon}/>
             <Image src={EditIcon} onClick={() => {
                 setEditInfo({
-                    title : todo.title,
+                    ...editInfo,
+                    todoTitle : todo.title,
                     description : todo.description,
                     date : format(todo.dueDate, 'yyyy-MM-dd'),
                     priority : todo.priority

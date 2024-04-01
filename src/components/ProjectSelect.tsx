@@ -1,8 +1,9 @@
-import { Project } from "../Classes"
 import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { Button } from '@mui/material'
+import { TodoListContext, TodoListContextType } from "../TodoListContext"
+import { useContext } from 'react'
 
 const Container = styled.div`
   display:flex;
@@ -30,13 +31,8 @@ const Proj = styled.div`
     display: flex;
 `
 
-type Props = {
-    projects: Project[];
-    setCurrentProject: React.Dispatch<React.SetStateAction<Project>>;
-}
-
-const ProjectSelect = (props: Props) => {
-    const {projects, setCurrentProject} = {...props};
+const ProjectSelect = () => {
+    const { editInfo, setEditInfo, projects, setCurrentProject, setEditProjectPopup} = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -46,7 +42,11 @@ const ProjectSelect = (props: Props) => {
                             setCurrentProject(project)
                         }
                     }> {project.title}</Button>
-                    <Image src={EditIcon}/>
+                    <Image src={EditIcon} onClick={() =>{
+                        setCurrentProject(project);
+                        setEditInfo({...editInfo, projectTitle : project.title});
+                        setEditProjectPopup(true);
+                    }}/>
                     <Image src={DeleteIcon}/>
                 </Proj>
             ))}
