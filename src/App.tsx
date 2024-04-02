@@ -7,7 +7,7 @@ import {TodoListContext} from './TodoListContext';
 import TodoPopup from './components/TodoPopup';
 import ProjectPopup from './components/ProjectPopup';
 import AlertPopup from './components/AlertPopup';
-import EditPopup from './components/EditPopup';
+import EditProjectPopup from './components/EditProjectPopup';
 
 const Container = styled.div`
   padding: 0;
@@ -51,9 +51,9 @@ function App() {
 
   const [projects, setProjects] = useState([exampleProject]);
   const [currentProject, setCurrentProject] = useState(projects[0]);
-  const [todoPopupDisplayed, setTodoPopupDisplayed] = useState(false);
-  const [projectPopupDisplayed, setProjectPopupDisplayed] = useState(false);
-  const [expandPopupDisplayed, setExpandPopupDisplayed] = useState(false);
+  const [todoPopup, setTodoPopup] = useState(false);
+  const [projectPopup, setProjectPopup] = useState(false);
+  const [expandPopup, setExpandPopup] = useState(false);
   const [alertPopup, setAlertPopup] = useState("");
   const [editProjectPopup, setEditProjectPopup] = useState(false);
   const [allTodos, ] = useState(allTodosProject);
@@ -102,18 +102,18 @@ function App() {
         setCurrentProject,
         addNewTodo,
         addNewProject,
-        todoPopupDisplayed,
-        setTodoPopupDisplayed,
-        projectPopupDisplayed,
-        setProjectPopupDisplayed,
+        todoPopup,
+        setTodoPopup,
+        projectPopup,
+        setProjectPopup,
         alertPopup,
         setAlertPopup,
         editProjectPopup,
         setEditProjectPopup,
-        expandPopupDisplayed,
-        setExpandPopupDisplayed,
+        expandPopup,
+        setExpandPopup,
         editInfo,
-        setEditInfo
+        setEditInfo,
       }}
     >
       <Container>
@@ -123,12 +123,12 @@ function App() {
         </Header>
         <ProjectDisplay/>
       </Container>
-      <Backdrop style={{"display": (todoPopupDisplayed || projectPopupDisplayed || 
-        alertPopup || expandPopupDisplayed || editProjectPopup) ? "" : "none"}}>
+      <Backdrop style={{"display": (todoPopup || projectPopup || 
+        alertPopup || expandPopup || editProjectPopup ) ? "" : "none"}}>
         <TodoPopup/>
         <ProjectPopup/>
         <AlertPopup/>
-        <EditPopup/>
+        <EditProjectPopup/>
       </Backdrop>
     </TodoListContext.Provider>
   )

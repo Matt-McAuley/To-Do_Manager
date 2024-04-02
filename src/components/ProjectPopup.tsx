@@ -15,14 +15,14 @@ const Container = styled.form`
 
 const ProjectPopup = () => {
 
-    const { editInfo, setEditInfo, projectPopupDisplayed, setProjectPopupDisplayed, addNewProject } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projectPopup, setProjectPopup, addNewProject } = useContext(TodoListContext) as TodoListContextType;
 
-    return projectPopupDisplayed ? (
+    return projectPopup ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
             addNewProject(editInfo.projectTitle);
             setEditInfo({...editInfo, projectTitle : ""});
-            setProjectPopupDisplayed(false);
+            setProjectPopup(false);
             }}>
             <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' 
             onChange={(evt) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>

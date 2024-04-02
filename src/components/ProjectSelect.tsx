@@ -32,7 +32,7 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { editInfo, setEditInfo, projects, setCurrentProject, setEditProjectPopup} = useContext(TodoListContext) as TodoListContextType;
+    const { setAlertPopup, editInfo, setEditInfo, projects, setProjects, setCurrentProject, setEditProjectPopup} = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -42,12 +42,22 @@ const ProjectSelect = () => {
                             setCurrentProject(project)
                         }
                     }> {project.title}</Button>
-                    <Image src={EditIcon} onClick={() =>{
+                    <Image src={EditIcon} onClick={() => {
                         setCurrentProject(project);
                         setEditInfo({...editInfo, projectTitle : project.title});
                         setEditProjectPopup(true);
                     }}/>
-                    <Image src={DeleteIcon}/>
+                    <Image src={DeleteIcon} onClick={() => {
+                        if (projects.length > 1) {
+                            const index = projects.indexOf(project);
+                            projects.splice(index, 1);
+                            setProjects([...projects]);
+                            setCurrentProject(projects[0]);
+                        }
+                        else {
+                            setAlertPopup("Must have at least one project");
+                        }
+                    }}/>
                 </Proj>
             ))}
         </Container>

@@ -9,12 +9,12 @@ export type TodoListContextType = {
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
     addNewTodo : (name: string, description: string, date: Date, priority: string) => void;
     addNewProject : (name: string) => void;
-    todoPopupDisplayed : boolean;
-    setTodoPopupDisplayed : React.Dispatch<React.SetStateAction<boolean>>;
-    projectPopupDisplayed : boolean;
-    setProjectPopupDisplayed : React.Dispatch<React.SetStateAction<boolean>>;
-    expandPopupDisplayed : boolean;
-    setExpandPopupDisplayed : React.Dispatch<React.SetStateAction<boolean>>;
+    todoPopup : boolean;
+    setTodoPopup : React.Dispatch<React.SetStateAction<boolean>>;
+    projectPopup : boolean;
+    setProjectPopup : React.Dispatch<React.SetStateAction<boolean>>;
+    expandPopup : boolean;
+    setExpandPopup : React.Dispatch<React.SetStateAction<boolean>>;
     alertPopup : string;
     setAlertPopup : React.Dispatch<React.SetStateAction<string>>;
     editProjectPopup : boolean;

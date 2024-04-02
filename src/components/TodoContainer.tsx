@@ -32,7 +32,7 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { editInfo, currentProject, allTodos, setTodoPopupDisplayed, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
+    const { projects, setProjects, editInfo, currentProject, allTodos, setTodoPopup, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
 
     return currentProject.equals(allTodos) ? (
         <Container>
@@ -58,9 +58,13 @@ const TodoContainer = (props: Props) => {
                 })
                 currentProject.removeTodo(todo);
                 allTodos.removeTodo(todo);
-                setTodoPopupDisplayed(true);
+                setTodoPopup(true);
             }}/>
-            <Image src={DeleteIcon}/>
+            <Image src={DeleteIcon} onClick={() => {
+                currentProject.removeTodo(todo);
+                allTodos.removeTodo(todo);
+                setProjects([...projects]);
+            }}/>
         </Container>
     );
 }

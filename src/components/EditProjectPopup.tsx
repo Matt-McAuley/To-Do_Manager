@@ -13,7 +13,7 @@ const Container = styled.form`
   transform: translate(-50%, -50%);
 `;
 
-const EditPopup = () => {
+const EditProjectPopup = () => {
 
     const { setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
 
@@ -37,4 +37,4 @@ const EditPopup = () => {
 
 }
 
-export default EditPopup;
+export default EditProjectPopup;

@@ -15,9 +15,9 @@ const Container = styled.form`
 
 const TodoPopup = () => {
 
-    const { editInfo, setEditInfo, todoPopupDisplayed, setTodoPopupDisplayed, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, todoPopup, setTodoPopup, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
 
-    return todoPopupDisplayed ? (
+    return todoPopup ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
             addNewTodo(editInfo.todoTitle, editInfo.description, new Date(editInfo.date), editInfo.priority);
@@ -28,7 +28,7 @@ const TodoPopup = () => {
                 date : "",
                 priority : ""
             })
-            setTodoPopupDisplayed(false);
+            setTodoPopup(false);
             }}>
             <TextField id="outlined-basic" label="Title" variant="outlined" placeholder='Title' 
             onChange={(evt) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} value={editInfo.todoTitle} required/>
