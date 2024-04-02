@@ -8,6 +8,7 @@ import TodoPopup from './components/TodoPopup';
 import ProjectPopup from './components/ProjectPopup';
 import AlertPopup from './components/AlertPopup';
 import EditProjectPopup from './components/EditProjectPopup';
+import ExpandPopup from './components/ExpandPopup';
 
 const Container = styled.div`
   padding: 0;
@@ -19,6 +20,7 @@ const Container = styled.div`
   grid-template-columns: 20% 80%;
   text-align: center;
   overflow: hidden;
+  font-family: "DM Sans";
 `;
 const Header = styled.header`
   grid-column: 1 \ 3;
@@ -129,6 +131,7 @@ function App() {
         <ProjectPopup/>
         <AlertPopup/>
         <EditProjectPopup/>
+        <ExpandPopup/>
       </Backdrop>
     </TodoListContext.Provider>
   )
