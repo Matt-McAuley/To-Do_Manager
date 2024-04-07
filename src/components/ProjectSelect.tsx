@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
 import EditIcon from "../assets/note-edit.svg"
-import { Button } from '@mui/material'
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import { useContext } from 'react'
 
@@ -11,24 +10,45 @@ const Container = styled.div`
   justify-content:start;
   align-items:center;
   overflow: scroll;
-  width: 70%;
+  width: 85%;
   height: 60%;
-  background-color:pink;
+  background-color: #84CEEB;
+  margin: 20px;
 `;
 
 const Image = styled.img`
-    width: 30px;
+    width: 25px;
     cursor: pointer;
     &:hover {
-        background-color: red;
+        background-color: #6cc1ec;
     }
     &:active {
-        background-color: blue;
+        border: 1px solid black;
     }
 `
 
+const Button = styled.button`
+    font-family: "DM Sans";
+    border: none;
+    background-color: #5AB9EA;
+    cursor: pointer;
+    font-size: 20px;
+    &:hover {
+        background-color: #6cc1ec;
+    }
+    &:active {
+        border: 1px solid black;
+    }
+    overflow: scroll;
+`
+
 const Proj = styled.div`
+    width: 100%;
+    height: 10%;
     display: flex;
+    background-color: #5AB9EA;
+    display: flex;
+    justify-content: end;
 `
 
 const ProjectSelect = () => {

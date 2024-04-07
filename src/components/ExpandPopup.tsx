@@ -14,7 +14,7 @@ const Container = styled.div`
 
 const ExpandPopup = () => {
 
-    const { editInfo, expandPopup, setExpandPopup} = useContext(TodoListContext) as TodoListContextType;
+    const { setEditInfo, editInfo, expandPopup, setExpandPopup} = useContext(TodoListContext) as TodoListContextType;
 
     return expandPopup ? (
         <Container>
@@ -22,7 +22,16 @@ const ExpandPopup = () => {
             <div>{editInfo.description}</div>
             <div>{editInfo.priority}</div>
             <div>{editInfo.date}</div>
-            <button onClick={() => {setExpandPopup(false)}}>OK</button>
+            <button onClick={() => {
+                setExpandPopup(false)
+                setEditInfo({
+                    todoTitle: "",
+                    projectTitle: "",
+                    date: "",
+                    priority: "",
+                    description: "",
+                })
+                }}>OK</button>
         </Container> 
     ) : null;
 

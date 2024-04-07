@@ -7,15 +7,28 @@ import { useContext } from "react";
 const Container = styled.div`
   grid-column: 2 \ 3;
   grid-row: 2 / 3;
-  background-color: yellow;
+  background-color: #C1C8E4;
   display:flex;
   flex-direction:column;
   justify-content:start;
   align-items:center;
   overflow: scroll;
   position: relative;
+  padding: 0;
 `;
 
+const Header = styled.h2`
+    font-size: 45px;
+    padding: 0;
+    margin: 0;
+    height: 12%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #94a0d0;
+    overflow: scroll;
+`
 
 const ProjectDisplay = () => {
 
@@ -23,9 +36,9 @@ const ProjectDisplay = () => {
 
     return (
         <Container>
-            <h1>
-            {currentProject.title}
-            </h1>
+            <Header>Project:
+            {" " +currentProject.title}
+            </Header>
             {currentProject.todos.map((todo: Todo, index: number) => (
                 <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
             ))}

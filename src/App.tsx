@@ -16,8 +16,8 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-rows: 20% 80%;
-  grid-template-columns: 20% 80%;
+  grid-template-rows: 15% 85%;
+  grid-template-columns: 15% 85%;
   text-align: center;
   overflow: hidden;
   font-family: "DM Sans";
@@ -25,12 +25,14 @@ const Container = styled.div`
 const Header = styled.header`
   grid-column: 1 \ 3;
   grid-row: 1 / 2;
-  background-color: lightblue;
+  background-color: #5680E9;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size: x-large;
+  font-weight: bold;
+  font-size: 65px;
 `;
+
 const Backdrop = styled.div`
   position: fixed;
   padding: 0;
@@ -40,7 +42,7 @@ const Backdrop = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color:rgba(0,0,0,0.3);
+  background-color:rgba(0,0,0,0.2);
   z-index: 1;
 `;
 
