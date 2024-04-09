@@ -23,9 +23,7 @@ const Header = styled.h2`
     margin: 0;
     height: 12%;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     background-color: #94a0d0;
     overflow: scroll;
 `
@@ -37,7 +35,7 @@ const ProjectDisplay = () => {
     return (
         <Container>
             <Header>Project:
-            {" " +currentProject.title}
+            {" " + currentProject.title}
             </Header>
             {currentProject.todos.map((todo: Todo, index: number) => (
                 <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
