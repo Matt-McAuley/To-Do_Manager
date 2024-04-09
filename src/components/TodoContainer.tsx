@@ -57,15 +57,9 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { setExpandPopup, projects, setProjects, editInfo, currentProject, allTodos, setTodoPopup, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
+    const { setExpandPopup, projects, setProjects, editInfo, currentProject, setTodoPopup, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
 
-    return currentProject.equals(allTodos) ? (
-        <Container>
-            <Title>{todo.title}</Title>
-            <Item>Due Date:{" " + format(todo.dueDate, 'MM/dd/yyyy')}</Item>
-            <Item>Priority:{" " + todo.priority}</Item>
-        </Container>
-    ) : (
+    return (
         <Container>
             <Title>{todo.title}</Title>
             <Item>Due Date:{" " + format(todo.dueDate, 'MM/dd/yyyy')}</Item>
@@ -90,12 +84,10 @@ const TodoContainer = (props: Props) => {
                         priority : todo.priority
                     })
                     currentProject.removeTodo(todo);
-                    allTodos.removeTodo(todo);
                     setTodoPopup(true);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
                     currentProject.removeTodo(todo);
-                    allTodos.removeTodo(todo);
                     setProjects([...projects]);
                 }}/>
             </Icons> 

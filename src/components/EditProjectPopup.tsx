@@ -38,19 +38,23 @@ const Button = styled.button`
 
 const EditProjectPopup = () => {
 
-    const { setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
+    const { projects, setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
 
     return editProjectPopup ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
-            if (editInfo.projectTitle.toLowerCase() === "all todos") {
-                setAlertPopup("Cannot have two projects with the same name!")
-                setEditProjectPopup(false);
-            }
-            else {
-                currentProject.title = editInfo.projectTitle;
-                setEditProjectPopup(false);
-            }
+            projects.forEach((project) => {
+                if (project.title === editInfo.projectTitle) {
+                    setAlertPopup("Cannot have two projects with the same name!")
+                    setEditProjectPopup(false);
+                    console.log('here');
+                    return;
+                }
+            })
+            console.log('here as well');
+            currentProject.title = editInfo.projectTitle;
+            setEditInfo({...editInfo, projectTitle : ""});
+            setEditProjectPopup(false);
             }}>
             <Title id="outlined-basic" placeholder='Title' 
             onChange={(evt) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>

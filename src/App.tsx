@@ -49,8 +49,6 @@ const Backdrop = styled.div`
 function App() {
   const exampleProject = new Project("Example");
   const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/2024"), "low");
-  const allTodosProject = new Project("All Todos");
-  allTodosProject.addTodo(exampleTodo);
   exampleProject.addTodo(exampleTodo);
 
   const [projects, setProjects] = useState([exampleProject]);
@@ -60,7 +58,6 @@ function App() {
   const [expandPopup, setExpandPopup] = useState(false);
   const [alertPopup, setAlertPopup] = useState("");
   const [editProjectPopup, setEditProjectPopup] = useState(false);
-  const [allTodos, ] = useState(allTodosProject);
   const [editInfo, setEditInfo] = useState({
     projectTitle: "",
     todoTitle: "",
@@ -80,7 +77,6 @@ function App() {
     const localDate = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
     const newTodo = new Todo(name, description, localDate, priority);
     currentProject.addTodo(newTodo);
-    allTodos.addTodo(newTodo);
   });
 
   const addNewProject = ((name:string) => {
@@ -99,7 +95,6 @@ function App() {
   return (
     <TodoListContext.Provider 
       value={{
-        allTodos,
         projects,
         setProjects,
         currentProject,

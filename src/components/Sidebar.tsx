@@ -9,7 +9,7 @@ const Container = styled.div`
   grid-row: 1 / 3;
   background-color: #5680E9;
   display:flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: start;
   align-items: center;
 `;
@@ -17,7 +17,7 @@ const Container = styled.div`
 const Button = styled.button`
   border: none;
   width: 100%;
-  height: 33%;
+  height: 50%;
   background-color: #5680E9;
   cursor: pointer;
   font-size: 22px;
@@ -27,36 +27,25 @@ const Button = styled.button`
   &:active {
     border: 1px solid black;
   }
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 `
 
 const Buttons = styled.div`
   margin-top : 30px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
   height: 20%;
 `;
 
 
 const Sidebar = () => {
-  const { setAlertPopup, allTodos, setCurrentProject, setProjectPopup, setTodoPopup, currentProject  } = useContext(TodoListContext) as TodoListContextType;
+  const { setProjectPopup, setTodoPopup  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
       <Buttons>
-        <Button
-          key={"allTodos"}
-          onClick={() => {
-            setCurrentProject(allTodos);
-          }}
-        >All Todos
-        </Button>
         <Button 
           onClick={() => {
-            if (currentProject.equals(allTodos)) {
-              setAlertPopup("Please select a project");
-              return false;
-            }
             setTodoPopup(true)
           }}
         >Add Todo
