@@ -43,15 +43,19 @@ const EditProjectPopup = () => {
     return editProjectPopup ? (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
+            let same = false;
             projects.forEach((project) => {
                 if (project.title === editInfo.projectTitle) {
-                    setAlertPopup("Cannot have two projects with the same name!")
-                    setEditProjectPopup(false);
-                    console.log('here');
-                    return;
+                    same = true;
                 }
             })
-            console.log('here as well');
+            console.log(same);
+            if (same) {
+                setAlertPopup("Cannot have two projects with the same name!")
+                setEditInfo({...editInfo, projectTitle : ""});
+                setEditProjectPopup(false);
+                return;
+            }
             currentProject.title = editInfo.projectTitle;
             setEditInfo({...editInfo, projectTitle : ""});
             setEditProjectPopup(false);
