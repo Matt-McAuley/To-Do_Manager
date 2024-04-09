@@ -31,15 +31,18 @@ const Title = styled.input`
   grid-row: 1/2;
   grid-column: 1/2;
   font-family: "DM Sans";
+  padding-left: 10px;
   font-size: 20px;
 `
 
 const Description = styled.textarea`
   grid-row: 2/3;
   grid-column: 1/3;
-  width: 99%;
+  max-width: 99%;
   font-family: "DM Sans";
-  font-size: 17px;
+  font-size: 18px;
+  padding: 12px;
+  resize: none;
 `
 
 const DateInput = styled.input`
@@ -47,7 +50,6 @@ const DateInput = styled.input`
   grid-column: 2/3;
   font-family: "DM Sans";
   font-size: 20px;
-
 `
 
 const PriorityLabel = styled.label`
@@ -69,6 +71,7 @@ const Button = styled.button`
   font-size: 30px;
   font-weight: bold;
   background-color: lightgray;
+  cursor: pointer;
 `
 
 const TodoPopup = () => {

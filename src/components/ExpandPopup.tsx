@@ -60,6 +60,7 @@ const Button = styled.button`
   font-size: 30px;
   font-weight: bold;
   background-color: lightgray;
+  cursor: pointer;
 `
 
 const ExpandPopup = () => {
