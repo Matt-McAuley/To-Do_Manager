@@ -23,7 +23,7 @@ const Container = styled.div`
   font-family: "DM Sans";
 `;
 const Header = styled.header`
-  grid-column: 1 \ 3;
+  grid-column: 2 / 3;
   grid-row: 1 / 2;
   background-color: #5680E9;
   display:flex;
