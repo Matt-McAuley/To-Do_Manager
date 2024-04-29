@@ -12,9 +12,9 @@ const Container = styled.div`
   flex-direction:column;
   justify-content:start;
   align-items:center;
-  overflow: scroll;
   position: relative;
   padding: 0;
+  overflow-y: auto;
 `;
 
 const Header = styled.h2`
@@ -25,7 +25,6 @@ const Header = styled.h2`
     width: 100%;
     text-align: center;
     background-color: #94a0d0;
-    overflow: scroll;
 `
 
 const ProjectDisplay = () => {

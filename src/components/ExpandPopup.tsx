@@ -30,6 +30,7 @@ const Title = styled.div`
   grid-column: 1/2;
   border: 2px solid black;
   padding: 5px;
+  overflow: hidden;
 `
 
 const Description = styled.div`

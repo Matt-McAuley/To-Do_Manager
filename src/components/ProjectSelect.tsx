@@ -9,11 +9,12 @@ const Container = styled.div`
   flex-direction:column;
   justify-content:start;
   align-items:center;
-  overflow: scroll;
   width: 85%;
   height: 60%;
   background-color: #84CEEB;
   margin: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Image = styled.img`
@@ -39,7 +40,6 @@ const Button = styled.button`
     &:active {
         border: 1px solid black;
     }
-    overflow: scroll;
 `
 
 const Proj = styled.div`
@@ -49,6 +49,7 @@ const Proj = styled.div`
     background-color: #5AB9EA;
     display: flex;
     justify-content: end;
+    overflow: hidden;
 `
 
 const ProjectSelect = () => {

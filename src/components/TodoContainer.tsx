@@ -40,11 +40,11 @@ const Item = styled.div`
 `
 
 const Title = styled.div`
-    overflow: scroll;
     width: 60%;
     height: 2rem;
     font-weight: 700;
     font-size: 25px;
+    overflow: hidden;
 `
 
 const Icons = styled.div`
