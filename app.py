@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template
 import json
 from db import db
-import os
 
 app = Flask(__name__)
 db_filename = "todo.db"
@@ -23,6 +22,10 @@ def failure_response(message, code=404):
 @app.route('/', methods=["GET"])
 def base():
   return render_template("index.html")
+
+# API
+
+
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)
