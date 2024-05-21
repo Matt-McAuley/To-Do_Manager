@@ -6,7 +6,7 @@ class Project(db.Model):
   Project Model
   """
 
-  id = db.Column(db.Integer, autoincrement=True, primary_key=False)
+  id = db.Column(db.Integer, autoincrement=True, primary_key=True)
   title = db.Column(db.String, nullable=False)
   todos = db.relationship("Todo", cascade="delete")
 
@@ -43,6 +43,7 @@ class Todo(db.Model):
     """
     Create a todo object
     """
+    __tablename__ = "todo"
     self.title = kwargs.get("title", "")
     self.description = kwargs.get("description", "")
     self.due_date = kwargs.get("due_date", 0)
