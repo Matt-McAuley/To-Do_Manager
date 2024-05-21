@@ -33,10 +33,6 @@ def get_all_projects():
   """
   return success_response({"projects": [p.serialize() for p in Project.query.all()]})
 
-@app.route('/api/test/', methods=["POST"])
-def test():
-  print('hello')
-
 @app.route('/api/projects/', methods=["POST"])
 def create_project():
   """
@@ -50,6 +46,18 @@ def create_project():
   db.session.add(project)
   db.session.commit()
   return success_response(project.serialize(), 201)
+
+@app.route('/api/projects/<int:project_id>/', methods=["DELETE"])
+def delete_project(project_id):
+  """
+  Route for deleting a specific project
+  """
+  project = Project.query.filter_by(id=project_id).first()
+  if project is None:
+    return failure_response("Couldn't find project!")
+  db.session.delete(project)
+  db.session.commit()
+  return success_response(project.serialize())
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ class Project(db.Model):
   """
 
   id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-  title = db.Column(db.String, nullable=False)
+  title = db.Column(db.String, nullable=False, unique=True)
   todos = db.relationship("Todo", cascade="delete")
 
   def __init__(self, **kwargs):

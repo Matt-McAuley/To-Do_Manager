@@ -1,31 +1,28 @@
 class Todo {
+    id: number;
     title: string;
     description: string;
     dueDate: Date;
     priority: string;
 
-    constructor(title: string, description: string, dueDate: Date, priority: string) {
+    constructor(title: string, description: string, dueDate: Date, priority: string, id: number) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-    }
-
-    equals(todo: Todo) {
-        if (this.title == todo.title) {
-                return true;
-            }
-        return false;
+        this.id = id;
     }
 }
 
 class Project {
     todos: Todo[];
     title: string;
+    id: number;
 
-    constructor(title: string) {
+    constructor(title: string, id: number) {
         this.todos = [];
         this.title = title;
+        this.id = id;
     }
 
     addTodo(todo: Todo) {
