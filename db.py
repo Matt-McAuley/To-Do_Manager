@@ -55,6 +55,7 @@ class Todo(db.Model):
     Serialize a todo object
     """
     return {
+      "id": self.id,
       "title": self.title,
       "description": self.description,
       "due_date": self.due_date,
@@ -67,6 +68,7 @@ class Todo(db.Model):
     Serialize a todo object without project field
     """
     return {
+      "id": self.id,
       "title": self.title,
       "description": self.description,
       "due_date": self.due_date,
