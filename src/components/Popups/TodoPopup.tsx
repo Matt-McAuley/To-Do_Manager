@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
-import { TodoListContext, TodoListContextType } from '../TodoListContext';
+import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
 
 const Container = styled.form`
@@ -76,11 +76,12 @@ const Button = styled.button`
 
 const TodoPopup = () => {
 
-    const { editInfo, setEditInfo, todoPopup, setTodoPopup, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, setPopupID, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
 
-    return todoPopup ? (
+    return (
         <Container onSubmit={(evt) => {
             evt.preventDefault;
+            
             addNewTodo(editInfo.todoTitle, editInfo.description, new Date(editInfo.date), editInfo.priority);
             setEditInfo({
                 ...editInfo,
@@ -89,7 +90,7 @@ const TodoPopup = () => {
                 date : "",
                 priority : ""
             })
-            setTodoPopup(false);
+            setPopupID(-1);
             }}>
             <InputArea>
                 <Title id="outlined-basic" placeholder='Title' 
@@ -117,7 +118,7 @@ const TodoPopup = () => {
             </InputArea>
             <Button type="submit">Submit</Button>
         </Container> 
-    ) : null;
+    );
 
 }
 

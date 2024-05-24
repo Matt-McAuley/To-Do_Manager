@@ -1,14 +1,10 @@
 import styled from '@emotion/styled'
 import { useState } from 'react';
-import { Project } from './Types';
+import { Todo, Project, editInfo, edits } from './Types';
 import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
-import {TodoListContext} from './TodoListContext';
-import TodoPopup from './components/TodoPopup';
-import ProjectPopup from './components/ProjectPopup';
-import AlertPopup from './components/AlertPopup';
-import EditProjectPopup from './components/EditProjectPopup';
-import ExpandPopup from './components/ExpandPopup';
+import { TodoListContext } from './TodoListContext';
+import PopupArea from './components/PopupArea';
 
 const Container = styled.div`
   padding: 0;
@@ -33,19 +29,6 @@ const Header = styled.header`
   font-size: 65px;
 `;
 
-const Backdrop = styled.div`
-  position: fixed;
-  padding: 0;
-  margin: 0;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color:rgba(0,0,0,0.2);
-  z-index: 1;
-`;
-
 function App() {
   
   const [projects, setProjects] = useState<Project[]>([{
@@ -60,20 +43,19 @@ function App() {
     }]
   }]);
   const [currentProject, setCurrentProject] = useState<Project>(projects[0]);
-  const [editInfo, setEditInfo] = useState({
+  const [editInfo, setEditInfo] = useState<editInfo>({
     projectTitle: "",
+    projectTodos: [],
     todoTitle: "",
     description: "",
     date: "",
     priority: ""
   });
-
-  const [todoPopup, setTodoPopup] = useState(false);
-  const [projectPopup, setProjectPopup] = useState(false);
-  const [expandPopup, setExpandPopup] = useState(false);
-  const [alertPopup, setAlertPopup] = useState("");
-  const [editProjectPopup, setEditProjectPopup] = useState(false);
-
+  const [popupID, setPopupID] = useState(-1);
+  const [recentEdits, setRecentEdits] = useState<edits>({
+    project: null,
+    todo: null,
+  })
 
   // useEffect(() => {
   //   fetch('http://localhost:8000/api/visited/', {
@@ -123,10 +105,13 @@ function App() {
   // }, [])
 
   const addNewTodo = ((title:string, description:string, date:Date, priority:string) => {
-
     for (let i = 0; i < currentProject.todos.length; i++) {
       if (currentProject.todos[i].title == title) {
-        setAlertPopup("Cannot have two todos with the same name in one project!")
+        if (recentEdits.todo != null) {
+          const todo = recentEdits.todo;
+          addNewTodo(todo.title, todo.description, todo.due_date, todo.priority);
+          recentEdits.todo = null;
+        }
         return false;
       }
     }
@@ -164,12 +149,18 @@ function App() {
     const new_projects = projects.filter((project) => project.title != currentProject.title);
     setProjects([...new_projects, new_project]);
     setCurrentProject(new_project);
+    recentEdits.todo = null;
   });
 
-  const addNewProject = ((title:string) => {
+  const addNewProject = ((title:string, todos: Todo[] = []) => {
     for (let i = 0; i < projects.length; i++) {
-      if (title.toLocaleLowerCase() == "all todos" || projects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
-        setAlertPopup("Cannot have two projects with the same name!")
+      if (projects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
+        if (recentEdits.project != null) {
+          const project = recentEdits.project;
+          addNewProject(project.title, project.todos);
+          recentEdits.project = null;
+        }
+        // setAlertPopup("Cannot have two projects with the same name!")
         return false;
       }
     }
@@ -190,10 +181,11 @@ function App() {
     const new_project : Project = {
       // id: data.id 
       title,
-      todos: [],
+      todos,
     };
     setProjects([...projects, new_project]);
     setCurrentProject(new_project);
+    recentEdits.project = null;
   });
 
   return (
@@ -205,18 +197,12 @@ function App() {
         setCurrentProject,
         addNewTodo,
         addNewProject,
-        todoPopup,
-        setTodoPopup,
-        projectPopup,
-        setProjectPopup,
-        alertPopup,
-        setAlertPopup,
-        editProjectPopup,
-        setEditProjectPopup,
-        expandPopup,
-        setExpandPopup,
+        popupID,
+        setPopupID,
         editInfo,
         setEditInfo,
+        recentEdits,
+        setRecentEdits,
       }}
     >
       <Container>
@@ -226,14 +212,7 @@ function App() {
         </Header>
         <ProjectDisplay/>
       </Container>
-      <Backdrop style={{"display": (todoPopup || projectPopup || 
-        alertPopup || expandPopup || editProjectPopup ) ? "" : "none"}}>
-        <TodoPopup/>
-        <ProjectPopup/>
-        <AlertPopup/>
-        <EditProjectPopup/>
-        <ExpandPopup/>
-      </Backdrop>
+      <PopupArea/>
     </TodoListContext.Provider>
   )
 }

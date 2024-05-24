@@ -12,4 +12,18 @@ type Project = {
     title: string;
 }
 
-export type { Project, Todo }
+type edits = {
+    project: Project | null;
+    todo: Todo | null;
+  }
+
+type editInfo = {
+    projectTitle: string;
+    projectTodos: Todo[];
+    todoTitle: string;
+    description: string;
+    date: string;
+    priority: string;
+}
+
+export type { Project, Todo, edits, editInfo }

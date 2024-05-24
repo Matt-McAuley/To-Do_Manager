@@ -53,7 +53,7 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { setAlertPopup, editInfo, setEditInfo, projects, setProjects, setCurrentProject, setEditProjectPopup} = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -73,8 +73,16 @@ const ProjectSelect = () => {
                             title: project.title,
                             todos: project.todos,
                         });
-                        setEditInfo({...editInfo, projectTitle : project.title});
-                        setEditProjectPopup(true);
+                        setRecentEdits({
+                            project: {
+                              title: project.title,
+                              todos: project.todos,
+                            },
+                            todo: null,
+                            });
+                        setEditInfo({...editInfo, projectTitle : project.title, projectTodos: project.todos});
+                        setProjects(projects.filter((ele) => ele.title != project.title));
+                        setPopupID(1);
                     }}/>
                     <Image src={DeleteIcon} onClick={() => {
                         if (projects.length > 1) {
@@ -83,7 +91,8 @@ const ProjectSelect = () => {
                             setCurrentProject(projects[0]);
                         }
                         else {
-                            setAlertPopup("Must have at least one project");
+                            // setAlertPopup("Must have at least one project");
+                            return;
                         }
                     }}/>
                 </Proj>

@@ -39,19 +39,17 @@ const Buttons = styled.div`
 
 
 const Sidebar = () => {
-  const { setProjectPopup, setTodoPopup  } = useContext(TodoListContext) as TodoListContextType;
+  const { setPopupID  } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
       <Buttons>
         <Button 
-          onClick={() => {
-            setTodoPopup(true)
-          }}
+          onClick={() => {setPopupID(0)}}
         >Add Todo
         </Button>
         <Button
-          onClick={() => {setProjectPopup(true)}}
+          onClick={() => {setPopupID(1)}}
         >Add Project
         </Button>
       </Buttons>

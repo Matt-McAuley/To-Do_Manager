@@ -57,7 +57,7 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { setCurrentProject, setExpandPopup, projects, setProjects, editInfo, currentProject, setTodoPopup, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
+    const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -73,9 +73,18 @@ const TodoContainer = (props: Props) => {
                         date : format(todo.due_date, 'MM/dd/yyyy'),
                         priority : todo.priority
                     })
-                    setExpandPopup(true);
+                    setPopupID(2);
                 }}/>
                 <Image src={EditIcon} onClick={() => {
+                    setRecentEdits({
+                        project: null,
+                        todo: {
+                          title: todo.title,
+                          description: todo.description,
+                          due_date: todo.due_date,
+                          priority: todo.priority,
+                        },
+                      });
                     setEditInfo({
                         ...editInfo,
                         todoTitle : todo.title,
@@ -91,7 +100,7 @@ const TodoContainer = (props: Props) => {
                     const new_projects = projects.filter((proj) => proj.title != currentProject.title);
                     setProjects([...new_projects, new_project]);
                     setCurrentProject(new_project);
-                    setTodoPopup(true);
+                    setPopupID(0);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
                     const new_project : Project = {
