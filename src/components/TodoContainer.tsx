@@ -19,6 +19,7 @@ const Container = styled.div`
     height: 10%;
     border-radius: 7px;
     font-size: 22px;
+    transition: all ease-in-out 300ms;
 `;
 
 const Image = styled.img`
@@ -27,7 +28,7 @@ const Image = styled.img`
     padding-left: 8px;
     padding-right: 8px;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;

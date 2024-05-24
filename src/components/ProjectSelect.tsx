@@ -15,13 +15,14 @@ const Container = styled.div`
   margin: 20px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 5px;
 `;
 
 const Image = styled.img`
     width: 25px;
     cursor: pointer;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;
@@ -35,11 +36,12 @@ const Button = styled.button`
     cursor: pointer;
     font-size: 20px;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;
     }
+    flex: 1;
 `
 
 const Proj = styled.div`
@@ -53,7 +55,7 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, setPopupID, setRecentEdits, notify } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -91,7 +93,7 @@ const ProjectSelect = () => {
                             setCurrentProject(projects[0]);
                         }
                         else {
-                            // setAlertPopup("Must have at least one project");
+                            notify('Must have at least one project!');
                             return;
                         }
                     }}/>

@@ -5,6 +5,8 @@ import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
 import { TodoListContext } from './TodoListContext';
 import PopupArea from './components/PopupArea';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
   padding: 0;
@@ -56,6 +58,15 @@ function App() {
     project: null,
     todo: null,
   })
+
+  const notify = (text: string) => {
+    toast.error(text, {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "colored",
+      pauseOnHover: false,
+    });
+  }
 
   // useEffect(() => {
   //   fetch('http://localhost:8000/api/visited/', {
@@ -112,6 +123,7 @@ function App() {
           addNewTodo(todo.title, todo.description, todo.due_date, todo.priority);
           recentEdits.todo = null;
         }
+        notify('Cannot have two todos with the same name in one project!');
         return false;
       }
     }
@@ -161,6 +173,7 @@ function App() {
           recentEdits.project = null;
         }
         // setAlertPopup("Cannot have two projects with the same name!")
+        notify('Cannot have two projects with the same name!');
         return false;
       }
     }
@@ -203,8 +216,10 @@ function App() {
         setEditInfo,
         recentEdits,
         setRecentEdits,
+        notify,
       }}
     >
+      <ToastContainer/>
       <Container>
         <Sidebar/>
         <Header>

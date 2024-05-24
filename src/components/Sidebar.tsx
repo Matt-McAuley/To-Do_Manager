@@ -15,20 +15,20 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-  border: none;
-  width: 100%;
-  height: 50%;
-  background-color: #5680E9;
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 80%;
+  height: 30%;
+  background-color: #5AB9EA;
   cursor: pointer;
   font-size: 22px;
   &:hover {
-    background-color: #678deb;
+    box-shadow: 0px 37px 20px -20px rgba(0,0,0,0.2);
+    transform: translate(0px, -7px) scale(1.1);
   }
-  &:active {
-    border: 1px solid black;
-  }
-  margin-top: 2px;
-  margin-bottom: 2px;
+  transition: all ease-in-out 300ms;
+  margin-top: 10px;
+  margin-bottom: 18px;
 `
 
 const Buttons = styled.div`

@@ -33,7 +33,8 @@ export type TodoListContextType = {
     setRecentEdits: React.Dispatch<React.SetStateAction<{
         project: null | Project;
         todo: null | Todo;
-    }>>
+    }>>,
+    notify: (text: string) => void,
 }
 
 export const TodoListContext = createContext<TodoListContextType | null>(null);
