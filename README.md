@@ -6,10 +6,11 @@ projects that each contain their individual 'Todos'. These 'Todos' have a title,
 due date, and priority. They are organized by due date and can likewise be created, edited, and deleted. This project was built using Typescript and React, with emotion/styled utilized
 for CSS in TS. I learned how to build a modular frontend with TSX, React, and functional programming which has many features and is aesthetically pleasing.
 
-## Link
-[https://matt-mcauley.github.io/todo-list-react/]
+## Static Site (No Backend)
+[Link](https://matt-mcauley.github.io/todo-list-react/)
 
 ## Author
-Matthew McAuley (mwm223@cornell.edu)
+[Matthew McAuley](mailto:mwm223@cornell.edu)
 
-<a href="https://www.freepik.com/icon/emoticon-square-smiling-face-with-closed-eyes_42829">Icon by Freepik</a>
+## Citations
+[Favicon](https://www.freepik.com/icon/emoticon-square-smiling-face-with-closed-eyes_42829)
