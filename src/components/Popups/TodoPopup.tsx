@@ -79,7 +79,7 @@ const TodoPopup = () => {
     const { editInfo, setEditInfo, setPopupID, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
 
     return (
-        <Container onSubmit={(evt) => {
+        <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault;
             
             addNewTodo(editInfo.todoTitle, editInfo.description, new Date(editInfo.date), editInfo.priority);
@@ -94,10 +94,10 @@ const TodoPopup = () => {
             }}>
             <InputArea>
                 <Title id="outlined-basic" placeholder='Title' 
-                onChange={(evt) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} 
+                onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} 
                 value={editInfo.todoTitle} required/>
                 <Description id="outlined-basic" placeholder='Description' 
-                onChange={(evt) => setEditInfo({...editInfo, description : (evt.target.value)})} 
+                onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, description : (evt.target.value)})} 
                 value={editInfo.description} required/>
                 <PriorityLabel id="demo-radio-buttons-group-label">Priority</PriorityLabel>
                 <RadioGroup
@@ -107,13 +107,13 @@ const TodoPopup = () => {
                     defaultValue="female"
                     name="radio-buttons-group"
                     value={editInfo.priority}
-                    onChange={(evt) => setEditInfo({...editInfo, priority : evt.target.value})}
+                    onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})}
                 >
                     <FormControlLabel value="low" control={<Radio />} label="low" required/>
                     <FormControlLabel value="medium" control={<Radio />} label="medium" />
                     <FormControlLabel value="high" control={<Radio />} label="high" />
                 </RadioGroup>
-                <DateInput type="Date" onChange={(evt) => setEditInfo({...editInfo, date : evt.target.value})} 
+                <DateInput type="Date" onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, date : evt.target.value})} 
                 value={editInfo.date} required/>
             </InputArea>
             <Button type="submit">Submit</Button>

@@ -41,14 +41,14 @@ const ProjectPopup = () => {
     const { editInfo, setEditInfo, setPopupID, addNewProject } = useContext(TodoListContext) as TodoListContextType;
 
     return (
-        <Container onSubmit={(evt) => {
+        <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault;
             addNewProject(editInfo.projectTitle, editInfo.projectTodos);
             setEditInfo({...editInfo, projectTitle : "", projectTodos: [],});
             setPopupID(-1);
             }}>
             <Title id="outlined-basic" placeholder='Title' 
-            onChange={(evt) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
+            onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
             <Button type="submit">Submit</Button>
         </Container>
     );
