@@ -11,3 +11,5 @@ for CSS in TS. I learned how to build a modular frontend with TSX, React, and fu
 
 ## Author
 Matthew McAuley (mwm223@cornell.edu)
+
+<a href="https://www.freepik.com/icon/emoticon-square-smiling-face-with-closed-eyes_42829">Icon by Freepik</a>
