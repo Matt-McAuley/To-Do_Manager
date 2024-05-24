@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from '../TodoListContext';
 import { useContext } from 'react';
+import { Project } from '../Types'
 
 const Container = styled.form`
     width: 35%;
@@ -38,7 +39,7 @@ const Button = styled.button`
 
 const EditProjectPopup = () => {
 
-    const { projects, setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
+    const { setProjects, setCurrentProject, projects, setAlertPopup, editInfo, setEditInfo, editProjectPopup, setEditProjectPopup, currentProject } = useContext(TodoListContext) as TodoListContextType;
 
     return editProjectPopup ? (
         <Container onSubmit={(evt) => {
@@ -49,14 +50,20 @@ const EditProjectPopup = () => {
                     same = true;
                 }
             })
-            console.log(same);
             if (same) {
                 setAlertPopup("Cannot have two projects with the same name!")
                 setEditInfo({...editInfo, projectTitle : ""});
                 setEditProjectPopup(false);
                 return;
             }
-            currentProject.title = editInfo.projectTitle;
+            const new_project : Project = {
+                // id: currentProject.id,
+                title: editInfo.projectTitle,
+                todos: currentProject.todos,
+            };
+            const new_projects = projects.filter((proj) => proj.title != currentProject.title);
+            setProjects([...new_projects, new_project]);
+            setCurrentProject(new_project);
             setEditInfo({...editInfo, projectTitle : ""});
             setEditProjectPopup(false);
             }}>

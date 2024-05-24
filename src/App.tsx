@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { useEffect, useState } from 'react';
-import { Project, Todo } from './Classes';
+import { useState } from 'react';
+import { Project } from './Types';
 import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
 import {TodoListContext} from './TodoListContext';
@@ -46,32 +46,20 @@ const Backdrop = styled.div`
   z-index: 1;
 `;
 
-const exampleProject = new Project("Example", 1);
-
-type todo_db = {
-  id: number;
-  title: string;
-  description: string;
-  due_date: number;
-  priority: string;
-}
-
-type project_db = {
-  id: number;
-  title: string;
-  todos: todo_db[];
-}
-
 function App() {
   
-  const [projects, setProjects] = useState([exampleProject]);
-  const [currentProject, setCurrentProject] = useState(projects[0]);
-  const [currentTodos, setCurrentTodos] = useState(projects[0].todos)
-  const [todoPopup, setTodoPopup] = useState(false);
-  const [projectPopup, setProjectPopup] = useState(false);
-  const [expandPopup, setExpandPopup] = useState(false);
-  const [alertPopup, setAlertPopup] = useState("");
-  const [editProjectPopup, setEditProjectPopup] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([{
+    // id: 1,
+    title: "Example",
+    todos: [{
+      // id: 1,
+      title: "Fold Laundry",
+      description: "You must fold your laundry today",
+      due_date: new Date("1/1/2024"),
+      priority: "low",
+    }]
+  }]);
+  const [currentProject, setCurrentProject] = useState<Project>(projects[0]);
   const [editInfo, setEditInfo] = useState({
     projectTitle: "",
     todoTitle: "",
@@ -80,104 +68,132 @@ function App() {
     priority: ""
   });
 
-  useEffect(() => {
-    fetch('http://localhost:8000/api/visited/', {
-      method: "GET",
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.visited) {
-        fetch('http://localhost:8000/api/projects/', {
-          method: "POST",
-          body: JSON.stringify({title: "Example"})
-          });
-          console.log("first visit")
-          const title = "Fold Laundry";
-          const description = "You must fold your laundry today";
-          const due_date = new Date("1/1/2024");
-          const priority = "low";
-          addNewTodo(title, description, due_date, priority);
-      }
-      else {
-        fetch('http://localhost:8000/api/projects/', {
-          method: "GET",
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.projects);
-            data.projects.forEach((project : project_db) => {
-              console.log("reload")
-              console.log(project);
-              const title = project.title;
-              const id = project.id;
-              const todos = project.todos;
-              const newProject = new Project(title, id);
-              todos.forEach(todo => {
-                const todo_id = todo.id;
-                const name = todo.title;
-                const description = todo.description;
-                const due_date = new Date(todo.due_date);
-                const priority = todo.priority;
-                newProject.addTodo(new Todo(name, description, due_date, priority, todo_id));
-              });
-              setProjects([...projects, newProject]);
-            });
-          })
-      }
-    });
-  }, [])
+  const [todoPopup, setTodoPopup] = useState(false);
+  const [projectPopup, setProjectPopup] = useState(false);
+  const [expandPopup, setExpandPopup] = useState(false);
+  const [alertPopup, setAlertPopup] = useState("");
+  const [editProjectPopup, setEditProjectPopup] = useState(false);
 
-  const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
+
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/api/visited/', {
+  //     method: "GET",
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     if (!data.visited) {
+  //       fetch('http://localhost:8000/api/projects/', {
+  //         method: "POST",
+  //         body: JSON.stringify({title: "Example"})
+  //         });
+  //         console.log("first visit")
+  //         const title = "Fold Laundry";
+  //         const description = "You must fold your laundry today";
+  //         const due_date = new Date("1/1/2024");
+  //         const priority = "low";
+  //         addNewTodo(title, description, due_date, priority);
+  //     }
+  //     else {
+  //       fetch('http://localhost:8000/api/projects/', {
+  //         method: "GET",
+  //         })
+  //         .then(response => response.json())
+  //         .then(data => {
+  //           console.log(data.projects);
+  //           data.projects.forEach((project : project_db) => {
+  //             console.log("reload")
+  //             console.log(project);
+  //             const title = project.title;
+  //             const id = project.id;
+  //             const todos = project.todos;
+  //             const newProject = new Project(title, id);
+  //             todos.forEach(todo => {
+  //               const todo_id = todo.id;
+  //               const name = todo.title;
+  //               const description = todo.description;
+  //               const due_date = new Date(todo.due_date);
+  //               const priority = todo.priority;
+  //               newProject.addTodo(new Todo(name, description, due_date, priority, todo_id));
+  //             });
+  //             setProjects([...projects, newProject]);
+  //           });
+  //         })
+  //     }
+  //   });
+  // }, [])
+
+  const addNewTodo = ((title:string, description:string, date:Date, priority:string) => {
 
     for (let i = 0; i < currentProject.todos.length; i++) {
-      if (currentProject.todos[i].title == name) {
+      if (currentProject.todos[i].title == title) {
         setAlertPopup("Cannot have two todos with the same name in one project!")
         return false;
       }
     }
     const localDate = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
 
-    console.log("adding")
-    fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
-      method: "POST",
-      body: JSON.stringify({
-        title: name,
+    // console.log("adding")
+    // fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     title: name,
+    //     description,
+    //     due_date: localDate.valueOf(),
+    //     priority,
+    //   })
+    //   })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log("added")
+    //     const newTodo = new Todo(name, description, localDate, priority, data.id);
+    //     currentProject.addTodo(newTodo);
+    //     setCurrentTodos([...(currentProject.todos)]);
+    //     console.log(currentProject);
+    //   })
+    const new_project : Project = {
+      // id: currentProject.id,
+      title: currentProject.title,
+      todos: [...currentProject.todos, {
+        // id: data.id,
+        title,
         description,
-        due_date: localDate.getMilliseconds(),
+        due_date: localDate,
         priority,
-      })
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log("added")
-        const newTodo = new Todo(name, description, localDate, priority, data.id);
-        currentProject.addTodo(newTodo);
-        setCurrentTodos([...(currentProject.todos)]);
-        console.log(currentProject);
-      })
+      }].sort((a, b) => a.due_date.valueOf() - b.due_date.valueOf()),
+    };
+    const new_projects = projects.filter((project) => project.title != currentProject.title);
+    setProjects([...new_projects, new_project]);
+    setCurrentProject(new_project);
   });
 
-  const addNewProject = ((name:string) => {
+  const addNewProject = ((title:string) => {
     for (let i = 0; i < projects.length; i++) {
-      if (name.toLocaleLowerCase() == "all todos" || projects[i].title.toLocaleLowerCase() == name.toLocaleLowerCase()) {
+      if (title.toLocaleLowerCase() == "all todos" || projects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
         setAlertPopup("Cannot have two projects with the same name!")
         return false;
       }
     }
     
-    fetch(`http://localhost:8000/api/projects/`, {
-      method: "POST",
-      body: JSON.stringify({
-        title: name,
-      })
-      })
-      .then(response => response.json())
-      .then(data => {
-        const newProject = new Project(name, data.id);
-        setProjects([...projects, newProject]);
-        setCurrentProject(newProject);
-        setCurrentTodos(currentProject.todos);
-      })
+    // fetch(`http://localhost:8000/api/projects/`, {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     title: name,
+    //   })
+    //   })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     const newProject = new Project(name, data.id);
+    //     setProjects([...projects, newProject]);
+    //     setCurrentProject(newProject);
+    //     setCurrentTodos(currentProject.todos);
+    //   })
+    const new_project : Project = {
+      // id: data.id 
+      title,
+      todos: [],
+    };
+    setProjects([...projects, new_project]);
+    setCurrentProject(new_project);
   });
 
   return (
@@ -186,8 +202,6 @@ function App() {
         projects,
         setProjects,
         currentProject,
-        currentTodos,
-        setCurrentTodos,
         setCurrentProject,
         addNewTodo,
         addNewProject,

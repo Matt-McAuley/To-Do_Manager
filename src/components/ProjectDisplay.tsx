@@ -1,4 +1,4 @@
-import {Todo} from "../Classes";
+import { Todo } from "../Types";
 import TodoContainer from "./TodoContainer";
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from "../TodoListContext";
@@ -29,14 +29,14 @@ const Header = styled.h2`
 
 const ProjectDisplay = () => {
 
-    const { currentTodos, currentProject } = useContext(TodoListContext) as TodoListContextType;
+    const { currentProject } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             <Header>Project:
             {" " + currentProject.title}
             </Header>
-            {currentTodos.map((todo: Todo, index: number) => (
+            {currentProject.todos.map((todo: Todo, index: number) => (
                 <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
             ))}
         </Container>

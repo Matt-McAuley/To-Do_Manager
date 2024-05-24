@@ -1,11 +1,9 @@
 import { createContext } from "react";
-import { Todo, Project } from "./Classes";
+import { Project } from "./Types";
 
 export type TodoListContextType = {
     projects : Project[];
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
-    currentTodos : Todo[];
-    setCurrentTodos : React.Dispatch<React.SetStateAction<Todo[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
     addNewTodo : (name: string, description: string, date: Date, priority: string) => void;
