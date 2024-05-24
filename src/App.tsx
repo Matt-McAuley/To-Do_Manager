@@ -28,7 +28,7 @@ const Header = styled.header`
   align-items:center;
   justify-content:center;
   font-weight: bold;
-  font-size: 65px;
+  font-size: 85px;
 `;
 
 function App() {
