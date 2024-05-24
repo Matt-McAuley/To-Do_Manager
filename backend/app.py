@@ -57,6 +57,16 @@ def create_project():
   db.session.commit()
   return success_response(project.serialize(), 201)
 
+@app.route('/api/projects/<int:project_id>/', methods=["GET"])
+def get_todos(project_id):
+  """
+  Route for getting a specific project
+  """
+  project = Project.query.filter_by(id=project_id).first()
+  if project is None:
+    return failure_response("Couldn't find project!")
+  return success_response(project.serialize())
+
 @app.route('/api/projects/<int:project_id>/', methods=["DELETE"])
 def delete_project(project_id):
   """
@@ -83,7 +93,7 @@ def update_project(project_id):
     return failure_response("Couldn't find project!")
   project.title = title
   db.session.commit()
-  return success_response({project.serialize()})
+  return success_response(project.serialize())
 
 @app.route('/api/projects/<int:project_id>/todo/', methods=["POST"])
 def add_todo(project_id):
@@ -119,13 +129,13 @@ def update_todo(todo_id):
     return failure_response("Incorrect formatting!")
   todo = Todo.query.filter_by(id=todo_id).first()
   if todo is None:
-    return failure_response("Couldn't find project!")
+    return failure_response("Couldn't find todo!")
   todo.title = title
   todo.description = description
   todo.due_date = due_date
   todo.priority = priority
   db.session.commit()
-  return success_response({todo.serialize()})
+  return success_response(todo.serialize())
 
 @app.route('/api/todo/<int:todo_id>/', methods=["DELETE"])
 def delete_todo(todo_id):
@@ -134,10 +144,10 @@ def delete_todo(todo_id):
   """
   todo = Todo.query.filter_by(id=todo_id).first()
   if todo is None:
-    return failure_response("Couldn't find project!")
+    return failure_response("Couldn't find todo!")
   db.session.delete(todo)
   db.session.commit()
-  return success_response({todo.serialize()})
+  return success_response(todo.serialize())
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)

@@ -97,7 +97,7 @@ const TodoPopup = () => {
                 onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} 
                 value={editInfo.todoTitle} required/>
                 <Description id="outlined-basic" placeholder='Description' 
-                onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, description : (evt.target.value)})} 
+                onChange={(evt : React.ChangeEvent<HTMLTextAreaElement>) => setEditInfo({...editInfo, description : (evt.target.value)})} 
                 value={editInfo.description} required/>
                 <PriorityLabel id="demo-radio-buttons-group-label">Priority</PriorityLabel>
                 <RadioGroup
