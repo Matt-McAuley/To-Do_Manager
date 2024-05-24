@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Project, Todo } from './Classes';
 import ProjectDisplay from './components/ProjectDisplay'
 import Sidebar from './components/Sidebar';
@@ -46,13 +46,27 @@ const Backdrop = styled.div`
   z-index: 1;
 `;
 
-function App() {
-  const exampleProject = new Project("Example");
-  const exampleTodo = new Todo("Fold Laundry", "You must fold your laundry today", new Date("1/1/2024"), "low");
-  exampleProject.addTodo(exampleTodo);
+const exampleProject = new Project("Example", 1);
 
+type todo_db = {
+  id: number;
+  title: string;
+  description: string;
+  due_date: number;
+  priority: string;
+}
+
+type project_db = {
+  id: number;
+  title: string;
+  todos: todo_db[];
+}
+
+function App() {
+  
   const [projects, setProjects] = useState([exampleProject]);
   const [currentProject, setCurrentProject] = useState(projects[0]);
+  const [currentTodos, setCurrentTodos] = useState(projects[0].todos)
   const [todoPopup, setTodoPopup] = useState(false);
   const [projectPopup, setProjectPopup] = useState(false);
   const [expandPopup, setExpandPopup] = useState(false);
@@ -66,6 +80,53 @@ function App() {
     priority: ""
   });
 
+  useEffect(() => {
+    fetch('http://localhost:8000/api/visited/', {
+      method: "GET",
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (!data.visited) {
+        fetch('http://localhost:8000/api/projects/', {
+          method: "POST",
+          body: JSON.stringify({title: "Example"})
+          });
+          console.log("first visit")
+          const title = "Fold Laundry";
+          const description = "You must fold your laundry today";
+          const due_date = new Date("1/1/2024");
+          const priority = "low";
+          addNewTodo(title, description, due_date, priority);
+      }
+      else {
+        fetch('http://localhost:8000/api/projects/', {
+          method: "GET",
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.projects);
+            data.projects.forEach((project : project_db) => {
+              console.log("reload")
+              console.log(project);
+              const title = project.title;
+              const id = project.id;
+              const todos = project.todos;
+              const newProject = new Project(title, id);
+              todos.forEach(todo => {
+                const todo_id = todo.id;
+                const name = todo.title;
+                const description = todo.description;
+                const due_date = new Date(todo.due_date);
+                const priority = todo.priority;
+                newProject.addTodo(new Todo(name, description, due_date, priority, todo_id));
+              });
+              setProjects([...projects, newProject]);
+            });
+          })
+      }
+    });
+  }, [])
+
   const addNewTodo = ((name:string, description:string, date:Date, priority:string) => {
 
     for (let i = 0; i < currentProject.todos.length; i++) {
@@ -75,8 +136,25 @@ function App() {
       }
     }
     const localDate = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
-    const newTodo = new Todo(name, description, localDate, priority);
-    currentProject.addTodo(newTodo);
+
+    console.log("adding")
+    fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: name,
+        description,
+        due_date: localDate.getMilliseconds(),
+        priority,
+      })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("added")
+        const newTodo = new Todo(name, description, localDate, priority, data.id);
+        currentProject.addTodo(newTodo);
+        setCurrentTodos([...(currentProject.todos)]);
+        console.log(currentProject);
+      })
   });
 
   const addNewProject = ((name:string) => {
@@ -86,10 +164,20 @@ function App() {
         return false;
       }
     }
-
-    const newProject = new Project(name);
-    setProjects([...projects, newProject]);
-    setCurrentProject(newProject);
+    
+    fetch(`http://localhost:8000/api/projects/`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: name,
+      })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const newProject = new Project(name, data.id);
+        setProjects([...projects, newProject]);
+        setCurrentProject(newProject);
+        setCurrentTodos(currentProject.todos);
+      })
   });
 
   return (
@@ -98,6 +186,8 @@ function App() {
         projects,
         setProjects,
         currentProject,
+        currentTodos,
+        setCurrentTodos,
         setCurrentProject,
         addNewTodo,
         addNewProject,

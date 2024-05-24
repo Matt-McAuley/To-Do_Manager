@@ -29,14 +29,14 @@ const Header = styled.h2`
 
 const ProjectDisplay = () => {
 
-    const { currentProject } = useContext(TodoListContext) as TodoListContextType;
+    const { currentTodos, currentProject } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             <Header>Project:
             {" " + currentProject.title}
             </Header>
-            {currentProject.todos.map((todo: Todo, index: number) => (
+            {currentTodos.map((todo: Todo, index: number) => (
                 <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
             ))}
         </Container>

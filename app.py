@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template
+from flask_cors import CORS
 import json
 from db import db
 from db import Project
 from db import Todo
 
 app = Flask(__name__)
+CORS(app)
 db_filename = "todo.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
@@ -21,9 +23,15 @@ def success_response(data, code=200):
 def failure_response(message, code=404):
   return json.dumps({"error": message}), code
 
+visited = False
+
 @app.route('/', methods=["GET"])
 def base():
   return render_template("index.html")
+
+@app.route('/api/visited/', methods=["GET"])
+def check_visited():
+  return json.dumps({"visited": visited})
 
 # API
 @app.route('/api/projects/', methods=["GET"])
@@ -38,6 +46,8 @@ def create_project():
   """
   Route for creating a project
   """
+  global visited
+  visited = True
   body = json.loads(request.data)
   title = body.get("title")
   if title is None:
@@ -77,7 +87,7 @@ def add_todo(project_id):
   todo = Todo(title=title, description=description, priority=priority, due_date=due_date, project_id=project_id)
   db.session.add(todo)
   db.session.commit()
-  return success_response(project.serialize())
+  return success_response(todo.serialize())
 
 @app.route('/api/projects/<int:project_id>/todo/', methods=["GET"])
 def get_todos(project_id):
