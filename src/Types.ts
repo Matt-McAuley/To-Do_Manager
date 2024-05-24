@@ -1,13 +1,13 @@
 type Todo = {
-    // id: number;
+    id: number;
     title: string;
     description: string;
-    due_date: Date;
+    due_date: number;
     priority: string;
 }
 
 type Project = {
-    // id: number;
+    id: number;
     todos: Todo[];
     title: string;
 }

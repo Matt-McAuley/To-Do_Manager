@@ -80,6 +80,7 @@ const TodoContainer = (props: Props) => {
                     setRecentEdits({
                         project: null,
                         todo: {
+                          id: todo.id,
                           title: todo.title,
                           description: todo.description,
                           due_date: todo.due_date,
@@ -94,7 +95,7 @@ const TodoContainer = (props: Props) => {
                         priority : todo.priority
                     })
                     const new_project : Project = {
-                        // id: currentProject.id
+                        id: currentProject.id,
                         title: currentProject.title,
                         todos: currentProject.todos.filter((ele) => ele.title != todo.title),
                     };
@@ -105,7 +106,7 @@ const TodoContainer = (props: Props) => {
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
                     const new_project : Project = {
-                        // id: currentProject.id
+                        id: currentProject.id,
                         title: currentProject.title,
                         todos: currentProject.todos.filter((ele) => ele.title != todo.title),
                     };

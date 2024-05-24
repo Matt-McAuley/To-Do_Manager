@@ -24,7 +24,7 @@ const Button = styled.button`
   font-size: 22px;
   &:hover {
     box-shadow: 0px 37px 20px -20px rgba(0,0,0,0.2);
-    transform: translate(0px, -7px) scale(1.1);
+    transform: translate(0px, -5px) scale(1.05);
   }
   transition: all ease-in-out 300ms;
   margin-top: 10px;

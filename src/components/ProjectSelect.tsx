@@ -63,7 +63,7 @@ const ProjectSelect = () => {
                 <Proj key={project.title}>
                     <Button onClick={() => {
                             setCurrentProject({
-                                // id: project.id
+                                id: project.id,
                                 title: project.title,
                                 todos: project.todos,
                             });
@@ -71,12 +71,13 @@ const ProjectSelect = () => {
                     }> {project.title}</Button>
                     <Image src={EditIcon} onClick={() => {
                         setCurrentProject({
-                            // id: project.id
+                            id: project.id,
                             title: project.title,
                             todos: project.todos,
                         });
                         setRecentEdits({
                             project: {
+                              id: project.id,
                               title: project.title,
                               todos: project.todos,
                             },

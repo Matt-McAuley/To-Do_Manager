@@ -6,7 +6,7 @@ export type TodoListContextType = {
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
-    addNewTodo : (name: string, description: string, date: Date, priority: string) => void;
+    addNewTodo : (name: string, description: string, date: number, priority: string) => void;
     addNewProject: (title: string, todos?: Todo[]) => false | undefined;
     popupID : number;
     setPopupID: React.Dispatch<React.SetStateAction<number>>;
