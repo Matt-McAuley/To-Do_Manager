@@ -69,6 +69,22 @@ def delete_project(project_id):
   db.session.commit()
   return success_response(project.serialize())
 
+@app.route('/api/projects/<int:project_id>/', methods=["POST"])
+def update_project(project_id):
+  """
+  Route for updating a specific project
+  """
+  body = json.loads(request.data)
+  title = body.get("title")
+  if title is None :
+    return failure_response("Incorrect formatting!")
+  project = Project.query.filter_by(id=project_id).first()
+  if project is None:
+    return failure_response("Couldn't find project!")
+  project.title = title
+  db.session.commit()
+  return success_response({project.serialize()})
+
 @app.route('/api/projects/<int:project_id>/todo/', methods=["POST"])
 def add_todo(project_id):
   """
@@ -89,16 +105,39 @@ def add_todo(project_id):
   db.session.commit()
   return success_response(todo.serialize())
 
-@app.route('/api/projects/<int:project_id>/todo/', methods=["GET"])
-def get_todos(project_id):
+@app.route('/api/todo/<int:todo_id>/', methods=["POST"])
+def update_todo(todo_id):
   """
-  Route for getting all todos for a project
+  Route for updating a specific todo
   """
-  project = Project.query.filter_by(id=project_id).first()
-  if project is None:
+  body = json.loads(request.data)
+  title = body.get("title")
+  description = body.get("description")
+  due_date = body.get("due_date")
+  priority = body.get("priority")
+  if title is None or description is None or due_date is None or priority is None:
+    return failure_response("Incorrect formatting!")
+  todo = Todo.query.filter_by(id=todo_id).first()
+  if todo is None:
     return failure_response("Couldn't find project!")
-  todos = Todo.query.filter_by(project_id=project_id)
-  return success_response({"todos":[t.simple_serialize() for t in todos]})
+  todo.title = title
+  todo.description = description
+  todo.due_date = due_date
+  todo.priority = priority
+  db.session.commit()
+  return success_response({todo.serialize()})
+
+@app.route('/api/todo/<int:todo_id>/', methods=["DELETE"])
+def delete_todo(todo_id):
+  """
+  Route for deleting a specific todo
+  """
+  todo = Todo.query.filter_by(id=todo_id).first()
+  if todo is None:
+    return failure_response("Couldn't find project!")
+  db.session.delete(todo)
+  db.session.commit()
+  return success_response({todo.serialize()})
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)

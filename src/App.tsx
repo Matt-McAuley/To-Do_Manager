@@ -103,7 +103,6 @@ function App() {
               project.todos.sort((a, b) => a.due_date - b.due_date);
               new_projects = ([...new_projects, project]);
             });
-            console.log(new_projects);
             setProjects(new_projects);
             setCurrentProject(new_projects[0])
           })
@@ -123,8 +122,6 @@ function App() {
         return false;
       }
     }
-    console.log(currentProject);
-    console.log(projects);
     fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
       method: "POST",
       body: JSON.stringify({
@@ -179,7 +176,6 @@ function App() {
           title,
           todos,
         };
-        console.log(new_project);
         setProjects([...projects, new_project]);
         setCurrentProject(new_project);
         recentEdits.project = null;
