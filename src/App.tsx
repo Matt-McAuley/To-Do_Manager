@@ -33,6 +33,7 @@ const Header = styled.header`
 
 function App() {
   
+  const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([{
     id: 1,
     title: "Example",
@@ -77,7 +78,7 @@ function App() {
       if (!data.visited) {
         fetch('http://localhost:8000/api/projects/', {
           method: "POST",
-          body: JSON.stringify({title: "Example"})
+          body: JSON.stringify({title: "Example", todos: []})
           })
           .then(response => response.json())
           .then(_ => {
@@ -89,8 +90,8 @@ function App() {
                 due_date: (new Date("1/1/2024")).valueOf() + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
                 priority: "low",
                })
-            });
-          })
+            }).then(response => response.json()).then(_ => setLoading(false));
+          });
       }
       else {
         fetch('http://localhost:8000/api/projects/', {
@@ -105,7 +106,8 @@ function App() {
               new_projects = ([...new_projects, project]);
             });
             setProjects(new_projects);
-            setCurrentProject(new_projects[0])
+            setCurrentProject(new_projects[0]);
+            setLoading(false);
           })
       }
     });
@@ -208,7 +210,7 @@ function App() {
         <Header>
           Todo Manager
         </Header>
-        <ProjectDisplay/>
+        <ProjectDisplay loading={loading}/>
       </Container>
       <PopupArea/>
     </TodoListContext.Provider>
