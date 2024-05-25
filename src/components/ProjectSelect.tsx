@@ -90,6 +90,10 @@ const ProjectSelect = () => {
                     <Image src={DeleteIcon} onClick={() => {
                         if (projects.length > 1) {
                             const index = projects.indexOf(project);
+                            const proj_to_delete = projects.filter((_, i) => i == index)[0];
+                            fetch(`http://localhost:8000/api/projects/${proj_to_delete.id}/`, {
+                                method: "DELETE",
+                            });
                             setProjects(projects.filter((_, i) => i != index));
                             setCurrentProject(projects[0]);
                         }

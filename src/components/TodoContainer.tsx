@@ -105,6 +105,9 @@ const TodoContainer = (props: Props) => {
                     setPopupID(0);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
+                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                        method: "DELETE",
+                    });
                     const new_project : Project = {
                         id: currentProject.id,
                         title: currentProject.title,
