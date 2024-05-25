@@ -50,10 +50,22 @@ def create_project():
   visited = True
   body = json.loads(request.data)
   title = body.get("title")
-  if title is None:
+  todos = body.get("todos")
+  if title is None or todos is None:
     return failure_response("Incorrect formatting!")
   project = Project(title=title)
   db.session.add(project)
+  db.session.commit()
+  for todo in todos:
+    new_todo = Todo(
+      id=todo.get("id"),
+      title=todo.get("title"), 
+      description=todo.get("description"),
+      due_date=todo.get("due_date"),
+      priority=todo.get("priority"),
+      project_id = project.id,
+      )
+    db.session.add(new_todo)
   db.session.commit()
   return success_response(project.serialize(), 201)
 

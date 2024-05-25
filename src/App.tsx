@@ -99,6 +99,7 @@ function App() {
           .then(response => response.json())
           .then(data => {
             let new_projects : Project[] = [];
+            data.projects.sort((a : Project, b : Project) => a.title.charCodeAt(0) - b.title.charCodeAt(0));
             data.projects.forEach((project : Project) => {
               project.todos.sort((a, b) => a.due_date - b.due_date);
               new_projects = ([...new_projects, project]);
@@ -167,6 +168,7 @@ function App() {
       method: "POST",
       body: JSON.stringify({
         title,
+        todos,
       })
       })
       .then(response => response.json())
@@ -174,9 +176,9 @@ function App() {
         const new_project : Project = {
           id: data.id,
           title,
-          todos,
+          todos: data.todos,
         };
-        setProjects([...projects, new_project]);
+        setProjects([...projects, new_project].sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)));
         setCurrentProject(new_project);
         recentEdits.project = null;
       })

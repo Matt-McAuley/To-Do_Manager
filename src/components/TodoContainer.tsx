@@ -94,6 +94,9 @@ const TodoContainer = (props: Props) => {
                         date : format(todo.due_date, 'yyyy-MM-dd'),
                         priority : todo.priority
                     })
+                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                        method: "DELETE",
+                    });
                     const new_project : Project = {
                         id: currentProject.id,
                         title: currentProject.title,
