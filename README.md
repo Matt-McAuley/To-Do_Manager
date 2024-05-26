@@ -20,7 +20,10 @@ are listed under the src/ directory. The backend for storing the information is 
 database is SQLAlchemy which is all under the backend/ directory. Any action done on the website is stored 
 within the database and upon page refresh is reloaded so no data is lost. Once the frontend was finished,
 the static files were addedto the backend folder and are SSR by Flask as a template. Fetch was used to
-communicate between the frontend and the backend API.
+communicate between the frontend and the backend API. This project taught me about Typescript, using React and JS libraries,
+creating an API with flask, using SQL and an ORM database, SSR, fetching data, and full-stack software development. It was
+very rewarding to develop this website over the course of months, integrating new things that I learned and being able
+to produce a full-stack website that is aesthetically pleasing and functional.
 
 ## Images
 
