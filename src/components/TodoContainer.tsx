@@ -1,4 +1,4 @@
-import { Todo } from "../Classes"
+import { Todo, Project } from "../Types"
 import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
 import ExpandIcon from "../assets/dots-horizontal.svg"
@@ -19,6 +19,7 @@ const Container = styled.div`
     height: 10%;
     border-radius: 7px;
     font-size: 22px;
+    transition: all ease-in-out 300ms;
 `;
 
 const Image = styled.img`
@@ -27,7 +28,7 @@ const Image = styled.img`
     padding-left: 8px;
     padding-right: 8px;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;
@@ -57,12 +58,12 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { setExpandPopup, projects, setProjects, editInfo, currentProject, setTodoPopup, setEditInfo } = useContext(TodoListContext) as TodoListContextType;
+    const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             <Title>{todo.title}</Title>
-            <Item>Due Date:{" " + format(todo.dueDate, 'MM/dd/yyyy')}</Item>
+            <Item>Due Date:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
             <Item>Priority:{" " + todo.priority}</Item>
             <Icons>  
                 <Image src={ExpandIcon} onClick={() => {
@@ -70,25 +71,54 @@ const TodoContainer = (props: Props) => {
                         ...editInfo,
                         todoTitle : todo.title,
                         description : todo.description,
-                        date : format(todo.dueDate, 'MM/dd/yyyy'),
+                        date : format(todo.due_date, 'MM/dd/yyyy'),
                         priority : todo.priority
                     })
-                    setExpandPopup(true);
+                    setPopupID(2);
                 }}/>
                 <Image src={EditIcon} onClick={() => {
+                    setRecentEdits({
+                        project: null,
+                        todo: {
+                          id: todo.id,
+                          title: todo.title,
+                          description: todo.description,
+                          due_date: todo.due_date,
+                          priority: todo.priority,
+                        },
+                      });
                     setEditInfo({
                         ...editInfo,
                         todoTitle : todo.title,
                         description : todo.description,
-                        date : format(todo.dueDate, 'yyyy-MM-dd'),
+                        date : format(todo.due_date, 'yyyy-MM-dd'),
                         priority : todo.priority
                     })
-                    currentProject.removeTodo(todo);
-                    setTodoPopup(true);
+                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                        method: "DELETE",
+                    });
+                    const new_project : Project = {
+                        id: currentProject.id,
+                        title: currentProject.title,
+                        todos: currentProject.todos.filter((ele) => ele.title != todo.title),
+                    };
+                    const new_projects = projects.filter((proj) => proj.title != currentProject.title);
+                    setProjects([...new_projects, new_project]);
+                    setCurrentProject(new_project);
+                    setPopupID(0);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
-                    currentProject.removeTodo(todo);
-                    setProjects([...projects]);
+                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                        method: "DELETE",
+                    });
+                    const new_project : Project = {
+                        id: currentProject.id,
+                        title: currentProject.title,
+                        todos: currentProject.todos.filter((ele) => ele.title != todo.title),
+                    };
+                    const new_projects = projects.filter((proj) => proj.title != currentProject.title);
+                    setProjects([...new_projects, new_project]);
+                    setCurrentProject(new_project);
                 }}/>
             </Icons> 
         </Container>

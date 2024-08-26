@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { TodoListContext, TodoListContextType } from '../TodoListContext';
+import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
 
 const Container = styled.div`
@@ -66,9 +66,9 @@ const Button = styled.button`
 
 const ExpandPopup = () => {
 
-    const { setEditInfo, editInfo, expandPopup, setExpandPopup} = useContext(TodoListContext) as TodoListContextType;
+    const { setEditInfo, editInfo, setPopupID} = useContext(TodoListContext) as TodoListContextType;
 
-    return expandPopup ? (
+    return (
         <Container>
             <Info>
             <Title>{editInfo.todoTitle}</Title>
@@ -77,17 +77,18 @@ const ExpandPopup = () => {
             <Date>{editInfo.date}</Date>
             </Info>
             <Button onClick={() => {
-                setExpandPopup(false)
+                setPopupID(-1);
                 setEditInfo({
                     todoTitle: "",
                     projectTitle: "",
+                    projectTodos: [],
                     date: "",
                     priority: "",
                     description: "",
                 })
                 }}>OK</Button>
         </Container> 
-    ) : null;
+    );
 
 }
 

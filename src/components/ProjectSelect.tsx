@@ -15,13 +15,14 @@ const Container = styled.div`
   margin: 20px;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 5px;
 `;
 
 const Image = styled.img`
     width: 25px;
     cursor: pointer;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;
@@ -35,11 +36,12 @@ const Button = styled.button`
     cursor: pointer;
     font-size: 20px;
     &:hover {
-        background-color: #6cc1ec;
+        background-color: #54ACDA;
     }
     &:active {
         border: 1px solid black;
     }
+    flex: 1;
 `
 
 const Proj = styled.div`
@@ -53,30 +55,56 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { setAlertPopup, editInfo, setEditInfo, projects, setProjects, setCurrentProject, setEditProjectPopup} = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, setPopupID, setRecentEdits, notify } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             {projects.map((project) => (
                 <Proj key={project.title}>
                     <Button onClick={() => {
-                            setCurrentProject(project)
+                            setCurrentProject({
+                                id: project.id,
+                                title: project.title,
+                                todos: project.todos,
+                            });
                         }
                     }> {project.title}</Button>
                     <Image src={EditIcon} onClick={() => {
-                        setCurrentProject(project);
-                        setEditInfo({...editInfo, projectTitle : project.title});
-                        setEditProjectPopup(true);
+                        setCurrentProject({
+                            id: project.id,
+                            title: project.title,
+                            todos: project.todos,
+                        });
+                        setRecentEdits({
+                            project: {
+                              id: project.id,
+                              title: project.title,
+                              todos: project.todos,
+                            },
+                            todo: null,
+                            });
+                        setEditInfo({...editInfo, projectTitle : project.title, projectTodos: project.todos});
+                        const index = projects.indexOf(project);
+                        const proj_to_delete = projects.filter((_, i) => i == index)[0];
+                        fetch(`http://localhost:8000/api/projects/${proj_to_delete.id}/`, {
+                            method: "DELETE",
+                        });
+                        setProjects(projects.filter((_, i) => i != index));
+                        setPopupID(1);
                     }}/>
                     <Image src={DeleteIcon} onClick={() => {
                         if (projects.length > 1) {
                             const index = projects.indexOf(project);
-                            projects.splice(index, 1);
-                            setProjects([...projects]);
+                            const proj_to_delete = projects.filter((_, i) => i == index)[0];
+                            fetch(`http://localhost:8000/api/projects/${proj_to_delete.id}/`, {
+                                method: "DELETE",
+                            });
+                            setProjects(projects.filter((_, i) => i != index));
                             setCurrentProject(projects[0]);
                         }
                         else {
-                            setAlertPopup("Must have at least one project");
+                            notify('Must have at least one project!');
+                            return;
                         }
                     }}/>
                 </Proj>
