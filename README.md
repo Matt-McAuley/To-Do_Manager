@@ -50,7 +50,7 @@ You need to install dependencies by running `python -m pip install -r requiremen
 ```python app.py```
 
 ## Link to Frontend
-[Fronted (doesn't function properly)](https://matt-mcauley.github.io/todo-list-react)
+[Fronted (doesn't function properly)](https://matt-mcauley.github.io/To-Do-Manager)
 
 ## Authors
 ### Matthew McAuley
