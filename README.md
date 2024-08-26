@@ -1,4 +1,4 @@
-# Todo-List-React
+# To-Do Manager
 
 ## Description
 This project is a 'Todo' manager which allows for the creation, editing, and deleting of
