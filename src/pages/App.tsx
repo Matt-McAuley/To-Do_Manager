@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
 import { useState, useEffect } from 'react';
-import { Todo, Project, editInfo, edits } from './Types';
-import ProjectDisplay from './components/ProjectDisplay'
-import Sidebar from './components/Sidebar';
-import { TodoListContext } from './TodoListContext';
-import PopupArea from './components/PopupArea';
+import { Todo, Project, editInfo, edits } from '../Types.ts';
+import ProjectDisplay from '../components/ProjectDisplay.tsx'
+import Sidebar from '../components/Sidebar.tsx';
+import { TodoListContext } from '../TodoListContext.ts';
+import PopupArea from '../components/PopupArea.tsx';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
