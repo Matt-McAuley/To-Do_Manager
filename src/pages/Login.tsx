@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
 import { Link } from "react-router";
 
 const Container = styled.div`
@@ -12,9 +11,8 @@ const Container = styled.div`
     font-family: "DM Sans";
 `;
 
-const SignUp = styled.div`
+const LogIn = styled.div`
     font-size: 80px;
-    margin-bottom: 10px;
     font-weight: bold;
 `;
 
@@ -28,6 +26,7 @@ const Form = styled.form`
     background-color: #5680E9;
     padding: 20px;
     border-radius: 10px;
+    border: 3px solid black;
     box-shadow: 0 0 10px black;
 `;
 
@@ -68,7 +67,7 @@ export default function Login() {
     return (
         <Container>
             <Form>
-                <SignUp>Log In</SignUp>
+                <LogIn>Log In</LogIn>
                 <Input type="email" placeholder="Email" />
                 <Input type="password" placeholder="Password" />
                 <SubmitButton type="submit">Log In</SubmitButton>

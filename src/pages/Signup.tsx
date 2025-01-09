@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 
 const Container = styled.div`
@@ -28,6 +27,7 @@ const Form = styled.form`
     background-color: #5680E9;
     padding: 20px;
     border-radius: 10px;
+    border: 3px solid black;
     box-shadow: 0 0 10px black;
 `;
 
