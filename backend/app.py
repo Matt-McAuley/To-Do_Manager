@@ -180,5 +180,12 @@ def create_user():
   db.session.commit()
   return success_response(user.serialize())
 
+@app.route('/api/user/', methods=["GET"])
+def get_all_users():
+  """
+  Route for getting all users
+  """
+  return success_response({"users": [u.serialize() for u in User.query.all()]})
+
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)
