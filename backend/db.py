@@ -7,7 +7,7 @@ class Project(db.Model):
   """
 
   id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-  title = db.Column(db.String, nullable=False, unique=True)
+  title = db.Column(db.String, nullable=False)
   todos = db.relationship("Todo", cascade="delete")
   user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 

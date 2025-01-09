@@ -199,7 +199,7 @@ def create_user():
   project = Project(title="Example Project", user_id=user.id)
   db.session.add(project)
   db.session.commit()
-  todo = Todo(title="Example Todo", description="This is an example todo", due_date=time.time(), priority="low", project_id=project.id, user_id=user.id)
+  todo = Todo(title="Example Todo", description="This is an example todo", due_date=round(time.time()), priority="low", project_id=project.id, user_id=user.id)
   db.session.add(todo)
   db.session.commit()
   return success_response(user.serialize())

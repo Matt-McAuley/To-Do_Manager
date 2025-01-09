@@ -59,8 +59,8 @@ const ProjectSelect = () => {
 
     return (
         <Container>
-            {projects.map((project) => (
-                <Proj key={project.title}>
+            {projects.map((project, index) => (
+                <Proj key={index}>
                     <Button onClick={() => {
                             setCurrentProject({
                                 id: project.id,

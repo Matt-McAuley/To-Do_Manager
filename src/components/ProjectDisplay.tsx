@@ -103,7 +103,7 @@ const ProjectDisplay = (props : PropTypes) => {
             {" " + currentProject.title}
             </Header>
             {currentProject.todos.map((todo: Todo, index: number) => (
-                <TodoContainer key={todo.title + currentProject.title + index} todo={todo}/>
+                <TodoContainer key={index} todo={todo}/>
             ))}
         </Container>
     );
