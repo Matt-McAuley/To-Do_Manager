@@ -4,6 +4,8 @@ import json
 from db import db
 from db import Project
 from db import Todo
+from db import User
+import bcrypt
 
 app = Flask(__name__)
 CORS(app)
@@ -160,6 +162,23 @@ def delete_todo(todo_id):
   db.session.delete(todo)
   db.session.commit()
   return success_response(todo.serialize())
+
+@app.route('/api/user/', methods=["POST"])
+def create_user():
+  """
+  Route for creating a user
+  """
+  body = json.loads(request.data)
+  email = body.get("email")
+  if email is None:
+    return failure_response("Incorrect formatting!")
+  password = body.get("password")
+  if password is None:
+    return failure_response("Incorrect formatting!")
+  user = User(email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()))
+  db.session.add(user)
+  db.session.commit()
+  return success_response(user.serialize())
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)

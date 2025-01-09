@@ -17,6 +17,7 @@ class Project(db.Model):
     """
     __tablename__ = "project"
     self.title = kwargs.get("title", "")
+    self.user_id = kwargs.get("user_id", 0)
 
   def serialize(self):
     """
@@ -25,7 +26,8 @@ class Project(db.Model):
     return {
       "id": self.id,
       "title": self.title,
-      "todos": [t.simple_serialize() for t in self.todos]
+      "todos": [t.simple_serialize() for t in self.todos],
+      "user_id": self.user_id
     }
 
 class Todo(db.Model):
@@ -51,6 +53,7 @@ class Todo(db.Model):
     self.due_date = kwargs.get("due_date", 0)
     self.priority = kwargs.get("priority", "")
     self.project_id = kwargs.get("project_id", 0)
+    self.user_id = kwargs.get("user_id", 0)
 
   def serialize(self):
     """
@@ -63,6 +66,7 @@ class Todo(db.Model):
       "due_date": self.due_date,
       "priority": self.priority,
       "project_id": self.project_id,
+      "user_id": self.user_id
     }
   
   def simple_serialize(self):
@@ -75,29 +79,29 @@ class Todo(db.Model):
       "description": self.description,
       "due_date": self.due_date,
       "priority": self.priority,
+      "user_id": self.user_id
     }
 
 
-  class User(db.Model):
+class User(db.Model):
+  """
+  User Model
+  """
+
+  id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+  email = db.Column(db.String, nullable=False, unique=True)
+  password = db.Column(db.String, nullable=False)
+
+  def __init__(self, **kwargs):
     """
-    User Model
+    Create a user object
     """
+    __tablename__ = "user"
+    self.email = kwargs.get("email", "")
+    self.password = kwargs.get("password", "")
 
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
-
-    def __init__(self, **kwargs):
-      """
-      Create a user object
-      """
-      __tablename__ = "user"
-      self.email = kwargs.get("username", "")
-      self.password = kwargs.get("password", "")
-
-    def serialize(self):
-      return {
-        "id": self.id,
-        "email": self.email,
-        "password": self.password,
-      }
+  def serialize(self):
+    return {
+      "id": self.id,
+      "email": self.email
+    }
