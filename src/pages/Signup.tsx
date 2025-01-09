@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router';
 import {useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
+import {useNavigate} from "react-router";
 
 const Container = styled.div`
     display: flex;
@@ -76,6 +77,7 @@ export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const navigate = useNavigate();
     const error = (text: string) => {
         toast.error(text, {
             position: "top-right",
@@ -99,15 +101,17 @@ export default function Signup() {
             error("Passwords don't match");
             return;
         }
+        if (email === '' || password === '') {
+            error("Please fill out all fields");
+            return;
+        }
         fetch('http://localhost:8000/api/user/', {
             method: 'POST',
             body: JSON.stringify({email, password}),
         }).then(response => {
             if (response.ok) {
-                success("Account created successfully");
-                setEmail('');
-                setPassword('');
-                setConfirmPassword('');
+                success("Account created successfully, redirecting to login page");
+                setTimeout(() => navigate('/'), 3000);
             } else {
                 error("User with that email already exists");
             }
