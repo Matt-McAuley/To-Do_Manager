@@ -175,6 +175,9 @@ def create_user():
   password = body.get("password")
   if password is None:
     return failure_response("Incorrect formatting!")
+  user = User.query.filter_by(email=email).first()
+  if user is not None:
+      return failure_response("User already exists!")
   user = User(email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()))
   db.session.add(user)
   db.session.commit()

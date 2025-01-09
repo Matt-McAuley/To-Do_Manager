@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router';
+import {useState} from "react";
+import {toast, ToastContainer} from "react-toastify";
 
 const Container = styled.div`
     display: flex;
@@ -64,17 +66,68 @@ const Text = styled.span`
     font-weight: bold;
 `;
 
+const DoesntMatch = styled.span`
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
 export default function Signup() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const error = (text: string) => {
+        toast.error(text, {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "colored",
+            pauseOnHover: false,
+        });
+    }
+    const success = (text: string) => {
+        toast.success(text, {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "colored",
+            pauseOnHover: false,
+        });
+    }
+
+    const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            error("Passwords don't match");
+            return;
+        }
+        fetch('http://localhost:8000/api/user/', {
+            method: 'POST',
+            body: JSON.stringify({email, password}),
+        }).then(response => {
+            if (response.ok) {
+                success("Account created successfully");
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+            } else {
+                error("User with that email already exists");
+            }
+        }).catch(() => {error("Account creation failed")});
+    }
+
     return (
-        <Container>
-            <Form>
-                <SignUp>Sign Up</SignUp>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <Input type="password" placeholder="Confirm Password" />
-                <SubmitButton type="submit">Sign Up</SubmitButton>
-            </Form>
-            <Text>Already have an account? <Link to="/">Log In</Link></Text>
-        </Container>
+        <>
+            <ToastContainer />
+            <Container>
+                <Form onSubmit={formSubmit}>
+                    <SignUp>Sign Up</SignUp>
+                    <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.currentTarget.value)}/>
+                    <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
+                    <Input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.currentTarget.value)}/>
+                    {(password != confirmPassword) ? <DoesntMatch>Passwords don't match</DoesntMatch> : null}
+                    <SubmitButton type="submit">Sign Up</SubmitButton>
+                </Form>
+                <Text>Already have an account? <Link to="/">Log In</Link></Text>
+            </Container>
+        </>
     )
 }
