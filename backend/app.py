@@ -37,19 +37,21 @@ def base():
 
 # API
 @app.route('/api/projects/', methods=["GET"])
+@jwt_required()
 def get_all_projects():
   """
   Route for getting all projects
   """
-  return success_response({"projects": [p.serialize() for p in Project.query.all()]})
+  current_user = get_jwt_identity()
+  return success_response({"projects": [p.serialize() for p in Project.query.filter_by(user_id=current_user).all()]})
 
 @app.route('/api/projects/', methods=["POST"])
+@jwt_required()
 def create_project():
   """
   Route for creating a project
   """
-  global visited
-  visited = True
+  current_user = get_jwt_identity()
   body = json.loads(request.data)
   title = body.get("title")
   todos = body.get("todos")
@@ -66,27 +68,32 @@ def create_project():
       due_date=todo.get("due_date"),
       priority=todo.get("priority"),
       project_id = project.id,
+      user_id = current_user
       )
     db.session.add(new_todo)
   db.session.commit()
   return success_response(project.serialize(), 201)
 
 @app.route('/api/projects/<int:project_id>/', methods=["GET"])
+@jwt_required()
 def get_todos(project_id):
   """
   Route for getting a specific project
   """
-  project = Project.query.filter_by(id=project_id).first()
+  current_user = get_jwt_identity()
+  project = Project.query.filter_by(id=project_id, user_id=current_user).first()
   if project is None:
     return failure_response("Couldn't find project!")
   return success_response(project.serialize())
 
 @app.route('/api/projects/<int:project_id>/', methods=["DELETE"])
+@jwt_required()
 def delete_project(project_id):
   """
   Route for deleting a specific project
   """
-  project = Project.query.filter_by(id=project_id).first()
+  current_user = get_jwt_identity()
+  project = Project.query.filter_by(id=project_id, user_id=current_user).first()
   if project is None:
     return failure_response("Couldn't find project!")
   db.session.delete(project)
@@ -94,15 +101,17 @@ def delete_project(project_id):
   return success_response(project.serialize())
 
 @app.route('/api/projects/<int:project_id>/', methods=["POST"])
+@jwt_required()
 def update_project(project_id):
   """
   Route for updating a specific project
   """
+  current_user = get_jwt_identity()
   body = json.loads(request.data)
   title = body.get("title")
   if title is None :
     return failure_response("Incorrect formatting!")
-  project = Project.query.filter_by(id=project_id).first()
+  project = Project.query.filter_by(id=project_id, user_id=current_user).first()
   if project is None:
     return failure_response("Couldn't find project!")
   project.title = title
@@ -110,11 +119,13 @@ def update_project(project_id):
   return success_response(project.serialize())
 
 @app.route('/api/projects/<int:project_id>/todo/', methods=["POST"])
+@jwt_required()
 def add_todo(project_id):
   """
   Route for adding a todo to a project
   """
-  project = Project.query.filter_by(id=project_id).first()
+  current_user = get_jwt_identity()
+  project = Project.query.filter_by(id=project_id, user_id=current_user).first()
   if project is None:
     return failure_response("Couldn't find project!")
   body = json.loads(request.data)
@@ -124,16 +135,18 @@ def add_todo(project_id):
   due_date = body.get("due_date")
   if title is None or description is None or priority is None or due_date is None:
     return failure_response("Incorrect formatting for todo!")
-  todo = Todo(title=title, description=description, priority=priority, due_date=due_date, project_id=project_id)
+  todo = Todo(title=title, description=description, priority=priority, due_date=due_date, project_id=project_id, user_id=current_user)
   db.session.add(todo)
   db.session.commit()
   return success_response(todo.serialize())
 
 @app.route('/api/todo/<int:todo_id>/', methods=["POST"])
+@jwt_required()
 def update_todo(todo_id):
   """
   Route for updating a specific todo
   """
+  current_user = get_jwt_identity()
   body = json.loads(request.data)
   title = body.get("title")
   description = body.get("description")
@@ -141,7 +154,7 @@ def update_todo(todo_id):
   priority = body.get("priority")
   if title is None or description is None or due_date is None or priority is None:
     return failure_response("Incorrect formatting!")
-  todo = Todo.query.filter_by(id=todo_id).first()
+  todo = Todo.query.filter_by(id=todo_id, user_id=current_user).first()
   if todo is None:
     return failure_response("Couldn't find todo!")
   todo.title = title
@@ -152,11 +165,13 @@ def update_todo(todo_id):
   return success_response(todo.serialize())
 
 @app.route('/api/todo/<int:todo_id>/', methods=["DELETE"])
+@jwt_required()
 def delete_todo(todo_id):
   """
   Route for deleting a specific todo
   """
-  todo = Todo.query.filter_by(id=todo_id).first()
+  current_user = get_jwt_identity()
+  todo = Todo.query.filter_by(id=todo_id, user_id=current_user).first()
   if todo is None:
     return failure_response("Couldn't find todo!")
   db.session.delete(todo)

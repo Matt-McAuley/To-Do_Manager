@@ -70,47 +70,22 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/visited/', {
+    fetch('http://localhost:8000/api/projects/', {
       method: "GET",
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.visited) {
-        fetch('http://localhost:8000/api/projects/', {
-          method: "POST",
-          body: JSON.stringify({title: "Example", todos: []})
-          })
-          .then(response => response.json())
-          .then(_ => {
-            fetch('http://localhost:8000/api/projects/1/todo', {
-              method: "POST",
-              body: JSON.stringify({
-                title: "Fold Laundry",
-                description: "You must fold your laundry today",
-                due_date: (new Date("1/1/2024")).valueOf() + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
-                priority: "low",
-               })
-            }).then(response => response.json()).then(_ => setLoading(false));
-          });
-      }
-      else {
-        fetch('http://localhost:8000/api/projects/', {
-          method: "GET",
-          })
-          .then(response => response.json())
-          .then(data => {
-            let new_projects : Project[] = [];
-            data.projects.sort((a : Project, b : Project) => a.title.charCodeAt(0) - b.title.charCodeAt(0));
-            data.projects.forEach((project : Project) => {
-              project.todos.sort((a, b) => a.due_date - b.due_date);
-              new_projects = ([...new_projects, project]);
-            });
-            setProjects(new_projects);
-            setCurrentProject(new_projects[0]);
-            setLoading(false);
-          })
-      }
-    });
+      credentials: "include",
+      })
+      .then(response => response.json())
+      .then(data => {
+        let new_projects : Project[] = [];
+        data.projects.sort((a : Project, b : Project) => a.title.charCodeAt(0) - b.title.charCodeAt(0));
+        data.projects.forEach((project : Project) => {
+          project.todos.sort((a, b) => a.due_date - b.due_date);
+          new_projects = ([...new_projects, project]);
+        });
+        setProjects(new_projects);
+        setCurrentProject(new_projects[0]);
+        setLoading(false);
+      });
   }, [])
 
   const addNewTodo = ((title:string, description:string, due_date:number, priority:string) => {
