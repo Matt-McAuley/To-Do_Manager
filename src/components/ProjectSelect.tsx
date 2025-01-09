@@ -88,6 +88,7 @@ const ProjectSelect = () => {
                         const proj_to_delete = projects.filter((_, i) => i == index)[0];
                         fetch(`http://localhost:8000/api/projects/${proj_to_delete.id}/`, {
                             method: "DELETE",
+                            credentials: "include",
                         });
                         setProjects(projects.filter((_, i) => i != index));
                         setPopupID(1);
@@ -98,6 +99,7 @@ const ProjectSelect = () => {
                             const proj_to_delete = projects.filter((_, i) => i == index)[0];
                             fetch(`http://localhost:8000/api/projects/${proj_to_delete.id}/`, {
                                 method: "DELETE",
+                                credentials: "include",
                             });
                             setProjects(projects.filter((_, i) => i != index));
                             setCurrentProject(projects[0]);

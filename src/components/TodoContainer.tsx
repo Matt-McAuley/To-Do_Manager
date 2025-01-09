@@ -96,6 +96,7 @@ const TodoContainer = (props: Props) => {
                     })
                     fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
                         method: "DELETE",
+                        credentials: "include",
                     });
                     const new_project : Project = {
                         id: currentProject.id,
@@ -110,6 +111,7 @@ const TodoContainer = (props: Props) => {
                 <Image src={DeleteIcon} onClick={() => {
                     fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
                         method: "DELETE",
+                        credentials: "include",
                     });
                     const new_project : Project = {
                         id: currentProject.id,

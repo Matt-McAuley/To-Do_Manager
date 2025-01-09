@@ -108,6 +108,7 @@ export default function Signup() {
         fetch('http://localhost:8000/api/user/', {
             method: 'POST',
             body: JSON.stringify({email, password}),
+            credentials: 'include',
         }).then(response => {
             if (response.ok) {
                 success("Account created successfully, redirecting to login page");

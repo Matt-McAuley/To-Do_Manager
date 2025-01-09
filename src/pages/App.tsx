@@ -103,11 +103,12 @@ function App() {
     fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
       method: "POST",
       body: JSON.stringify({
-        title,
-        description,
-        due_date,
-        priority,
-      })
+            title,
+            description,
+            due_date,
+            priority,
+            }),
+      credentials: "include",
       })
       .then(response => response.json())
       .then(data => {
@@ -146,7 +147,8 @@ function App() {
       body: JSON.stringify({
         title,
         todos,
-      })
+      }),
+        credentials: "include",
       })
       .then(response => response.json())
       .then(data => {
