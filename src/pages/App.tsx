@@ -32,6 +32,26 @@ const Header = styled.header`
   font-size: 85px;
 `;
 
+const LogoutButton = styled.button`
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 200px;
+  height: 50px;
+  background-color: #5AB9EA;
+  cursor: pointer;
+  font-size: 22px;
+  &:hover {
+    box-shadow: 0px 37px 20px -20px rgba(0,0,0,0.2);
+    transform: translate(0px, -5px) scale(1.05);
+  }
+  transition: all ease-in-out 300ms;
+  margin-top: 10px;
+  margin-bottom: 18px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+`;
+
 function App() {
   
   const [loading, setLoading] = useState(true);
@@ -171,6 +191,19 @@ function App() {
       })
   });
 
+  const logout = () => {
+    fetch('http://localhost:8000/api/logout/', {
+      method: "POST",
+      credentials: "include",
+    })
+    .then(response => {
+      if (!response.ok) {
+        notify("Failed to logout");
+        return;
+      }
+      navigate('/');
+  })};
+
   return (
     <TodoListContext.Provider 
       value={{
@@ -194,6 +227,7 @@ function App() {
         <Sidebar/>
         <Header>
           Todo Manager
+          <LogoutButton onClick={logout}>Logout</LogoutButton>
         </Header>
         <ProjectDisplay loading={loading}/>
       </Container>
