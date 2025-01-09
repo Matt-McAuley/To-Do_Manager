@@ -84,7 +84,7 @@ export default function Login() {
             error("Please fill out all fields");
             return;
         }
-        fetch('http://localhost:8000/api/login/', {
+        fetch('http://150.136.36.76:8000/api/login/', {
             body: JSON.stringify({
                 email: email,
                 password: password,

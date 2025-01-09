@@ -92,7 +92,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/projects/', {
+    fetch('http://150.136.36.76:8000/api/projects/', {
       method: "GET",
       credentials: "include",
       })
@@ -128,7 +128,7 @@ function App() {
         return false;
       }
     }
-    fetch(`http://localhost:8000/api/projects/${currentProject.id}/todo`, {
+    fetch(`http://150.136.36.76:8000/api/projects/${currentProject.id}/todo`, {
       method: "POST",
       body: JSON.stringify({
             title,
@@ -170,7 +170,7 @@ function App() {
         return false;
       }
     }
-    fetch(`http://localhost:8000/api/projects/`, {
+    fetch(`http://150.136.36.76:8000/api/projects/`, {
       method: "POST",
       body: JSON.stringify({
         title,
@@ -192,7 +192,7 @@ function App() {
   });
 
   const logout = () => {
-    fetch('http://localhost:8000/api/logout/', {
+    fetch('http://150.136.36.76:8000/api/logout/', {
       method: "POST",
       credentials: "include",
     })

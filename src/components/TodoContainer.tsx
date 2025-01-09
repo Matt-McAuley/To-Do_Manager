@@ -94,7 +94,7 @@ const TodoContainer = (props: Props) => {
                         date : format(todo.due_date, 'yyyy-MM-dd'),
                         priority : todo.priority
                     })
-                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                    fetch(`http://150.136.36.76:8000/api/todo/${todo.id}/`, {
                         method: "DELETE",
                         credentials: "include",
                     });
@@ -109,7 +109,7 @@ const TodoContainer = (props: Props) => {
                     setPopupID(0);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
-                    fetch(`http://localhost:8000/api/todo/${todo.id}/`, {
+                    fetch(`http://150.136.36.76:8000/api/todo/${todo.id}/`, {
                         method: "DELETE",
                         credentials: "include",
                     });
