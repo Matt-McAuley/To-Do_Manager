@@ -1,7 +1,10 @@
 version: '3.10'
 
 services:
-        exercise-engine:
-                image: mattmcauley/exercise-engine
+        to-do-manager:
+                volumes:
+                - /home/ubuntu/todo.db:usr/app/backend/instance/todo.db
+                image: mattmcauley/to-do-manager
+                env_file: .env
                 ports:
-                        - "80:8000"
+                - "80:8000"
