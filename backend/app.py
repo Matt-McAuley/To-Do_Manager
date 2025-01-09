@@ -3,7 +3,8 @@ from flask_cors import CORS
 import json
 from db import *
 import bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies, \
+  unset_jwt_cookies
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -201,11 +202,20 @@ def login():
   if user is None:
     return failure_response("User not found!")
   if bcrypt.checkpw(password.encode('utf-8'), user.password):
-    access_token = create_access_token(identity=user.email)
+    access_token = create_access_token(identity=user.id)
     response = jsonify({"user": user.serialize()})
     set_access_cookies(response, access_token)
     return response
   return failure_response("Incorrect password!")
+
+@app.route('/api/logout/', methods=["POST"])
+def logout():
+  """
+  Route for logging out
+  """
+  response = jsonify({"logout": True})
+  unset_jwt_cookies(response)
+  return response
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)
