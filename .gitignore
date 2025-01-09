@@ -27,3 +27,6 @@ instance/
 __pycache__/
 
 backend/.env
+
+.key
+.pub
