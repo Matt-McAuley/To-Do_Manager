@@ -9,6 +9,7 @@ class Project(db.Model):
   id = db.Column(db.Integer, autoincrement=True, primary_key=True)
   title = db.Column(db.String, nullable=False, unique=True)
   todos = db.relationship("Todo", cascade="delete")
+  user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
   def __init__(self, **kwargs):
     """
@@ -38,6 +39,7 @@ class Todo(db.Model):
   due_date = db.Column(db.Integer, nullable=False)
   priority= db.Column(db.String, nullable=False)
   project_id = db.Column(db.Integer, db.ForeignKey("project.id"), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
   def __init__(self, **kwargs):
     """
@@ -74,4 +76,28 @@ class Todo(db.Model):
       "due_date": self.due_date,
       "priority": self.priority,
     }
-  
+
+
+  class User(db.Model):
+    """
+    User Model
+    """
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+
+    def __init__(self, **kwargs):
+      """
+      Create a user object
+      """
+      __tablename__ = "user"
+      self.email = kwargs.get("username", "")
+      self.password = kwargs.get("password", "")
+
+    def serialize(self):
+      return {
+        "id": self.id,
+        "email": self.email,
+        "password": self.password,
+      }
