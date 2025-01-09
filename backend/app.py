@@ -56,12 +56,14 @@ def create_project():
   Route for creating a project
   """
   current_user = get_jwt_identity()
+  print('current_user')
+  print(current_user)
   body = json.loads(request.data)
   title = body.get("title")
   todos = body.get("todos")
   if title is None or todos is None:
     return failure_response("Incorrect formatting!")
-  project = Project(title=title)
+  project = Project(title=title, user_id=current_user)
   db.session.add(project)
   db.session.commit()
   for todo in todos:

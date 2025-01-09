@@ -7,6 +7,7 @@ import { TodoListContext } from '../TodoListContext.ts';
 import PopupArea from '../components/PopupArea.tsx';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router';
 
 const Container = styled.div`
   padding: 0;
@@ -59,6 +60,7 @@ function App() {
     project: null,
     todo: null,
   })
+  const navigate = useNavigate();
 
   const notify = (text: string) => {
     toast.error(text, {
@@ -74,7 +76,13 @@ function App() {
       method: "GET",
       credentials: "include",
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          navigate('/');
+          return;
+        }
+        return response.json()
+      })
       .then(data => {
         let new_projects : Project[] = [];
         data.projects.sort((a : Project, b : Project) => a.title.charCodeAt(0) - b.title.charCodeAt(0));
