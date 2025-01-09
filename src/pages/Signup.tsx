@@ -9,6 +9,7 @@ const Container = styled.div`
     justify-content: center;
     height: 100vh;
     background-color: #C1C8E4;
+    font-family: "DM Sans";
 `;
 
 const SignUp = styled.div`
@@ -41,7 +42,7 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 8px;
     width: 60%;
     height: 10%;
