@@ -28,5 +28,4 @@ __pycache__/
 
 backend/.env
 
-.key
-.pub
+keys
