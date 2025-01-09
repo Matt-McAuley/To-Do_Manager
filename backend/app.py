@@ -5,7 +5,11 @@ import json
 from db import *
 import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies, \
-  unset_jwt_cookies
+  unset_jwt_cookies, verify_jwt_in_request
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -14,8 +18,10 @@ db_filename = "todo.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
-app.config["JWT_SECRET_KEY"] = 'ChangeMe'
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 
 jwt = JWTManager(app)
 
@@ -28,8 +34,6 @@ def success_response(data, code=200):
 
 def failure_response(message, code=404):
   return json.dumps({"error": message}), code
-
-visited = False
 
 @app.route('/', methods=["GET"])
 def base():
@@ -220,7 +224,7 @@ def login():
   if user is None:
     return failure_response("User not found!")
   if bcrypt.checkpw(password.encode('utf-8'), user.password):
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     response = jsonify({"user": user.serialize()})
     set_access_cookies(response, access_token)
     return response

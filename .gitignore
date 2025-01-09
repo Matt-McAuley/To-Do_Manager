@@ -25,3 +25,5 @@ dist-ssr
 
 instance/
 __pycache__/
+
+backend/.env
