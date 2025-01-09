@@ -1,3 +1,4 @@
+import time
 from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 import json
@@ -33,10 +34,6 @@ visited = False
 @app.route('/', methods=["GET"])
 def base():
   return render_template("index.html")
-
-@app.route('/api/visited/', methods=["GET"])
-def check_visited():
-  return json.dumps({"visited": visited})
 
 # API
 @app.route('/api/projects/', methods=["GET"])
@@ -169,7 +166,7 @@ def delete_todo(todo_id):
 @app.route('/api/user/', methods=["POST"])
 def create_user():
   """
-  Route for creating a user
+  Route for creating a user and adding an example project and todo
   """
   body = json.loads(request.data)
   email = body.get("email")
@@ -183,6 +180,12 @@ def create_user():
       return failure_response("User already exists!")
   user = User(email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()))
   db.session.add(user)
+  db.session.commit()
+  project = Project(title="Example Project", user_id=user.id)
+  db.session.add(project)
+  db.session.commit()
+  todo = Todo(title="Example Todo", description="This is an example todo", due_date=time.time(), priority="low", project_id=project.id, user_id=user.id)
+  db.session.add(todo)
   db.session.commit()
   return success_response(user.serialize())
 
