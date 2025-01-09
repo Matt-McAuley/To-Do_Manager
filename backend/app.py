@@ -1,11 +1,13 @@
 import time
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 import json
 from db import *
 import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies, \
-  unset_jwt_cookies, verify_jwt_in_request
+  unset_jwt_cookies
 import os
 from dotenv import load_dotenv
 
@@ -240,6 +242,28 @@ def logout():
   response = jsonify({"logout": True})
   unset_jwt_cookies(response)
   return response
+
+def reset_database():
+    """
+    Function for resetting the database
+    """
+    with app.app_context():
+      db.drop_all()
+      db.create_all()
+      user = User(email="test@gmail.com", password=bcrypt.hashpw("password".encode('utf-8'), bcrypt.gensalt()))
+      db.session.add(user)
+      db.session.commit()
+      project = Project(title="Example Project", user_id=user.id)
+      db.session.add(project)
+      db.session.commit()
+      todo = Todo(title="Example Todo", description="This is an example todo", due_date=round(time.time()), priority="low", project_id=project.id, user_id=user.id)
+      db.session.add(todo)
+      db.session.commit()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=reset_database, trigger='cron', hour=0, minute=0)
+scheduler.start()
+atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)
