@@ -1,19 +1,21 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 import json
-from db import db
-from db import Project
-from db import Todo
-from db import User
+from db import *
 import bcrypt
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 db_filename = "todo.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+app.config["JWT_SECRET_KEY"] = 'ChangeMe'
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+
+jwt = JWTManager(app)
 
 db.init_app(app)
 with app.app_context():
@@ -183,12 +185,27 @@ def create_user():
   db.session.commit()
   return success_response(user.serialize())
 
-@app.route('/api/user/', methods=["GET"])
-def get_all_users():
+@app.route('/api/login/', methods=["POST"])
+def login():
   """
-  Route for getting all users
+  Route for logging in
   """
-  return success_response({"users": [u.serialize() for u in User.query.all()]})
+  body = json.loads(request.data)
+  email = body.get("email")
+  if email is None:
+    return failure_response("Incorrect formatting!")
+  password = body.get("password")
+  if password is None:
+    return failure_response("Incorrect formatting!")
+  user = User.query.filter_by(email=email).first()
+  if user is None:
+    return failure_response("User not found!")
+  if bcrypt.checkpw(password.encode('utf-8'), user.password):
+    access_token = create_access_token(identity=user.email)
+    response = jsonify({"user": user.serialize()})
+    set_access_cookies(response, access_token)
+    return response
+  return failure_response("Incorrect password!")
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8000, debug=True)

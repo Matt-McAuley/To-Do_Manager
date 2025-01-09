@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import { Link } from "react-router";
+import {Link, useNavigate} from "react-router";
+import {useState} from "react";
+import {toast, ToastContainer} from "react-toastify";
 
 const Container = styled.div`
     display: flex;
@@ -64,15 +66,52 @@ const Text = styled.span`
 `;
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const error = (text: string) => {
+        toast.error(text, {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "colored",
+            pauseOnHover: false,
+        });
+    }
+
+    const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (email === '' || password === '') {
+            error("Please fill out all fields");
+            return;
+        }
+        fetch('http://localhost:8000/api/login/', {
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+            method: "POST",
+            credentials: "include",
+        }).then(response => {
+            if (!response.ok) {
+                error("Invalid email or password");
+                return;
+            }
+            navigate('/main');
+        });
+    }
+
     return (
-        <Container>
-            <Form>
-                <LogIn>Log In</LogIn>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <SubmitButton type="submit">Log In</SubmitButton>
-            </Form>
-            <Text>Don't have an account? <Link to="/signup">Sign Up</Link></Text>
-        </Container>
+        <>
+            <ToastContainer />
+            <Container>
+                <Form onSubmit={formSubmit}>
+                    <LogIn>Log In</LogIn>
+                    <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.currentTarget.value)}/>
+                    <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
+                    <SubmitButton type="submit">Log In</SubmitButton>
+                </Form>
+                <Text>Don't have an account? <Link to="/signup">Sign Up</Link></Text>
+            </Container>
+        </>
     )
 }
