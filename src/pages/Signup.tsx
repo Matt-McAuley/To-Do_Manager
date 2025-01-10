@@ -105,7 +105,7 @@ export default function Signup() {
             error("Please fill out all fields");
             return;
         }
-        fetch('http://150.136.36.76:8000/api/user/', {
+        fetch('/api/user/', {
             method: 'POST',
             body: JSON.stringify({email, password}),
             credentials: 'include',

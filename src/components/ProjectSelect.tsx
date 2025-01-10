@@ -86,7 +86,7 @@ const ProjectSelect = () => {
                         setEditInfo({...editInfo, projectTitle : project.title, projectTodos: project.todos});
                         const index = projects.indexOf(project);
                         const proj_to_delete = projects.filter((_, i) => i == index)[0];
-                        fetch(`http://150.136.36.76:8000/api/projects/${proj_to_delete.id}/`, {
+                        fetch(`/api/projects/${proj_to_delete.id}/`, {
                             method: "DELETE",
                             credentials: "include",
                         });
@@ -97,7 +97,7 @@ const ProjectSelect = () => {
                         if (projects.length > 1) {
                             const index = projects.indexOf(project);
                             const proj_to_delete = projects.filter((_, i) => i == index)[0];
-                            fetch(`http://150.136.36.76:8000/api/projects/${proj_to_delete.id}/`, {
+                            fetch(`/api/projects/${proj_to_delete.id}/`, {
                                 method: "DELETE",
                                 credentials: "include",
                             });

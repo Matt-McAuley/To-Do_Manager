@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../dist/assets", template_folder="../dist")
 CORS(app, supports_credentials=True)
 db_filename = "todo.db"
 
@@ -37,8 +37,9 @@ def success_response(data, code=200):
 def failure_response(message, code=404):
   return json.dumps({"error": message}), code
 
-@app.route('/', methods=["GET"])
-def base():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
   return render_template("index.html")
 
 # API
