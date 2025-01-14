@@ -79,7 +79,7 @@ function App() {
   const [recentEdits, setRecentEdits] = useState<edits>({
     project: null,
     todo: null,
-  })
+  });
   const navigate = useNavigate();
 
   const notify = (text: string) => {
@@ -226,7 +226,7 @@ function App() {
       <Container>
         <Sidebar/>
         <Header>
-          Todo Manager
+          To-Do Manager
           <LogoutButton onClick={logout}>Logout</LogoutButton>
         </Header>
         <ProjectDisplay loading={loading}/>
