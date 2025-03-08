@@ -65,7 +65,7 @@ const TodoContainer = (props: Props) => {
         <Container style={(todo.priority === 'low') ? {backgroundColor: 'lightgreen'} : (todo.priority === 'medium') ? {backgroundColor : 'yellow'} : {backgroundColor : 'orangered'}}>
             <Title>{todo.title}</Title>
             <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <Item>Due Date:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
+                <Item>Due On:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
                 {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) < Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
                 {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) === Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>

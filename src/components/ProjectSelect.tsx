@@ -53,6 +53,8 @@ const Proj = styled.div`
     display: flex;
     justify-content: end;
     overflow: hidden;
+    flex-shrink: 0;
+    border-bottom: 1px solid black;
 `
 
 const ProjectSelect = () => {
