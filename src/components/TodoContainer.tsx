@@ -8,21 +8,6 @@ import { format } from 'date-fns'
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import {backendURL} from "../constants.ts";
 
-const Container = styled.div`
-    display:flex;
-    justify-content:space-between;
-    align-items: center;
-    margin: 10px;
-    padding: 10px;
-    border: 2px solid black;
-    background-color: #5AB9EA;
-    width: 78%;
-    height: 10%;
-    border-radius: 7px;
-    font-size: 22px;
-    transition: all ease-in-out 300ms;
-`;
-
 const Image = styled.img`
     width: 30px;
     cursor: pointer;
@@ -61,8 +46,34 @@ const TodoContainer = (props: Props) => {
     const todo = props.todo;
     const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
 
+    const Container = styled.div`
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid black;
+    width: 78%;
+    height: 10%;
+    border-radius: 7px;
+    font-size: 22px;
+    transition: all ease-in-out 300ms;
+    cursor: pointer;
+    ${todo.priority === 'low' ? 'background-color: lightgreen;' : todo.priority === 'medium' ? 'background-color: yellow;' : 'background-color: orangered;'}
+    ${todo.priority === 'low' ? '&:hover {background-color: #FFFFFF;}' : todo.priority === 'medium' ? '&:hover {background-color: #FFFFFF;}' : '&:hover {background-color: #FFFFFF;}'}
+`;
+
     return (
-        <Container style={(todo.priority === 'low') ? {backgroundColor: 'lightgreen'} : (todo.priority === 'medium') ? {backgroundColor : 'yellow'} : {backgroundColor : 'orangered'}}>
+        <Container onClick={() => {
+                       setEditInfo({
+                           ...editInfo,
+                           todoTitle : todo.title,
+                           description : todo.description,
+                           date : format(todo.due_date, 'MM/dd/yyyy'),
+                           priority : todo.priority
+                       })
+                       setPopupID(2);
+                   }}>
             <Title>{todo.title}</Title>
             <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                 <Item>Due On:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
@@ -70,19 +81,10 @@ const TodoContainer = (props: Props) => {
                 {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) === Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>
             <Icons>
-                <Image src={ExpandIcon} onClick={() => {
-                    setEditInfo({
-                        ...editInfo,
-                        todoTitle : todo.title,
-                        description : todo.description,
-                        date : format(todo.due_date, 'MM/dd/yyyy'),
-                        priority : todo.priority
-                    })
-                    setPopupID(2);
-                }}/>
                 {(currentProject.id === -1) ? null : (
                     <>
-                    <Image src={EditIcon} onClick={() => {
+                    <Image src={EditIcon} onClick={(e) => {
+                        e.stopPropagation();
                         setRecentEdits({
                             project: null,
                             todo: {
@@ -114,7 +116,8 @@ const TodoContainer = (props: Props) => {
                         setCurrentProject(new_project);
                         setPopupID(0);
                     }}/>
-                    <Image src={DeleteIcon} onClick={() => {
+                    <Image src={DeleteIcon} onClick={(e) => {
+                        e.stopPropagation();
                         fetch(`${backendURL}/api/todo/${todo.id}/`, {
                             method: "DELETE",
                             credentials: "include",
