@@ -57,15 +57,9 @@ function App() {
   
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([{
-    id: 1,
-    title: "Example",
-    todos: [{
-      id: 1,
-      title: "Fold Laundry",
-      description: "You must fold your laundry today",
-      due_date: (new Date("1/1/2024")).valueOf() + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
-      priority: "low",
-    }]
+    id: 0,
+    title: "Loading...",
+    todos: []
   }]);
   const [currentProject, setCurrentProject] = useState<Project>(projects[0]);
   const [editInfo, setEditInfo] = useState<editInfo>({

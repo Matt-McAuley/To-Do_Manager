@@ -1,77 +1,163 @@
 import styled from '@emotion/styled'
-import { RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
 
 const Container = styled.form`
-  width: 65%;
-  height: 60%;
+  width: 50%;
+  height: 85%;
   position: absolute;
   background-color:white;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 8px;
-  border: 2px solid black;
-  display: grid;
-  grid-template-rows: 80% 20%;
-  grid-template-columns: 100%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   font-family: "DM Sans";
+  padding: 20px;
 `;
 
+const ExitButton = styled.button`
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+    background-color: #ca5757;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: none;
+    &:hover {
+        background-color: #9a4242;
+    }
+    float: right;
+`
+
+const Header = styled.div`
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+`
+
 const InputArea = styled.div`
-  display: grid;
-  grid-template-rows: 25% 75%;
-  grid-template-columns: 40% 40% 20%;
-  grid-row: 1/2;
-  grid-column: 1/2;
+    display: flex;
+    height: 90%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+`
+const Label = styled.label`
+    font-family: "DM Sans";
+    font-size: 18px;
+    padding-bottom: 5px;
 `
 
 const Title = styled.input`
-  grid-row: 1/2;
-  grid-column: 1/2;
-  font-family: "DM Sans";
-  padding-left: 10px;
-  font-size: 20px;
+    font-family: "DM Sans";
+    font-size: 15px;
+    padding: 5px;
+    width: 80%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
+`
+
+const TitleGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
 `
 
 const Description = styled.textarea`
-  grid-row: 2/3;
-  grid-column: 1/3;
-  max-width: 99%;
-  font-family: "DM Sans";
-  font-size: 18px;
-  padding: 12px;
-  resize: none;
+    font-family: "DM Sans";
+    font-size: 15px;
+    padding: 5px;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
+`
+
+const DescriptionGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+`
+
+const PriorityInput = styled.input`
+    font-size: 15px;
+`
+
+const PriorityButtons = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px solid black;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 78%;
+`
+
+const PriorityButton = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    width: 100%;
+`
+
+const PriorityGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
 `
 
 const DateInput = styled.input`
-  grid-row: 1/2;
-  grid-column: 2/3;
-  font-family: "DM Sans";
-  font-size: 20px;
+    font-family: "DM Sans";
+    font-size: 15px;
+    padding: 5px;
+    width: 80%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
 `
 
-const PriorityLabel = styled.label`
-  font-size: 25px;
-  border: 1px solid black;
-  border-radius: 6px;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  grid-row: 1/2;
-  grid-column: 3/4;
+const DateGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
 `
 
-const Button = styled.button`
-  grid-row: 2/3;
-  grid-column: 1/2;
-  font-family: "DM Sans";
-  font-size: 30px;
-  font-weight: bold;
-  background-color: lightgray;
-  cursor: pointer;
+const SubmitButton = styled.button`
+    font-family: "DM Sans";
+    font-size: 25px;
+    font-weight: bold;
+    padding: 15px;
+    width: 85%;
+    background-color: lightgray;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
+    &:hover {
+        background-color: #b3b3b3;
+    }
+`
+
+const TopBar = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 85%;
+`
+
+const BottomBar = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 85%;
+    height: 35%;
 `
 
 const TodoPopup = () => {
@@ -92,32 +178,60 @@ const TodoPopup = () => {
             })
             setPopupID(-1);
             }}>
+            <ExitButton onClick={() => {
+                setPopupID(-1);
+                setEditInfo({
+                    ...editInfo,
+                    todoTitle : "",
+                    description : "",
+                    date : "",
+                    priority : ""
+                });
+            }}>X</ExitButton>
+            <Header>Add New To-Do</Header>
             <InputArea>
-                <Title id="outlined-basic" placeholder='Title' 
-                onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})} 
-                value={editInfo.todoTitle} required/>
-                <Description id="outlined-basic" placeholder='Description' 
-                onChange={(evt : React.ChangeEvent<HTMLTextAreaElement>) => setEditInfo({...editInfo, description : (evt.target.value)})} 
-                value={editInfo.description} required/>
-                <PriorityLabel id="demo-radio-buttons-group-label">Priority</PriorityLabel>
-                <RadioGroup
-                    style={{"gridRow" : "2/3", "gridColumn" : "3/4", "paddingLeft" : "20px", 
-                    "display" : "flex", "flexDirection" : "column", "justifyContent" : "space-around"}}
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                    value={editInfo.priority}
-                    onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})}
-                >
-                    <FormControlLabel value="low" control={<Radio />} label="low" required/>
-                    <FormControlLabel value="medium" control={<Radio />} label="medium" />
-                    <FormControlLabel value="high" control={<Radio />} label="high" />
-                </RadioGroup>
-                <DateInput type="Date" onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, date : evt.target.value})} 
-                value={editInfo.date} required/>
+                <TopBar>
+                <TitleGroup>
+                    <Label>Title:</Label>
+                    <Title onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})}
+                           value={editInfo.todoTitle} required/>
+                </TitleGroup>
+                <DateGroup>
+                    <Label>Date:</Label>
+                    <DateInput type='date' onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, date : (evt.target.value)})}
+                               value={editInfo.date} required/>
+                </DateGroup>
+                <PriorityGroup>
+                    <Label>Priority:</Label>
+                    <PriorityButtons>
+                        <PriorityButton>
+                            <Label>Low</Label>
+                            <PriorityInput type="radio" value="low" checked={editInfo.priority === "low"}
+                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
+                        </PriorityButton>
+                        <PriorityButton>
+                            <Label>Medium</Label>
+                            <PriorityInput type="radio" value="medium" checked={editInfo.priority === "medium"}
+                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
+                        </PriorityButton>
+                        <PriorityButton>
+                            <Label>High</Label>
+                            <PriorityInput type="radio" value="high" checked={editInfo.priority === "high"}
+                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
+                        </PriorityButton>
+                    </PriorityButtons>
+                </PriorityGroup>
+                </TopBar>
+                <BottomBar>
+                    <DescriptionGroup>
+                        <Label>Description:</Label>
+                        <Description onChange={(evt : React.ChangeEvent<HTMLTextAreaElement>) => setEditInfo({...editInfo, description : (evt.target.value)})}
+                                     value={editInfo.description} required/>
+                    </DescriptionGroup>
+                </BottomBar>
+                <SubmitButton type="submit">Submit</SubmitButton>
             </InputArea>
-            <Button type="submit">Submit</Button>
-        </Container> 
+        </Container>
     );
 
 }
