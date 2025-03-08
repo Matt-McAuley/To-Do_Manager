@@ -99,14 +99,7 @@ const ProjectSelect = () => {
                             },
                             todo: null,
                             });
-                        setEditInfo({...editInfo, projectTitle : project.title, projectTodos: project.todos});
-                        const index = projects.indexOf(project);
-                        const proj_to_delete = projects.filter((_, i) => i == index)[0];
-                        fetch(`${backendURL}/api/projects/${proj_to_delete.id}/`, {
-                            method: "DELETE",
-                            credentials: "include",
-                        });
-                        setProjects(projects.filter((_, i) => i != index));
+                        setEditInfo({...editInfo, projectTitle : project.title, projectId: project.id, projectTodos: project.todos});
                         setPopupID(1);
                     }}/>
                     <Image src={DeleteIcon} onClick={() => {

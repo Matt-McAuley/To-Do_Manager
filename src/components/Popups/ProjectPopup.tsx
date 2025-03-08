@@ -86,18 +86,18 @@ const SubmitButton = styled.button`
 
 const ProjectPopup = () => {
 
-    const { editInfo, setEditInfo, setPopupID, addNewProject } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, setPopupID, addNewProject} = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
-            evt.preventDefault;
-            addNewProject(editInfo.projectTitle, editInfo.projectTodos);
-            setEditInfo({...editInfo, projectTitle : "", projectTodos: [],});
+            evt.preventDefault();
+            addNewProject(editInfo.projectTitle, editInfo.projectTodos, editInfo.projectId);
+            setEditInfo({...editInfo, projectTitle : "", projectId: -1, projectTodos: [],});
             setPopupID(-1);
             }}>
             <ExitButton onClick={() => {
                 setPopupID(-1);
-                setEditInfo({...editInfo, projectTitle : "", projectTodos: [],});
+                setEditInfo({...editInfo, projectTitle : "", projectId: -1, projectTodos: [],});
             }}>X</ExitButton>
             <Header>Add New Project</Header>
             <InputArea>

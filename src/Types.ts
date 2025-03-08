@@ -19,8 +19,10 @@ type edits = {
 
 type editInfo = {
     projectTitle: string;
+    projectId: number;
     projectTodos: Todo[];
     todoTitle: string;
+    todoId: number;
     description: string;
     date: string;
     priority: string;

@@ -64,8 +64,10 @@ function App() {
   const [currentProject, setCurrentProject] = useState<Project>(projects[0]);
   const [editInfo, setEditInfo] = useState<editInfo>({
     projectTitle: "",
+    projectId: -1,
     projectTodos: [],
     todoTitle: "",
+    todoId: -1,
     description: "",
     date: "",
     priority: ""
@@ -153,37 +155,38 @@ function App() {
       })
   });
 
-  const addNewProject = ((title:string, todos: Todo[] = []) => {
-    for (let i = 0; i < projects.length; i++) {
-      if (projects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
-        if (recentEdits.project != null) {
-          const project = recentEdits.project;
-          addNewProject(project.title, project.todos);
-          recentEdits.project = null;
-        }
+  const addNewProject = ((title:string, todos: Todo[] = [], previousID: number | undefined = undefined) => {
+    const filteredProjects = (previousID == undefined) ? projects : projects.filter((project) => project.id !== previousID);
+    for (let i = 0; i < filteredProjects.length; i++) {
+      if (filteredProjects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
         notify('Cannot have two projects with the same name!');
         return false;
       }
     }
-    fetch(`${backendURL}/api/projects/`, {
-      method: "POST",
-      body: JSON.stringify({
-        title,
-        todos,
-      }),
+    fetch(`${backendURL}/api/projects/${previousID}/`, {
+      method: "DELETE",
+      credentials: "include",
+    }).then(() => {
+      fetch(`${backendURL}/api/projects/`, {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          todos,
+        }),
         credentials: "include",
       })
-      .then(response => response.json())
-      .then(data => {
-        const new_project : Project = {
-          id: data.id,
-          title,
-          todos: data.todos,
-        };
-        setProjects([...projects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
-        setCurrentProject(new_project);
-        recentEdits.project = null;
-      })
+          .then(response => response.json())
+          .then(data => {
+            const new_project: Project = {
+              id: data.id,
+              title,
+              todos: data.todos,
+            };
+            setProjects([...filteredProjects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+            setCurrentProject(new_project);
+            recentEdits.project = null;
+          })
+    });
   });
 
   const logout = () => {
