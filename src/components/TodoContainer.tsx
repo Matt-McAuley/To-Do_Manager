@@ -8,10 +8,10 @@ import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import {backendURL} from "../constants.ts";
 
 const Image = styled.img`
-    width: 30px;
+    width: 40px;
     cursor: pointer;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
     &:hover {
         background-color: #54ACDA;
     }
