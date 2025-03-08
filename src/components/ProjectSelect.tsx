@@ -60,6 +60,16 @@ const ProjectSelect = () => {
 
     return (
         <Container>
+            <Proj>
+                <Button style={(currentProject.id === -1) ? {backgroundColor : '#54ACDA'} : {}}
+                        onClick={() => {
+                    setCurrentProject({
+                        id: -1,
+                        title: "View All To-Dos",
+                        todos: projects.map(project => project.todos).flat(),
+                    });
+                }}>View All To-Dos</Button>
+            </Proj>
             {projects.map((project, index) => (
                 <Proj key={index}>
                     <Button style={(project.id === currentProject.id) ? {backgroundColor : '#54ACDA'} : {}}

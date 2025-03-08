@@ -77,53 +77,57 @@ const TodoContainer = (props: Props) => {
                     })
                     setPopupID(2);
                 }}/>
-                <Image src={EditIcon} onClick={() => {
-                    setRecentEdits({
-                        project: null,
-                        todo: {
-                          id: todo.id,
-                          title: todo.title,
-                          description: todo.description,
-                          due_date: todo.due_date,
-                          priority: todo.priority,
-                        },
-                      });
-                    setEditInfo({
-                        ...editInfo,
-                        todoTitle : todo.title,
-                        description : todo.description,
-                        date : format(todo.due_date, 'yyyy-MM-dd'),
-                        priority : todo.priority
-                    })
-                    fetch(`${backendURL}/api/todo/${todo.id}/`, {
-                        method: "DELETE",
-                        credentials: "include",
-                    });
-                    const new_project : Project = {
-                        id: currentProject.id,
-                        title: currentProject.title,
-                        todos: currentProject.todos.filter((ele) => ele.title != todo.title),
-                    };
-                    const new_projects = projects.filter((proj) => proj.title != currentProject.title);
-                    setProjects([...new_projects, new_project]);
-                    setCurrentProject(new_project);
-                    setPopupID(0);
-                }}/>
-                <Image src={DeleteIcon} onClick={() => {
-                    fetch(`${backendURL}/api/todo/${todo.id}/`, {
-                        method: "DELETE",
-                        credentials: "include",
-                    });
-                    const new_project : Project = {
-                        id: currentProject.id,
-                        title: currentProject.title,
-                        todos: currentProject.todos.filter((ele) => ele.title != todo.title),
-                    };
-                    const new_projects = projects.filter((proj) => proj.title != currentProject.title);
-                    setProjects([...new_projects, new_project]);
-                    setCurrentProject(new_project);
-                }}/>
-            </Icons> 
+                {(currentProject.id === -1) ? null : (
+                    <>
+                    <Image src={EditIcon} onClick={() => {
+                        setRecentEdits({
+                            project: null,
+                            todo: {
+                              id: todo.id,
+                              title: todo.title,
+                              description: todo.description,
+                              due_date: todo.due_date,
+                              priority: todo.priority,
+                            },
+                          });
+                        setEditInfo({
+                            ...editInfo,
+                            todoTitle : todo.title,
+                            description : todo.description,
+                            date : format(todo.due_date, 'yyyy-MM-dd'),
+                            priority : todo.priority
+                        })
+                        fetch(`${backendURL}/api/todo/${todo.id}/`, {
+                            method: "DELETE",
+                            credentials: "include",
+                        });
+                        const new_project : Project = {
+                            id: currentProject.id,
+                            title: currentProject.title,
+                            todos: currentProject.todos.filter((ele) => ele.title != todo.title),
+                        };
+                        const new_projects = projects.filter((proj) => proj.title != currentProject.title);
+                        setProjects([...new_projects, new_project]);
+                        setCurrentProject(new_project);
+                        setPopupID(0);
+                    }}/>
+                    <Image src={DeleteIcon} onClick={() => {
+                        fetch(`${backendURL}/api/todo/${todo.id}/`, {
+                            method: "DELETE",
+                            credentials: "include",
+                        });
+                        const new_project : Project = {
+                            id: currentProject.id,
+                            title: currentProject.title,
+                            todos: currentProject.todos.filter((ele) => ele.title != todo.title),
+                        };
+                        const new_projects = projects.filter((proj) => proj.title != currentProject.title);
+                        setProjects([...new_projects, new_project]);
+                        setCurrentProject(new_project);
+                    }}/>
+                    </>
+                )}
+            </Icons>
         </Container>
     );
 }
