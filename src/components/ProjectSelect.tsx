@@ -56,13 +56,14 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, setPopupID, setRecentEdits, notify } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, currentProject, setPopupID, setRecentEdits, notify } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             {projects.map((project, index) => (
                 <Proj key={index}>
-                    <Button onClick={() => {
+                    <Button style={(project.id === currentProject.id) ? {backgroundColor : '#54ACDA'} : {}}
+                            onClick={() => {
                             setCurrentProject({
                                 id: project.id,
                                 title: project.title,

@@ -19,16 +19,6 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 
-const Header = styled.h2`
-    font-size: 45px;
-    padding: 0;
-    margin: 0;
-    height: 12%;
-    width: 100%;
-    text-align: center;
-    background-color: #94a0d0;
-`
-
 const LoadingContainer = styled.div`
     background-color: #C1C8E4;
     display:flex;
@@ -99,9 +89,6 @@ const ProjectDisplay = (props : PropTypes) => {
     )
     : (
         <Container>
-            <Header>Project:
-            {" " + currentProject.title}
-            </Header>
             {currentProject.todos.map((todo: Todo, index: number) => (
                 <TodoContainer key={index} todo={todo}/>
             ))}
