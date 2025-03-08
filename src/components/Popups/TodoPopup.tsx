@@ -44,6 +44,7 @@ const InputArea = styled.div`
     justify-content: space-around;
     align-items: center;
 `
+
 const Label = styled.label`
     font-family: "DM Sans";
     font-size: 18px;

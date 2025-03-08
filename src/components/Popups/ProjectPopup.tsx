@@ -3,37 +3,85 @@ import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
 
 const Container = styled.form`
-    width: 35%;
-    height: 20%;
+    width: 40%;
+    height: 35%;
     position: absolute;
     background-color:white;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 8px;
-    border: 2px solid black;
-    display: grid;
-    grid-template-rows: 50% 50%;
-    grid-template-columns: 100%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     font-family: "DM Sans";
+    padding: 20px;
 `;
 
-const Title = styled.input`
-  grid-row: 1/2;
-  font-family: "DM Sans";
-  grid-column: 1/2;
-  font-size: 22px;
-  padding: 10px;
+const InputArea = styled.div`
+    display: flex;
+    height: 90%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 `
 
-const Button = styled.button`
-  grid-row: 2/3;
-  grid-column: 1/2;
-  font-family: "DM Sans";
-  font-size: 30px;
-  font-weight: bold;
-  background-color: lightgray;
-  cursor: pointer;
+const Label = styled.label`
+    font-family: "DM Sans";
+    font-size: 25px;
+    padding-bottom: 5px;
+`
+
+const Title = styled.input`
+    font-family: "DM Sans";
+    font-size: 25px;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
+`
+
+const TitleGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 60%;
+    height: 20%;
+`
+
+const ExitButton = styled.button`
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+    background-color: #ca5757;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: none;
+    &:hover {
+        background-color: #9a4242;
+    }
+    float: right;
+`
+
+const Header = styled.div`
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+`
+
+const SubmitButton = styled.button`
+    font-family: "DM Sans";
+    font-size: 25px;
+    font-weight: bold;
+    padding: 15px;
+    width: 85%;
+    background-color: lightgray;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border: 1px solid black;
+    &:hover {
+        background-color: #b3b3b3;
+    }
 `
 
 const ProjectPopup = () => {
@@ -47,9 +95,19 @@ const ProjectPopup = () => {
             setEditInfo({...editInfo, projectTitle : "", projectTodos: [],});
             setPopupID(-1);
             }}>
-            <Title id="outlined-basic" placeholder='Title' 
-            onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
-            <Button type="submit">Submit</Button>
+            <ExitButton onClick={() => {
+                setPopupID(-1);
+                setEditInfo({...editInfo, projectTitle : "", projectTodos: [],});
+            }}>X</ExitButton>
+            <Header>Add New Project</Header>
+            <InputArea>
+                <TitleGroup>
+                    <Label>Title:</Label>
+                    <Title id="outlined-basic"
+                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
+                </TitleGroup>
+                <SubmitButton type="submit">Submit</SubmitButton>
+            </InputArea>
         </Container>
     );
 
