@@ -100,7 +100,7 @@ function App() {
       })
       .then(data => {
         let new_projects : Project[] = [];
-        data.projects.sort((a : Project, b : Project) => a.title.charCodeAt(0) - b.title.charCodeAt(0));
+        data.projects.sort((a: Project, b: Project) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
         data.projects.forEach((project : Project) => {
           project.todos.sort((a, b) => a.due_date - b.due_date);
           new_projects = ([...new_projects, project]);
@@ -147,7 +147,7 @@ function App() {
           }].sort((a, b) => a.due_date - b.due_date),
         };
         const new_projects = projects.filter((project) => project.title != currentProject.title);
-        setProjects([...new_projects, new_project]);
+        setProjects([...new_projects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
         setCurrentProject(new_project);
         recentEdits.todo = null;
       })
@@ -180,7 +180,7 @@ function App() {
           title,
           todos: data.todos,
         };
-        setProjects([...projects, new_project].sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)));
+        setProjects([...projects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
         setCurrentProject(new_project);
         recentEdits.project = null;
       })

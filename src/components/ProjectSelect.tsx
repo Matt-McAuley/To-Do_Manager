@@ -68,7 +68,7 @@ const ProjectSelect = () => {
                     setCurrentProject({
                         id: -1,
                         title: "View All",
-                        todos: projects.map(project => project.todos).flat(),
+                        todos: projects.map(project => project.todos).flat().sort((a, b) => a.due_date - b.due_date),
                     });
                 }}>View All</Button>
             </Proj>
