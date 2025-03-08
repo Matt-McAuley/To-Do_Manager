@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import {Link, useNavigate} from "react-router";
 import {useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
+import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
     display: flex;
@@ -84,7 +85,7 @@ export default function Login() {
             error("Please fill out all fields");
             return;
         }
-        fetch('/api/login/', {
+        fetch(`${backendURL}/api/login/`, {
             body: JSON.stringify({
                 email: email,
                 password: password,

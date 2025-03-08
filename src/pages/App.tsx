@@ -8,6 +8,7 @@ import PopupArea from '../components/PopupArea.tsx';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router';
+import { backendURL } from '../constants.ts';
 
 const Container = styled.div`
   padding: 0;
@@ -92,7 +93,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('/api/projects/', {
+    fetch(`${backendURL}/api/projects/`, {
       method: "GET",
       credentials: "include",
       })
@@ -128,7 +129,7 @@ function App() {
         return false;
       }
     }
-    fetch(`/api/projects/${currentProject.id}/todo`, {
+    fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
       method: "POST",
       body: JSON.stringify({
             title,
@@ -170,7 +171,7 @@ function App() {
         return false;
       }
     }
-    fetch(`/api/projects/`, {
+    fetch(`${backendURL}/api/projects/`, {
       method: "POST",
       body: JSON.stringify({
         title,
@@ -192,7 +193,7 @@ function App() {
   });
 
   const logout = () => {
-    fetch('/api/logout/', {
+    fetch(`${backendURL}/api/logout/`, {
       method: "POST",
       credentials: "include",
     })

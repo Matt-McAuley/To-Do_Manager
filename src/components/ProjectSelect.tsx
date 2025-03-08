@@ -3,6 +3,7 @@ import DeleteIcon from "../assets/delete.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import { useContext } from 'react'
+import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
   display:flex;
@@ -86,7 +87,7 @@ const ProjectSelect = () => {
                         setEditInfo({...editInfo, projectTitle : project.title, projectTodos: project.todos});
                         const index = projects.indexOf(project);
                         const proj_to_delete = projects.filter((_, i) => i == index)[0];
-                        fetch(`/api/projects/${proj_to_delete.id}/`, {
+                        fetch(`${backendURL}/api/projects/${proj_to_delete.id}/`, {
                             method: "DELETE",
                             credentials: "include",
                         });
@@ -97,7 +98,7 @@ const ProjectSelect = () => {
                         if (projects.length > 1) {
                             const index = projects.indexOf(project);
                             const proj_to_delete = projects.filter((_, i) => i == index)[0];
-                            fetch(`/api/projects/${proj_to_delete.id}/`, {
+                            fetch(`${backendURL}/api/projects/${proj_to_delete.id}/`, {
                                 method: "DELETE",
                                 credentials: "include",
                             });

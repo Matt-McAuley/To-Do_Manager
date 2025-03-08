@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import {useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router";
+import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
     display: flex;
@@ -105,7 +106,7 @@ export default function Signup() {
             error("Please fill out all fields");
             return;
         }
-        fetch('/api/user/', {
+        fetch(`${backendURL}/api/user/`, {
             method: 'POST',
             body: JSON.stringify({email, password}),
             credentials: 'include',

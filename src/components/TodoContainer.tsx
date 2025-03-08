@@ -6,6 +6,7 @@ import EditIcon from "../assets/note-edit.svg"
 import { useContext } from "react"
 import { format } from 'date-fns'
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
+import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
     display:flex;
@@ -94,7 +95,7 @@ const TodoContainer = (props: Props) => {
                         date : format(todo.due_date, 'yyyy-MM-dd'),
                         priority : todo.priority
                     })
-                    fetch(`/api/todo/${todo.id}/`, {
+                    fetch(`${backendURL}/api/todo/${todo.id}/`, {
                         method: "DELETE",
                         credentials: "include",
                     });
@@ -109,7 +110,7 @@ const TodoContainer = (props: Props) => {
                     setPopupID(0);
                 }}/>
                 <Image src={DeleteIcon} onClick={() => {
-                    fetch(`/api/todo/${todo.id}/`, {
+                    fetch(`${backendURL}/api/todo/${todo.id}/`, {
                         method: "DELETE",
                         credentials: "include",
                     });
