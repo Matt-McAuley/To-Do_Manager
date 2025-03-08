@@ -62,11 +62,14 @@ const TodoContainer = (props: Props) => {
     const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
 
     return (
-        <Container>
+        <Container style={(todo.priority === 'low') ? {backgroundColor: 'lightgreen'} : (todo.priority === 'medium') ? {backgroundColor : 'yellow'} : {backgroundColor : 'orangered'}}>
             <Title>{todo.title}</Title>
-            <Item>Due Date:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
-            <Item>Priority:{" " + todo.priority}</Item>
-            <Icons>  
+            <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Item>Due Date:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
+                {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) < Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
+                {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) === Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
+            </div>
+            <Icons>
                 <Image src={ExpandIcon} onClick={() => {
                     setEditInfo({
                         ...editInfo,
