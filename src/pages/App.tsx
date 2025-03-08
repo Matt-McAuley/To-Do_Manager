@@ -20,7 +20,7 @@ const Container = styled.div`
   grid-template-columns: 15% 85%;
   text-align: center;
   overflow: hidden;
-  font-family: "DM Sans";
+  font-family: "DM Sans", serif;
 `;
 const Header = styled.header`
   grid-column: 2 / 3;

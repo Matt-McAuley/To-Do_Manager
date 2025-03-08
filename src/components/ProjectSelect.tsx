@@ -31,7 +31,7 @@ const Image = styled.img`
 `
 
 const Button = styled.button`
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     border: none;
     background-color: #5AB9EA;
     cursor: pointer;

@@ -11,7 +11,7 @@ const Container = styled.form`
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     padding: 20px;
 `;
 
@@ -24,13 +24,13 @@ const InputArea = styled.div`
 `
 
 const Label = styled.label`
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     font-size: 25px;
     padding-bottom: 5px;
 `
 
 const Title = styled.input`
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     font-size: 25px;
     padding: 5px;
     width: 100%;
@@ -70,7 +70,7 @@ const Header = styled.div`
 `
 
 const SubmitButton = styled.button`
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     font-size: 25px;
     font-weight: bold;
     padding: 15px;

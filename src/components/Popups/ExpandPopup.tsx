@@ -11,7 +11,7 @@ const Container = styled.form`
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
     padding: 20px;
 `;
 

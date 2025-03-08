@@ -11,7 +11,7 @@ const Container = styled.div`
     justify-content: center;
     height: 100vh;
     background-color: #C1C8E4;
-    font-family: "DM Sans";
+    font-family: "DM Sans", serif;
 `;
 
 const LogIn = styled.div`

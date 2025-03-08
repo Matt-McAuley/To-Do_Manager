@@ -4,7 +4,7 @@ import ProjectSelect from '../components/ProjectSelect'
 import {TodoListContext, TodoListContextType} from '../TodoListContext';
 
 const Container = styled.div`
-  font-family: "DM Sans";
+  font-family: "DM Sans", serif;
   grid-column: 1 \ 2;
   grid-row: 1 / 3;
   background-color: #5680E9;

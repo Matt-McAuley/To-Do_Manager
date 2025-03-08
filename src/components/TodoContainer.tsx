@@ -1,7 +1,6 @@
 import { Todo, Project } from "../Types"
 import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
-import ExpandIcon from "../assets/dots-horizontal.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { useContext } from "react"
 import { format } from 'date-fns'
