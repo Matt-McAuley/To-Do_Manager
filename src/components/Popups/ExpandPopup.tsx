@@ -31,16 +31,25 @@ const ExitButton = styled.button`
 `
 
 const Description = styled.div`
+    border: 1px solid black;
     font-size: 20px;
     overflow: auto;
     padding: 10px;
     height: 85%;
+    overflow-wrap: break-word;
 `
 
 const Title = styled.label`
     font-size: 40px;
     font-weight: bold;
     padding: 10px;
+`
+
+const Date = styled.label`
+    font-size: 40px;
+    font-weight: bold;
+    padding: 10px;
+    margin-right: 30px;
 `
 
 const ExpandPopup = () => {
@@ -53,7 +62,9 @@ const ExpandPopup = () => {
                 setPopupID(-1);
                 setEditInfo({
                     todoTitle: "",
+                    todoId: -1,
                     projectTitle: "",
+                    projectId: -1,
                     projectTodos: [],
                     date: "",
                     priority: "",
@@ -61,7 +72,10 @@ const ExpandPopup = () => {
                 })
                 }}>X</ExitButton>
             <div style={{padding: '10px', paddingBottom: '20px', height: '95%', display: 'flex', flexDirection: "column", justifyContent: 'space-between'}}>
-                <Title>{editInfo.todoTitle}</Title>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Title>{editInfo.todoTitle}</Title>
+                    <Date>{editInfo.date}</Date>
+                </div>
                 <Description>{editInfo.description}</Description>
             </div>
         </Container> 
