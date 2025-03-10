@@ -100,6 +100,7 @@ function App() {
         let new_projects : Project[] = [];
         data.projects.sort((a: Project, b: Project) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
         data.projects.forEach((project : Project) => {
+          project.todos.map(todo => todo.projectTitle = project.title);
           project.todos.sort((a, b) => a.due_date - b.due_date);
           new_projects = ([...new_projects, project]);
         });
@@ -146,6 +147,7 @@ function App() {
                 description,
                 due_date: due_date,
                 priority,
+                projectTitle: currentProject.title,
               }].sort((a, b) => a.due_date - b.due_date),
             };
             setProjects([...projects.filter((proj) => proj.id != currentProject.id), new_project]

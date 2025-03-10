@@ -38,6 +38,15 @@ const Icons = styled.div`
     width: 21%;
 `
 
+const ProjectTitle = styled.div`
+    font-size: 20px;
+    font-weight: 700;
+    padding-right: 10px;
+    padding-left: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
+
 type Props = {
     todo: Todo;
 }
@@ -83,9 +92,9 @@ const TodoContainer = (props: Props) => {
             <Icons>
                 {(currentProject.id === -1)
                     ? (
-                    <div>
-                        Project Name
-                    </div>
+                    <ProjectTitle>
+                        {todo.projectTitle}
+                    </ProjectTitle>
                     )
                     : (
                     <>

@@ -4,6 +4,7 @@ type Todo = {
     description: string;
     due_date: number;
     priority: string;
+    projectTitle: string;
 }
 
 type Project = {
