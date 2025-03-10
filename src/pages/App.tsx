@@ -144,7 +144,7 @@ function App() {
                 id: data.id,
                 title,
                 description,
-                due_date: due_date + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
+                due_date: due_date,
                 priority,
               }].sort((a, b) => a.due_date - b.due_date),
             };

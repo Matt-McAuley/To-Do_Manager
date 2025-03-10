@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
+import moment from "moment";
 
 const Container = styled.form`
   width: 50%;
@@ -168,7 +169,7 @@ const TodoPopup = () => {
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault;
-            addNewTodo(editInfo.todoTitle, editInfo.description, (new Date(editInfo.date)).valueOf(), editInfo.priority, editInfo.todoId);
+            addNewTodo(editInfo.todoTitle, editInfo.description, moment(editInfo.date).valueOf(), editInfo.priority, editInfo.todoId);
             setEditInfo({
                 ...editInfo,
                 todoTitle : "",

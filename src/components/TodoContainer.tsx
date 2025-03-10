@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import DeleteIcon from "../assets/delete.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { useContext } from "react"
-import { format } from 'date-fns'
+import moment from 'moment'
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import {backendURL} from "../constants.ts";
 
@@ -69,16 +69,16 @@ const TodoContainer = (props: Props) => {
                            ...editInfo,
                            todoTitle : todo.title,
                            description : todo.description,
-                           date : format(todo.due_date, 'MM/dd/yyyy'),
+                           date : moment(todo.due_date).format('MM/DD/YYYY'),
                            priority : todo.priority
                        })
                        setPopupID(2);
                    }}>
             <Title>{todo.title}</Title>
             <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <Item>Due On:{" " + format(todo.due_date, 'MM/dd/yyyy')}</Item>
-                {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) < Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
-                {Math.floor(todo.due_date / (24 * 60 * 60 * 1000)) === Math.floor(Date.now() / (24 * 60 * 60 * 1000)) ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
+                <Item>Due On:{" " + moment(todo.due_date).format('MM/DD/YYYY')}</Item>
+                {moment(todo.due_date).dayOfYear() < moment().dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
+                {moment().dayOfYear() === moment(todo.due_date).dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>
             <Icons>
                 {(currentProject.id === -1) ? null : (
@@ -90,7 +90,7 @@ const TodoContainer = (props: Props) => {
                             todoTitle : todo.title,
                             todoId : todo.id,
                             description : todo.description,
-                            date : format(todo.due_date, 'yyyy-MM-dd'),
+                            date : moment(todo.due_date).format('YYYY-MM-DD'),
                             priority : todo.priority
                         });
                         setPopupID(0);
