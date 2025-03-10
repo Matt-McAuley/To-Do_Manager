@@ -31,6 +31,7 @@ const Title = styled.div`
     font-weight: 700;
     font-size: 25px;
     overflow: hidden;
+    text-overflow: ellipsis;
 `
 
 const Icons = styled.div`

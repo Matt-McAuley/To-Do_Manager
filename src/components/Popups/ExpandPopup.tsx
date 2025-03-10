@@ -43,6 +43,8 @@ const Title = styled.label`
     font-size: 40px;
     font-weight: bold;
     padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `
 
 const Date = styled.label`
