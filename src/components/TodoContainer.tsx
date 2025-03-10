@@ -81,7 +81,13 @@ const TodoContainer = (props: Props) => {
                 {moment().dayOfYear() === moment(todo.due_date).dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>
             <Icons>
-                {(currentProject.id === -1) ? null : (
+                {(currentProject.id === -1)
+                    ? (
+                    <div>
+                        Project Name
+                    </div>
+                    )
+                    : (
                     <>
                     <Image src={EditIcon} onClick={(e) => {
                         e.stopPropagation();
