@@ -116,7 +116,7 @@ const PriorityGroup = styled.div`
 `
 
 const DateInput = styled.input`
-    font-family: "DM Sans, serif";
+    font-family: "DM Sans", serif;
     font-size: 15px;
     padding: 5px;
     width: 80%;

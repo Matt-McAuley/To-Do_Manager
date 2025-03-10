@@ -52,7 +52,6 @@ const Proj = styled.div`
     height: 10%;
     display: flex;
     background-color: #5AB9EA;
-    display: flex;
     justify-content: end;
     overflow: hidden;
     flex-shrink: 0;
@@ -60,7 +59,7 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, currentProject, setPopupID, setRecentEdits, notify } = useContext(TodoListContext) as TodoListContextType;
+    const { editInfo, setEditInfo, projects, setProjects, setCurrentProject, currentProject, setPopupID, notify } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -91,14 +90,6 @@ const ProjectSelect = () => {
                             title: project.title,
                             todos: project.todos,
                         });
-                        setRecentEdits({
-                            project: {
-                              id: project.id,
-                              title: project.title,
-                              todos: project.todos,
-                            },
-                            todo: null,
-                            });
                         setEditInfo({...editInfo, projectTitle : project.title, projectId: project.id, projectTodos: project.todos});
                         setPopupID(1);
                     }}/>

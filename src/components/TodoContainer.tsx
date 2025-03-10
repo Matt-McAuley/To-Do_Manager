@@ -43,7 +43,7 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID, setRecentEdits } = useContext(TodoListContext) as TodoListContextType;
+    const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID } = useContext(TodoListContext) as TodoListContextType;
 
     const Container = styled.div`
     display:flex;
@@ -84,16 +84,6 @@ const TodoContainer = (props: Props) => {
                     <>
                     <Image src={EditIcon} onClick={(e) => {
                         e.stopPropagation();
-                        setRecentEdits({
-                            project: null,
-                            todo: {
-                              id: todo.id,
-                              title: todo.title,
-                              description: todo.description,
-                              due_date: todo.due_date,
-                              priority: todo.priority,
-                            },
-                          });
                         setEditInfo({
                             ...editInfo,
                             todoTitle : todo.title,
