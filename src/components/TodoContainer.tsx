@@ -97,22 +97,11 @@ const TodoContainer = (props: Props) => {
                         setEditInfo({
                             ...editInfo,
                             todoTitle : todo.title,
+                            todoId : todo.id,
                             description : todo.description,
                             date : format(todo.due_date, 'yyyy-MM-dd'),
                             priority : todo.priority
-                        })
-                        fetch(`${backendURL}/api/todo/${todo.id}/`, {
-                            method: "DELETE",
-                            credentials: "include",
                         });
-                        const new_project : Project = {
-                            id: currentProject.id,
-                            title: currentProject.title,
-                            todos: currentProject.todos.filter((ele) => ele.title != todo.title),
-                        };
-                        const new_projects = projects.filter((proj) => proj.title != currentProject.title);
-                        setProjects([...new_projects, new_project]);
-                        setCurrentProject(new_project);
                         setPopupID(0);
                     }}/>
                     <Image src={DeleteIcon} onClick={(e) => {

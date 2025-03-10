@@ -91,7 +91,7 @@ const ProjectPopup = () => {
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault();
-            addNewProject(editInfo.projectTitle, editInfo.projectTodos, editInfo.projectId);
+            addNewProject(editInfo.projectTitle, editInfo.projectId, editInfo.projectTodos);
             setEditInfo({...editInfo, projectTitle : "", projectId: -1, projectTodos: [],});
             setPopupID(-1);
             }}>

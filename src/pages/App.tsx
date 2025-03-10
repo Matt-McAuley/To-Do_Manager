@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useState, useEffect } from 'react';
-import { Todo, Project, editInfo, edits } from '../Types.ts';
+import { Todo, Project, editInfo } from '../Types.ts';
 import ProjectDisplay from '../components/ProjectDisplay.tsx'
 import Sidebar from '../components/Sidebar.tsx';
 import { TodoListContext } from '../TodoListContext.ts';
@@ -73,10 +73,6 @@ function App() {
     priority: ""
   });
   const [popupID, setPopupID] = useState(-1);
-  const [recentEdits, setRecentEdits] = useState<edits>({
-    project: null,
-    todo: null,
-  });
   const navigate = useNavigate();
 
   const notify = (text: string) => {
@@ -113,50 +109,54 @@ function App() {
       });
   }, [])
 
-  const addNewTodo = ((title:string, description:string, due_date:number, priority:string) => {
-    for (let i = 0; i < currentProject.todos.length; i++) {
-      if (currentProject.todos[i].title == title) {
-        if (recentEdits.todo != null) {
-          const todo = recentEdits.todo;
-          addNewTodo(todo.title, todo.description, todo.due_date, todo.priority);
-          recentEdits.todo = null;
-        }
+  const addNewTodo = ((title:string, description:string, due_date:number, priority:string, previousID: number) => {
+    const filtered_project : Project = {
+        id: currentProject.id,
+        title: currentProject.title,
+        todos: currentProject.todos.filter((ele) => ele.id != previousID),
+    }
+    for (let i = 0; i < filtered_project.todos.length; i++) {
+      if (filtered_project.todos[i].title == title) {
         notify('Cannot have two todos with the same name in one project!');
         return false;
       }
     }
-    fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
-      method: "POST",
-      body: JSON.stringify({
-            title,
-            description,
-            due_date,
-            priority,
-            }),
+    fetch(`${backendURL}/api/todo/${previousID}/`, {
+      method: "DELETE",
       credentials: "include",
+    }).then(() => {
+      fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          description,
+          due_date,
+          priority,
+        }),
+        credentials: "include",
       })
-      .then(response => response.json())
-      .then(data => {
-        const new_project : Project = {
-          id: currentProject.id,
-          title: currentProject.title,
-          todos: [...currentProject.todos, {
-            id: data.id,
-            title,
-            description,
-            due_date: due_date + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
-            priority,
-          }].sort((a, b) => a.due_date - b.due_date),
-        };
-        const new_projects = projects.filter((project) => project.title != currentProject.title);
-        setProjects([...new_projects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
-        setCurrentProject(new_project);
-        recentEdits.todo = null;
-      })
+          .then(response => response.json())
+          .then(data => {
+            const new_project: Project = {
+              id: currentProject.id,
+              title: currentProject.title,
+              todos: [...filtered_project.todos, {
+                id: data.id,
+                title,
+                description,
+                due_date: due_date + (new Date("1/1/2024")).getTimezoneOffset() * 60 * 1000,
+                priority,
+              }].sort((a, b) => a.due_date - b.due_date),
+            };
+            setProjects([...projects.filter((proj) => proj.id != currentProject.id), new_project]
+                .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+            setCurrentProject(new_project);
+          })
+    });
   });
 
-  const addNewProject = ((title:string, todos: Todo[] = [], previousID: number | undefined = undefined) => {
-    const filteredProjects = (previousID == undefined) ? projects : projects.filter((project) => project.id !== previousID);
+  const addNewProject = ((title:string,  previousID: number, todos: Todo[] = []) => {
+    const filteredProjects = projects.filter((project) => project.id !== previousID);
     for (let i = 0; i < filteredProjects.length; i++) {
       if (filteredProjects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
         notify('Cannot have two projects with the same name!');
@@ -184,7 +184,6 @@ function App() {
             };
             setProjects([...filteredProjects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
             setCurrentProject(new_project);
-            recentEdits.project = null;
           })
     });
   });
@@ -215,8 +214,6 @@ function App() {
         setPopupID,
         editInfo,
         setEditInfo,
-        recentEdits,
-        setRecentEdits,
         notify,
       }}
     >

@@ -168,11 +168,11 @@ const TodoPopup = () => {
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault;
-            
-            addNewTodo(editInfo.todoTitle, editInfo.description, (new Date(editInfo.date)).valueOf(), editInfo.priority);
+            addNewTodo(editInfo.todoTitle, editInfo.description, (new Date(editInfo.date)).valueOf(), editInfo.priority, editInfo.todoId);
             setEditInfo({
                 ...editInfo,
                 todoTitle : "",
+                todoId : -1,
                 description : "",
                 date : "",
                 priority : ""
@@ -184,6 +184,7 @@ const TodoPopup = () => {
                 setEditInfo({
                     ...editInfo,
                     todoTitle : "",
+                    todoId : -1,
                     description : "",
                     date : "",
                     priority : ""

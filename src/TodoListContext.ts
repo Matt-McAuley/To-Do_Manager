@@ -6,8 +6,8 @@ export type TodoListContextType = {
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
-    addNewTodo : (name: string, description: string, date: number, priority: string) => void;
-    addNewProject: (title: string, todos?: Todo[], previousID?: number) => false | undefined;
+    addNewTodo : (name: string, description: string, date: number, priority: string, previousID: number) => void;
+    addNewProject: (title: string, previousID: number, todos?: Todo[]) => false | undefined;
     popupID : number;
     setPopupID: React.Dispatch<React.SetStateAction<number>>;
     editInfo: {
@@ -29,14 +29,6 @@ export type TodoListContextType = {
         description: string;
         date: string;
         priority: string;
-    }>>,
-    recentEdits: {
-        project: null | Project;
-        todo: null | Todo;
-    },
-    setRecentEdits: React.Dispatch<React.SetStateAction<{
-        project: null | Project;
-        todo: null | Todo;
     }>>,
     notify: (text: string) => void,
 }

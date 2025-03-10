@@ -12,11 +12,6 @@ type Project = {
     title: string;
 }
 
-type edits = {
-    project: Project | null;
-    todo: Todo | null;
-  }
-
 type editInfo = {
     projectTitle: string;
     projectId: number;
@@ -28,4 +23,4 @@ type editInfo = {
     priority: string;
 }
 
-export type { Project, Todo, edits, editInfo }
+export type { Project, Todo, editInfo }
