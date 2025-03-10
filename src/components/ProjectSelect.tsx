@@ -95,14 +95,14 @@ const ProjectSelect = () => {
                     }}/>
                     <Image src={DeleteIcon} onClick={() => {
                         if (projects.length > 1) {
-                            const index = projects.indexOf(project);
-                            const proj_to_delete = projects.filter((_, i) => i == index)[0];
+                            const proj_to_delete = projects.find((ele) => ele.id === project.id)!;
                             fetch(`${backendURL}/api/projects/${proj_to_delete.id}/`, {
                                 method: "DELETE",
                                 credentials: "include",
                             });
-                            setProjects(projects.filter((_, i) => i != index));
-                            setCurrentProject(projects[0]);
+                            const new_projects = projects.filter((ele) => ele.id !== project.id);
+                            setProjects(new_projects);
+                            setCurrentProject(new_projects[0]);
                         }
                         else {
                             notify('Must have at least one project!');

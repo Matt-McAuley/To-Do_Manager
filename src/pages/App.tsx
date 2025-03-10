@@ -107,7 +107,7 @@ function App() {
         setCurrentProject(new_projects[0]);
         setLoading(false);
       });
-  }, [])
+  }, [navigate])
 
   const addNewTodo = ((title:string, description:string, due_date:number, priority:string, previousID: number) => {
     const filtered_project : Project = {
