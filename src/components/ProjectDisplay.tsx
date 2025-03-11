@@ -15,7 +15,7 @@ const Container = styled.div`
   flex-direction:column;
   position: relative;
   padding: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const TodoSection = styled.div`
@@ -23,7 +23,7 @@ const TodoSection = styled.div`
     flex-direction:column;
     justify-content:start;
     align-items:center;
-    min-height: 120px;
+    height: 100%;
     border-bottom: 3px solid black;
 `;
 
@@ -105,13 +105,13 @@ const ProjectDisplay = (props : PropTypes) => {
         <Container>
             <TodoSection>
                 <Timeframe>Overdue</Timeframe>
-                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment())).map((todo: Todo, index: number) => (
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().startOf('day'))).map((todo: Todo, index: number) => (
                     <TodoContainer key={index} todo={todo}/>
                 ))}
             </TodoSection>
             <TodoSection>
                 <Timeframe>Today</Timeframe>
-                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day')) && moment(todo.due_date).isAfter(moment())).map((todo: Todo, index: number) => (
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day')) && moment(todo.due_date).isAfter(moment().endOf('day').subtract(1, 'day'))).map((todo: Todo, index: number) => (
                     <TodoContainer key={index} todo={todo}/>
                 ))}
                 </TodoSection>
