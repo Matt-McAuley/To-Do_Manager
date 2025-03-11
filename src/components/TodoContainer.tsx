@@ -63,8 +63,8 @@ const TodoContainer = (props: Props) => {
     margin: 10px;
     padding: 10px;
     border: 2px solid black;
-    width: 78%;
-    height: 10%;
+    width: 85%;
+    height: 80px;
     border-radius: 7px;
     font-size: 22px;
     transition: all ease-in-out 300ms;
