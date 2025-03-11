@@ -1,34 +1,38 @@
 import { createContext } from "react";
-import { Project, Todo } from "./Types";
+import { Project } from "./Types";
 
 export type TodoListContextType = {
     projects : Project[];
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
-    addNewTodo : (name: string, description: string, date: number, priority: string, previousID: number) => void;
-    addNewProject: (title: string, previousID: number, todos?: Todo[]) => false | undefined;
+    addNewTodo : (title: string, description: string, date: number, priority: string) => void;
+    editTodo : (id: number, title: string, description: string, date: number, priority: string) => void;
+    addNewProject: (title: string) => false | undefined;
+    editProject: (id: number, title: string) => void;
     popupID : number;
     setPopupID: React.Dispatch<React.SetStateAction<number>>;
-    editInfo: {
-        projectTitle: string;
-        projectId: number;
-        projectTodos: Todo[];
-        todoTitle: string;
-        todoId: number;
+    editTodoInfo: {
+        id: number;
+        title: string;
         description: string;
         date: string;
         priority: string;
     }
-    setEditInfo: React.Dispatch<React.SetStateAction<{
-        projectTitle: string;
-        projectId: number;
-        projectTodos: Todo[];
-        todoTitle: string;
-        todoId: number;
+    setEditTodoInfo: React.Dispatch<React.SetStateAction<{
+        id: number;
+        title: string;
         description: string;
         date: string;
         priority: string;
+    }>>,
+    editProjectInfo: {
+        id: number;
+        title: string;
+    }
+    setEditProjectInfo: React.Dispatch<React.SetStateAction<{
+        id: number;
+        title: string;
     }>>,
     notify: (text: string) => void,
 }

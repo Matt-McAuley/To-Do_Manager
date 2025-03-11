@@ -23,6 +23,7 @@ const Image = styled.img`
 const Item = styled.div`
     padding-left: 5px;
     padding-right: 5px;
+    font-size: 30px;
 `
 
 const Title = styled.div`
@@ -53,7 +54,7 @@ type Props = {
 
 const TodoContainer = (props: Props) => {
     const todo = props.todo;
-    const { setCurrentProject, projects, setProjects, editInfo, currentProject, setEditInfo, setPopupID } = useContext(TodoListContext) as TodoListContextType;
+    const { setCurrentProject, projects, setProjects, currentProject, setEditTodoInfo, setPopupID } = useContext(TodoListContext) as TodoListContextType;
 
     const Container = styled.div`
     display:flex;
@@ -74,18 +75,18 @@ const TodoContainer = (props: Props) => {
 
     return (
         <Container onClick={() => {
-                       setEditInfo({
-                           ...editInfo,
-                           todoTitle : todo.title,
+                       setEditTodoInfo({
+                           id: todo.id,
+                           title : todo.title,
                            description : todo.description,
                            date : moment(todo.due_date).format('MM/DD/YYYY'),
                            priority : todo.priority
                        })
-                       setPopupID(2);
+                       setPopupID(4);
                    }}>
             <Title>{todo.title}</Title>
             <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <Item>Due On:{" " + moment(todo.due_date).format('MM/DD/YYYY')}</Item>
+                <Item>{moment(todo.due_date).format('MM/DD/YYYY')}</Item>
                 {moment(todo.due_date).dayOfYear() < moment().dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
                 {moment().dayOfYear() === moment(todo.due_date).dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>
@@ -100,15 +101,14 @@ const TodoContainer = (props: Props) => {
                     <>
                     <Image src={EditIcon} onClick={(e) => {
                         e.stopPropagation();
-                        setEditInfo({
-                            ...editInfo,
-                            todoTitle : todo.title,
-                            todoId : todo.id,
+                        setEditTodoInfo({
+                            id: todo.id,
+                            title : todo.title,
                             description : todo.description,
                             date : moment(todo.due_date).format('YYYY-MM-DD'),
                             priority : todo.priority
                         });
-                        setPopupID(0);
+                        setPopupID(1);
                     }}/>
                     <Image src={DeleteIcon} onClick={(e) => {
                         e.stopPropagation();

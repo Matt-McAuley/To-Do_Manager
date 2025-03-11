@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useState, useEffect } from 'react';
-import { Todo, Project, editInfo } from '../Types.ts';
+import {Project, editProjectInfo, editTodoInfo} from '../Types.ts';
 import ProjectDisplay from '../components/ProjectDisplay.tsx'
 import Sidebar from '../components/Sidebar.tsx';
 import { TodoListContext } from '../TodoListContext.ts';
@@ -62,15 +62,16 @@ function App() {
     todos: []
   }]);
   const [currentProject, setCurrentProject] = useState<Project>(projects[0]);
-  const [editInfo, setEditInfo] = useState<editInfo>({
-    projectTitle: "",
-    projectId: -1,
-    projectTodos: [],
-    todoTitle: "",
-    todoId: -1,
+  const [editTodoInfo, setEditTodoInfo] = useState<editTodoInfo>({
+    id: -1,
+    title: "",
     description: "",
     date: "",
-    priority: ""
+    priority: "",
+  });
+  const [editProjectInfo, setEditProjectInfo] = useState<editProjectInfo>({
+    id: -1,
+    title: "",
   });
   const [popupID, setPopupID] = useState(-1);
   const navigate = useNavigate();
@@ -110,85 +111,135 @@ function App() {
       });
   }, [navigate])
 
-  const addNewTodo = ((title:string, description:string, due_date:number, priority:string, previousID: number) => {
-    const filtered_project : Project = {
-        id: currentProject.id,
-        title: currentProject.title,
-        todos: currentProject.todos.filter((ele) => ele.id != previousID),
-    }
-    for (let i = 0; i < filtered_project.todos.length; i++) {
-      if (filtered_project.todos[i].title == title) {
+  const addNewTodo = ((title:string, description:string, due_date:number, priority:string) => {
+    for (let i = 0; i < currentProject.todos.length; i++) {
+      if (currentProject.todos[i].title == title) {
         notify('Cannot have two todos with the same name in one project!');
         return false;
       }
     }
-    fetch(`${backendURL}/api/todo/${previousID}/`, {
-      method: "DELETE",
+    fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        description,
+        due_date,
+        priority,
+      }),
       credentials: "include",
-    }).then(() => {
-      fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
-        method: "POST",
-        body: JSON.stringify({
-          title,
-          description,
-          due_date,
-          priority,
-        }),
-        credentials: "include",
-      })
-          .then(response => response.json())
-          .then(data => {
-            const new_project: Project = {
+    })
+        .then(response => response.json())
+        .then(data => {
+          const new_project: Project = {
+            id: currentProject.id,
+            title: currentProject.title,
+            todos: [...currentProject.todos, {
+              id: data.id,
+              title,
+              description,
+              due_date: due_date,
+              priority,
+              projectTitle: currentProject.title,
+            }].sort((a, b) => a.due_date - b.due_date),
+          };
+          setProjects([...projects.filter((proj) => proj.id != currentProject.id), new_project]
+              .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+          setCurrentProject(new_project);
+        });
+    });
+
+  const editTodo = (id: number, title:string, description:string, due_date:number, priority:string) => {
+      console.log('here');
+      const other_todos = currentProject.todos.filter((ele) => ele.id != id);
+    console.log("other", other_todos);
+    for (let i = 0; i < other_todos.length; i++) {
+      if (other_todos[i].title == title) {
+        notify('Cannot have two todos with the same name in one project!');
+        return false;
+      }
+    }
+    fetch(`${backendURL}/api/todo/${id}/`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        description,
+        due_date,
+        priority,
+      }),
+      credentials: "include",
+    }).then(response => response.json())
+      .then(() => {
+          const updated_project : Project = {
               id: currentProject.id,
               title: currentProject.title,
-              todos: [...filtered_project.todos, {
-                id: data.id,
-                title,
-                description,
-                due_date: due_date,
-                priority,
-                projectTitle: currentProject.title,
+              todos: [...currentProject.todos.filter((ele) => ele.id != id), {
+              id,
+              title,
+              description,
+              due_date,
+              priority,
+              projectTitle: currentProject.title,
               }].sort((a, b) => a.due_date - b.due_date),
-            };
-            setProjects([...projects.filter((proj) => proj.id != currentProject.id), new_project]
-                .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
-            setCurrentProject(new_project);
-          })
-    });
-  });
+          }
+          setProjects([...projects.filter((proj) => proj.id != currentProject.id), updated_project]
+              .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+          setCurrentProject(updated_project);
+      });
+  }
 
-  const addNewProject = ((title:string,  previousID: number, todos: Todo[] = []) => {
-    const filteredProjects = projects.filter((project) => project.id !== previousID);
-    for (let i = 0; i < filteredProjects.length; i++) {
-      if (filteredProjects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
+  const addNewProject = ((title:string) => {
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
         notify('Cannot have two projects with the same name!');
         return false;
       }
     }
-    fetch(`${backendURL}/api/projects/${previousID}/`, {
-      method: "DELETE",
+    fetch(`${backendURL}/api/projects/`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        todos: [],
+      }),
       credentials: "include",
-    }).then(() => {
-      fetch(`${backendURL}/api/projects/`, {
-        method: "POST",
-        body: JSON.stringify({
-          title,
-          todos,
-        }),
-        credentials: "include",
-      })
-          .then(response => response.json())
-          .then(data => {
-            const new_project: Project = {
-              id: data.id,
-              title,
-              todos: data.todos,
-            };
-            setProjects([...filteredProjects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
-            setCurrentProject(new_project);
-          })
-    });
+    })
+        .then(response => response.json())
+        .then(data => {
+          const new_project: Project = {
+            id: data.id,
+            title,
+            todos: data.todos,
+          };
+          setProjects([...projects, new_project].sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+          setCurrentProject(new_project);
+        })
   });
+
+  const editProject = (id: number, title: string) => {
+    const otherProjects = projects.filter((project) => project.id !== id);
+    for (let i = 0; i < otherProjects.length; i++) {
+      if (otherProjects[i].title.toLocaleLowerCase() == title.toLocaleLowerCase()) {
+        notify('Cannot have two projects with the same name!');
+        return false;
+      }
+    }
+    fetch(`${backendURL}/api/projects/${id}/`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        title,
+      }),
+    }).then(response => response.json())
+      .then(() => {
+        const updated_project : Project = {
+          id,
+          title,
+          todos: currentProject.todos,
+          }
+          setProjects([...projects.filter((proj) => proj.id != id), updated_project]
+              .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
+          setCurrentProject(updated_project);
+        });
+  }
 
   const logout = () => {
     fetch(`${backendURL}/api/logout/`, {
@@ -211,11 +262,15 @@ function App() {
         currentProject,
         setCurrentProject,
         addNewTodo,
+        editTodo,
         addNewProject,
+        editProject,
         popupID,
         setPopupID,
-        editInfo,
-        setEditInfo,
+        editTodoInfo,
+        setEditTodoInfo,
+        editProjectInfo,
+        setEditProjectInfo,
         notify,
       }}
     >

@@ -56,18 +56,15 @@ const Date = styled.label`
 
 const ExpandPopup = () => {
 
-    const { setEditInfo, editInfo, setPopupID} = useContext(TodoListContext) as TodoListContextType;
+    const { setEditTodoInfo, editTodoInfo, setPopupID} = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
             <ExitButton onClick={() => {
                 setPopupID(-1);
-                setEditInfo({
-                    todoTitle: "",
-                    todoId: -1,
-                    projectTitle: "",
-                    projectId: -1,
-                    projectTodos: [],
+                setEditTodoInfo({
+                    id: -1,
+                    title: "",
                     date: "",
                     priority: "",
                     description: "",
@@ -75,10 +72,10 @@ const ExpandPopup = () => {
                 }}>X</ExitButton>
             <div style={{padding: '10px', paddingBottom: '20px', height: '95%', display: 'flex', flexDirection: "column", justifyContent: 'space-between'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Title>{editInfo.todoTitle}</Title>
-                    <Date>{editInfo.date}</Date>
+                    <Title>{editTodoInfo.title}</Title>
+                    <Date>{editTodoInfo.date}</Date>
                 </div>
-                <Description>{editInfo.description}</Description>
+                <Description>{editTodoInfo.description}</Description>
             </div>
         </Container> 
     );

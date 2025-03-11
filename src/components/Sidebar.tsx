@@ -55,7 +55,7 @@ const Sidebar = () => {
         >Add To-Do
         </Button>
         <Button
-          onClick={() => {setPopupID(1)}}
+          onClick={() => {setPopupID(2)}}
         >Add Project
         </Button>
       </Buttons>

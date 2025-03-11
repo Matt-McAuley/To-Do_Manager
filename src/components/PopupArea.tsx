@@ -1,9 +1,11 @@
 import styled from '@emotion/styled'
 import { useContext } from 'react';
 import { TodoListContext, TodoListContextType } from '../TodoListContext';
-import TodoPopup from './Popups/TodoPopup';
-import ProjectPopup from './Popups/ProjectPopup';
+import AddTodoPopup from './Popups/AddTodoPopup.tsx';
+import EditProjectPopup from './Popups/EditProjectPopup.tsx';
 import ExpandPopup from './Popups/ExpandPopup';
+import EditTodoPopup from "./Popups/EditTodoPopup.tsx";
+import AddProjectPopup from "./Popups/AddProjectPopup.tsx";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -21,7 +23,7 @@ const Backdrop = styled.div`
 const PopupArea = () => {
 
   const { popupID } = useContext(TodoListContext) as TodoListContextType;
-  const popups = [<TodoPopup/>, <ProjectPopup/>, <ExpandPopup/>];
+  const popups = [<AddTodoPopup/>, <EditTodoPopup/>, <AddProjectPopup/>, <EditProjectPopup/>, <ExpandPopup/>];
 
   return (popupID >= 0) ? (
       <Backdrop>
