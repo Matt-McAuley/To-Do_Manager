@@ -27,7 +27,7 @@ const Item = styled.div`
 `
 
 const Title = styled.div`
-    width: 60%;
+    width: 45%;
     height: 2rem;
     font-weight: 700;
     font-size: 25px;
@@ -86,7 +86,7 @@ const TodoContainer = (props: Props) => {
                    }}>
             <Title>{todo.title}</Title>
             <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <Item>{moment(todo.due_date).format('MM/DD/YYYY')}</Item>
+                <Item>{moment(todo.due_date).format('dddd: MM/DD/YYYY')}</Item>
                 {moment(todo.due_date).dayOfYear() < moment().dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Overdue!</Item> : null}
                 {moment().dayOfYear() === moment(todo.due_date).dayOfYear() ? <Item style={(todo.priority === 'high') ? {color: 'white', fontWeight: 'bolder'} : {color: 'red', fontWeight: 'bolder'}}>Due Today!</Item> : null}
             </div>
