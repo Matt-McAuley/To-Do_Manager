@@ -169,14 +169,16 @@ const EditTodoPopup = () => {
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault;
-            editTodo(editTodoInfo.id, editTodoInfo.title, editTodoInfo.description, moment(editTodoInfo.date).valueOf(), editTodoInfo.priority);
+            editTodo(editTodoInfo.id, editTodoInfo.title, editTodoInfo.description, moment(editTodoInfo.date).valueOf(), editTodoInfo.priority, editTodoInfo.projectId);
             setPopupID(-1);
             setEditTodoInfo({
                 id : -1,
                 title : "",
                 description : "",
                 date : "",
-                priority : ""
+                priority : "",
+                projectId : -1,
+                projectTitle : ""
             })
         }}>
             <ExitButton onClick={() => {
@@ -186,7 +188,9 @@ const EditTodoPopup = () => {
                     title : "",
                     description : "",
                     date : "",
-                    priority : ""
+                    priority : "",
+                    projectId : -1,
+                    projectTitle : ""
                 });
             }}>X</ExitButton>
             <Header>Edit To-Do</Header>

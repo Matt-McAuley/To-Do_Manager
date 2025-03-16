@@ -6,10 +6,12 @@ export type TodoListContextType = {
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
-    addNewTodo : (title: string, description: string, date: number, priority: string) => void;
-    editTodo : (id: number, title: string, description: string, date: number, priority: string) => void;
+    addNewTodo : (title: string, description: string, date: number, priority: string, projectId: number) => void;
+    editTodo : (id: number, title: string, description: string, date: number, priority: string, projectId: number) => void;
+    deleteTodo : (id: number, projectId: number) => void;
     addNewProject: (title: string) => false | undefined;
     editProject: (id: number, title: string) => void;
+    deleteProject: (id: number) => void;
     popupID : number;
     setPopupID: React.Dispatch<React.SetStateAction<number>>;
     editTodoInfo: {
@@ -18,6 +20,8 @@ export type TodoListContextType = {
         description: string;
         date: string;
         priority: string;
+        projectId: number;
+        projectTitle: string;
     }
     setEditTodoInfo: React.Dispatch<React.SetStateAction<{
         id: number;
@@ -25,6 +29,8 @@ export type TodoListContextType = {
         description: string;
         date: string;
         priority: string;
+        projectId: number;
+        projectTitle: string;
     }>>,
     editProjectInfo: {
         id: number;

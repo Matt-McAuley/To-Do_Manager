@@ -4,6 +4,7 @@ type Todo = {
     description: string;
     due_date: number;
     priority: string;
+    projectId: number;
     projectTitle: string;
 }
 
@@ -19,6 +20,8 @@ type editTodoInfo = {
     description: string;
     date: string;
     priority: string;
+    projectId: number;
+    projectTitle: string;
 }
 
 type editProjectInfo = {

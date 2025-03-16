@@ -3,7 +3,6 @@ import DeleteIcon from "../assets/delete.svg"
 import EditIcon from "../assets/note-edit.svg"
 import { TodoListContext, TodoListContextType } from "../TodoListContext"
 import { useContext } from 'react'
-import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
   display:flex;
@@ -59,7 +58,7 @@ const Proj = styled.div`
 `
 
 const ProjectSelect = () => {
-    const { setEditProjectInfo, projects, setProjects, setCurrentProject, currentProject, setPopupID, notify } = useContext(TodoListContext) as TodoListContextType;
+    const { setEditProjectInfo, projects, deleteProject, setCurrentProject, currentProject, setPopupID } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -93,22 +92,7 @@ const ProjectSelect = () => {
                         setEditProjectInfo({id: project.id, title : project.title});
                         setPopupID(3);
                     }}/>
-                    <Image src={DeleteIcon} onClick={() => {
-                        if (projects.length > 1) {
-                            const proj_to_delete = projects.find((ele) => ele.id === project.id)!;
-                            fetch(`${backendURL}/api/projects/${proj_to_delete.id}/`, {
-                                method: "DELETE",
-                                credentials: "include",
-                            });
-                            const new_projects = projects.filter((ele) => ele.id !== project.id);
-                            setProjects(new_projects);
-                            setCurrentProject(new_projects[0]);
-                        }
-                        else {
-                            notify('Must have at least one project!');
-                            return;
-                        }
-                    }}/>
+                    <Image src={DeleteIcon} onClick={() => deleteProject(project.id)}/>
                 </Proj>
             ))}
         </Container>

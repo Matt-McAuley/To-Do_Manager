@@ -1,6 +1,9 @@
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from '../../TodoListContext';
 import { useContext } from 'react';
+import EditIcon from "../../assets/note-edit.svg";
+import moment from "moment/moment";
+import DeleteIcon from "../../assets/delete.svg";
 
 const Container = styled.form`
     width: 50%;
@@ -54,9 +57,26 @@ const Date = styled.label`
     margin-right: 30px;
 `
 
+const Icons = styled.div`
+    width: 21%;
+`
+
+const Image = styled.img`
+    width: 40px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    &:hover {
+        background-color: #54ACDA;
+    }
+    &:active {
+        border: 1px solid black;
+    }
+`
+
 const ExpandPopup = () => {
 
-    const { setEditTodoInfo, editTodoInfo, setPopupID} = useContext(TodoListContext) as TodoListContextType;
+    const { setEditTodoInfo, editTodoInfo, setPopupID, deleteTodo} = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -68,12 +88,34 @@ const ExpandPopup = () => {
                     date: "",
                     priority: "",
                     description: "",
+                    projectId: -1,
+                    projectTitle: ""
                 })
                 }}>X</ExitButton>
             <div style={{padding: '10px', paddingBottom: '20px', height: '95%', display: 'flex', flexDirection: "column", justifyContent: 'space-between'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <Title>{editTodoInfo.title}</Title>
                     <Date>{editTodoInfo.date}</Date>
+                    <Icons>
+                        <Image src={EditIcon} onClick={(e) => {
+                            e.stopPropagation();
+                            setEditTodoInfo({
+                                id: editTodoInfo.id,
+                                title : editTodoInfo.title,
+                                description : editTodoInfo.description,
+                                date : moment(editTodoInfo.date).format('YYYY-MM-DD'),
+                                priority : editTodoInfo.priority,
+                                projectId: editTodoInfo.projectId,
+                                projectTitle: editTodoInfo.projectTitle
+                            });
+                            setPopupID(1);
+                        }}/>
+                        <Image src={DeleteIcon} onClick={(e) => {
+                            e.stopPropagation();
+                            deleteTodo(editTodoInfo.id, editTodoInfo.projectId);
+                            setPopupID(-1);
+                        }}/>
+                    </Icons>
                 </div>
                 <Description>{editTodoInfo.description}</Description>
             </div>
