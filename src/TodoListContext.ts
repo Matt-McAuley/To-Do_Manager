@@ -6,7 +6,7 @@ export type TodoListContextType = {
     setProjects : React.Dispatch<React.SetStateAction<Project[]>>;
     currentProject : Project;
     setCurrentProject : React.Dispatch<React.SetStateAction<Project>>;
-    addNewTodo : (title: string, description: string, date: number, priority: string, projectId: number) => void;
+    addNewTodo : (title: string, description: string, date: number, priority: string) => void;
     editTodo : (id: number, title: string, description: string, date: number, priority: string, projectId: number) => void;
     deleteTodo : (id: number, projectId: number) => void;
     addNewProject: (title: string) => false | undefined;

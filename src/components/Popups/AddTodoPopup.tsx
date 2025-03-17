@@ -174,11 +174,10 @@ const AddTodoPopup = () => {
 
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
-            evt.preventDefault;
+            evt.preventDefault();
             addNewTodo(formInfo.title, formInfo.description, moment(formInfo.date).valueOf(), formInfo.priority);
             setPopupID(-1);
             setFormInfo({
-                ...formInfo,
                 title : "",
                 description : "",
                 date : "",
@@ -188,7 +187,6 @@ const AddTodoPopup = () => {
             <ExitButton onClick={() => {
                 setPopupID(-1);
                 setFormInfo({
-                    ...formInfo,
                     title : "",
                     description : "",
                     date : "",

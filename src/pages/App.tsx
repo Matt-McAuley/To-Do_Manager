@@ -120,15 +120,14 @@ function App() {
       });
   }, [navigate])
 
-  const addNewTodo = ((title:string, description:string, due_date:number, priority:string, projectId: number) => {
-    const parentProject = projects.find(proj => proj.id == projectId)!;
-    for (let i = 0; i < parentProject.todos.length; i++) {
-      if (parentProject.todos[i].title == title) {
+  const addNewTodo = ((title:string, description:string, due_date:number, priority:string) => {
+    for (let i = 0; i < currentProject.todos.length; i++) {
+      if (currentProject.todos[i].title == title) {
         notify('Cannot have two todos with the same name in one project!');
         return false;
       }
     }
-    fetch(`${backendURL}/api/projects/${projectId}/todo`, {
+    fetch(`${backendURL}/api/projects/${currentProject.id}/todo`, {
       method: "POST",
       body: JSON.stringify({
         title,
@@ -141,30 +140,22 @@ function App() {
         .then(response => response.json())
         .then(data => {
           const updated_project: Project = {
-            id: projectId,
-            title: parentProject.title,
-            todos: [...parentProject.todos, {
+            id: currentProject.id,
+            title: currentProject.title,
+            todos: [...currentProject.todos, {
               id: data.id,
               title,
               description,
               due_date: due_date,
               priority,
-              projectId: projectId,
-              projectTitle: parentProject.title,
+              projectId: currentProject.id,
+              projectTitle: currentProject.title,
             }].sort((a, b) => a.due_date - b.due_date),
           };
-          const updatedProjects = [...projects.filter((proj) => proj.id != projectId), updated_project]
+          const updatedProjects = [...projects.filter((proj) => proj.id != currentProject.id), updated_project]
             .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
           setProjects(updatedProjects);
-          if (currentProject.id === -1) {
-              setCurrentProject({
-                  id: -1,
-                  title: "View All",
-                  todos: updatedProjects.map(project => project.todos).flat().sort((a, b) => a.due_date - b.due_date),
-              });
-          }
-          else
-              setCurrentProject(updated_project);
+          setCurrentProject(updated_project);
         });
     });
 

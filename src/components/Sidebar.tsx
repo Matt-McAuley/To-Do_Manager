@@ -39,7 +39,7 @@ const Buttons = styled.div`
 
 
 const Sidebar = () => {
-  const { setPopupID, currentProject, notify } = useContext(TodoListContext) as TodoListContextType;
+  const { setPopupID, currentProject, editTodoInfo, setEditTodoInfo, notify } = useContext(TodoListContext) as TodoListContextType;
 
   return (
     <Container>
@@ -50,6 +50,7 @@ const Sidebar = () => {
                 notify("Please select a project first")
                 return;
               }
+              setEditTodoInfo({...editTodoInfo, projectId: currentProject.id})
               setPopupID(0)
           }}
         >Add To-Do
