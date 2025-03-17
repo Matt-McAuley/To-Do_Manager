@@ -69,7 +69,7 @@ const YesButton = styled.button`
     }
 `
 
-const AreYouSurePopup = () => {
+const AreYouSureTodoPopup = () => {
 
     const { setEditTodoInfo, editTodoInfo, setPopupID, deleteTodo} = useContext(TodoListContext) as TodoListContextType;
 
@@ -99,4 +99,4 @@ const AreYouSurePopup = () => {
 
 }
 
-export default AreYouSurePopup;
+export default AreYouSureTodoPopup;

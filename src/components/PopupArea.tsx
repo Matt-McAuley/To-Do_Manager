@@ -6,7 +6,8 @@ import EditProjectPopup from './Popups/EditProjectPopup.tsx';
 import ExpandPopup from './Popups/ExpandPopup';
 import EditTodoPopup from "./Popups/EditTodoPopup.tsx";
 import AddProjectPopup from "./Popups/AddProjectPopup.tsx";
-import AreYouSurePopup from "./Popups/AreYouSurePopup.tsx";
+import AreYouSureTodoPopup from "./Popups/AreYouSureTodoPopup.tsx";
+import AreYouSureProjectPopup from "./Popups/AreYouSureProjectPopup.tsx";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -24,7 +25,8 @@ const Backdrop = styled.div`
 const PopupArea = () => {
 
   const { popupID } = useContext(TodoListContext) as TodoListContextType;
-  const popups = [<AddTodoPopup/>, <EditTodoPopup/>, <AddProjectPopup/>, <EditProjectPopup/>, <ExpandPopup/>, <AreYouSurePopup/>];
+  const popups = [<AddTodoPopup/>, <EditTodoPopup/>, <AddProjectPopup/>, <EditProjectPopup/>, <ExpandPopup/>,
+      <AreYouSureTodoPopup/>, <AreYouSureProjectPopup/>];
 
   return (popupID >= 0) ? (
       <Backdrop>
