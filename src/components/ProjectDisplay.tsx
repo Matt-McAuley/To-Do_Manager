@@ -114,10 +114,16 @@ const ProjectDisplay = (props : PropTypes) => {
                 {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day')) && moment(todo.due_date).isAfter(moment().endOf('day').subtract(1, 'day'))).map((todo: Todo, index: number) => (
                     <TodoContainer key={index} todo={todo}/>
                 ))}
-                </TodoSection>
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>Tomorrow</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day').add(1, 'day')) && moment(todo.due_date).isAfter(moment().endOf('day'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
             <TodoSection>
                 <Timeframe>This Week</Timeframe>
-                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('week')) && moment(todo.due_date).isAfter(moment().endOf('day'))).map((todo: Todo, index: number) => (
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('week')) && moment(todo.due_date).isAfter(moment().endOf('day').add(1, 'day'))).map((todo: Todo, index: number) => (
                     <TodoContainer key={index} todo={todo}/>
                 ))}
             </TodoSection>
