@@ -76,7 +76,7 @@ const Image = styled.img`
 
 const ExpandPopup = () => {
 
-    const { setEditTodoInfo, editTodoInfo, setPopupID, deleteTodo} = useContext(TodoListContext) as TodoListContextType;
+    const { setEditTodoInfo, editTodoInfo, setPopupID } = useContext(TodoListContext) as TodoListContextType;
 
     return (
         <Container>
@@ -110,10 +110,8 @@ const ExpandPopup = () => {
                             });
                             setPopupID(1);
                         }}/>
-                        <Image src={DeleteIcon} onClick={(e) => {
-                            e.stopPropagation();
-                            deleteTodo(editTodoInfo.id, editTodoInfo.projectId);
-                            setPopupID(-1);
+                        <Image src={DeleteIcon} onClick={() => {
+                            setPopupID(5);
                         }}/>
                     </Icons>
                 </div>
