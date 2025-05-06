@@ -55,14 +55,17 @@ Password: password
 
 ## Images
 
+#### Home Page
+<img src="https://mattmcauley.com/assets/projects/To-Do_Manager/home.png" alt="Image" style="width: 95%">
+
 #### Sign Up Page
-<img src="https://matt-mcauley.github.io/assets/img/To-Do_Manager/signup.png" alt="Sign Up Page Image" style="width: 95%">
+<img src="https://mattmcauley.com/assets/projects/To-Do_Manager/signup.png" alt="Image" style="width: 95%">
 
 #### Login Page
-<img src="https://matt-mcauley.github.io/assets/img/To-Do_Manager/login.png" alt="Login Page Image" style="width: 95%">
+<img src="https://mattmcauley.com/assets/projects/To-Do_Manager/login.png" alt="Image" style="width: 95%">
 
-#### Home Page
-<img src="https://matt-mcauley.github.io/assets/img/To-Do_Manager/home.png" alt="Home Page Image" style="width: 95%">
+#### Form to add To-Do
+<img src="https://mattmcauley.com/assets/projects/To-Do_Manager/form.png" alt="Image" style="width: 95%">
 
 ## Running locally
 
