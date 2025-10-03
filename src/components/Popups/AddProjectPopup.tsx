@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from '../../TodoListContext';
-import { useContext } from 'react';
+import {useContext, useState} from 'react';
 
 const Container = styled.form`
     width: 40%;
@@ -84,27 +84,28 @@ const SubmitButton = styled.button`
     }
 `
 
-const ProjectPopup = () => {
+const AddProjectPopup = () => {
 
-    const { editInfo, setEditInfo, setPopupID, addNewProject} = useContext(TodoListContext) as TodoListContextType;
+    const { setPopupID, addNewProject} = useContext(TodoListContext) as TodoListContextType;
+    const [title, setTitle] = useState("");
 
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
             evt.preventDefault();
-            addNewProject(editInfo.projectTitle, editInfo.projectId, editInfo.projectTodos);
-            setEditInfo({...editInfo, projectTitle : "", projectId: -1, projectTodos: [],});
+            addNewProject(title);
             setPopupID(-1);
+            setTitle("");
             }}>
             <ExitButton onClick={() => {
                 setPopupID(-1);
-                setEditInfo({...editInfo, projectTitle : "", projectId: -1, projectTodos: [],});
+                setTitle("");
             }}>X</ExitButton>
             <Header>Add New Project</Header>
             <InputArea>
                 <TitleGroup>
                     <Label>Title:</Label>
                     <Title id="outlined-basic"
-                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, projectTitle: evt.target.value})} value={editInfo.projectTitle} required/>
+                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setTitle(evt.target.value)} value={title} required/>
                 </TitleGroup>
                 <SubmitButton type="submit">Submit</SubmitButton>
             </InputArea>
@@ -113,4 +114,4 @@ const ProjectPopup = () => {
 
 }
 
-export default ProjectPopup;
+export default AddProjectPopup;

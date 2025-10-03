@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { TodoListContext, TodoListContextType } from '../../TodoListContext';
-import { useContext } from 'react';
+import {useContext, useState} from 'react';
 import moment from "moment";
 
 const Container = styled.form`
@@ -162,30 +162,32 @@ const BottomBar = styled.div`
     height: 35%;
 `
 
-const TodoPopup = () => {
+const AddTodoPopup = () => {
 
-    const { editInfo, setEditInfo, setPopupID, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
+    const { setPopupID, addNewTodo } = useContext(TodoListContext) as TodoListContextType;
+    const [formInfo, setFormInfo] = useState({
+        title : "",
+        description : "",
+        date : "",
+        priority : ""
+    });
 
     return (
         <Container onSubmit={(evt : React.FormEvent) => {
-            evt.preventDefault;
-            addNewTodo(editInfo.todoTitle, editInfo.description, moment(editInfo.date).valueOf(), editInfo.priority, editInfo.todoId);
-            setEditInfo({
-                ...editInfo,
-                todoTitle : "",
-                todoId : -1,
+            evt.preventDefault();
+            addNewTodo(formInfo.title, formInfo.description, moment(formInfo.date).valueOf(), formInfo.priority);
+            setPopupID(-1);
+            setFormInfo({
+                title : "",
                 description : "",
                 date : "",
                 priority : ""
             })
-            setPopupID(-1);
-            }}>
+        }}>
             <ExitButton onClick={() => {
                 setPopupID(-1);
-                setEditInfo({
-                    ...editInfo,
-                    todoTitle : "",
-                    todoId : -1,
+                setFormInfo({
+                    title : "",
                     description : "",
                     date : "",
                     priority : ""
@@ -194,49 +196,48 @@ const TodoPopup = () => {
             <Header>Add New To-Do</Header>
             <InputArea>
                 <TopBar>
-                <TitleGroup>
-                    <Label>Title:</Label>
-                    <Title onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, todoTitle : (evt.target.value)})}
-                           value={editInfo.todoTitle} required/>
-                </TitleGroup>
-                <DateGroup>
-                    <Label>Date:</Label>
-                    <DateInput type='date' onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, date : (evt.target.value)})}
-                               value={editInfo.date} required/>
-                </DateGroup>
-                <PriorityGroup>
-                    <Label>Priority:</Label>
-                    <PriorityButtons>
-                        <PriorityButton>
-                            <Label>Low</Label>
-                            <PriorityInput type="radio" value="low" checked={editInfo.priority === "low"}
-                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
-                        </PriorityButton>
-                        <PriorityButton>
-                            <Label>Medium</Label>
-                            <PriorityInput type="radio" value="medium" checked={editInfo.priority === "medium"}
-                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
-                        </PriorityButton>
-                        <PriorityButton>
-                            <Label>High</Label>
-                            <PriorityInput type="radio" value="high" checked={editInfo.priority === "high"}
-                                       onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setEditInfo({...editInfo, priority : evt.target.value})} required/>
-                        </PriorityButton>
-                    </PriorityButtons>
-                </PriorityGroup>
+                    <TitleGroup>
+                        <Label>Title:</Label>
+                        <Title onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setFormInfo({...formInfo, title : (evt.target.value)})}
+                               value={formInfo.title} required/>
+                    </TitleGroup>
+                    <DateGroup>
+                        <Label>Date:</Label>
+                        <DateInput type='date' onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setFormInfo({...formInfo, date : (evt.target.value)})}
+                                   value={formInfo.date} required/>
+                    </DateGroup>
+                    <PriorityGroup>
+                        <Label>Priority:</Label>
+                        <PriorityButtons>
+                            <PriorityButton>
+                                <Label>Low</Label>
+                                <PriorityInput type="radio" value="low" checked={formInfo.priority === "low"}
+                                               onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setFormInfo({...formInfo, priority : evt.target.value})} required/>
+                            </PriorityButton>
+                            <PriorityButton>
+                                <Label>Medium</Label>
+                                <PriorityInput type="radio" value="medium" checked={formInfo.priority === "medium"}
+                                               onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setFormInfo({...formInfo, priority : evt.target.value})} required/>
+                            </PriorityButton>
+                            <PriorityButton>
+                                <Label>High</Label>
+                                <PriorityInput type="radio" value="high" checked={formInfo.priority === "high"}
+                                               onChange={(evt : React.ChangeEvent<HTMLInputElement>) => setFormInfo({...formInfo, priority : evt.target.value})} required/>
+                            </PriorityButton>
+                        </PriorityButtons>
+                    </PriorityGroup>
                 </TopBar>
                 <BottomBar>
                     <DescriptionGroup>
                         <Label>Description:</Label>
-                        <Description onChange={(evt : React.ChangeEvent<HTMLTextAreaElement>) => setEditInfo({...editInfo, description : (evt.target.value)})}
-                                     value={editInfo.description} required/>
+                        <Description onChange={(evt : React.ChangeEvent<HTMLTextAreaElement>) => setFormInfo({...formInfo, description : (evt.target.value)})}
+                                     value={formInfo.description} required/>
                     </DescriptionGroup>
                 </BottomBar>
                 <SubmitButton type="submit">Submit</SubmitButton>
             </InputArea>
         </Container>
     );
-
 }
 
-export default TodoPopup;
+export default AddTodoPopup;

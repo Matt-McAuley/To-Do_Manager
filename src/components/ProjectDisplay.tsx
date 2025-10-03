@@ -5,25 +5,39 @@ import { keyframes } from '@emotion/react'
 import { TodoListContext, TodoListContextType } from "../TodoListContext";
 import { useContext } from "react";
 import { PropTypes } from "@mui/material";
+import moment from 'moment';
 
 const Container = styled.div`
-  grid-column: 2 \ 3;
+  grid-column: 2 / 3;
   grid-row: 2 / 3;
   background-color: #C1C8E4;
   display:flex;
   flex-direction:column;
-  justify-content:start;
-  align-items:center;
   position: relative;
   padding: 0;
   overflow-y: auto;
+`;
+
+const TodoSection = styled.div`
+    display:flex;
+    flex-direction:column;
+    justify-content:start;
+    align-items:center;
+    height: 100%;
+    border-bottom: 3px solid black;
+`;
+
+const Timeframe = styled.div`
+    font-size: 30px;
+    font-weight: 700;
+    padding: 10px;
 `;
 
 const LoadingContainer = styled.div`
     background-color: #C1C8E4;
     display:flex;
     height:100vh;
-    widht:100%;
+    width:100%;
     justify-content:center;
     align-items:center;
 `
@@ -89,9 +103,48 @@ const ProjectDisplay = (props : PropTypes) => {
     )
     : (
         <Container>
-            {currentProject.todos.map((todo: Todo, index: number) => (
-                <TodoContainer key={index} todo={todo}/>
-            ))}
+            <TodoSection>
+                <Timeframe>Overdue</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().startOf('day'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>Today</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day')) && moment(todo.due_date).isAfter(moment().endOf('day').subtract(1, 'day'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>Tomorrow</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('day').add(1, 'day')) && moment(todo.due_date).isAfter(moment().endOf('day'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>This Week</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('week')) && moment(todo.due_date).isAfter(moment().endOf('day').add(1, 'day'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>This Month</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('month')) && moment(todo.due_date).isAfter(moment().endOf('week'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>This Year</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isBefore(moment().endOf('year')) && moment(todo.due_date).isAfter(moment().endOf('month'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
+            <TodoSection>
+                <Timeframe>Far Away</Timeframe>
+                {currentProject.todos.filter((todo: Todo) => moment(todo.due_date).isAfter(moment().endOf('year'))).map((todo: Todo, index: number) => (
+                    <TodoContainer key={index} todo={todo}/>
+                ))}
+            </TodoSection>
         </Container>
     );
 }

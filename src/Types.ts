@@ -4,6 +4,7 @@ type Todo = {
     description: string;
     due_date: number;
     priority: string;
+    projectId: number;
     projectTitle: string;
 }
 
@@ -13,15 +14,19 @@ type Project = {
     title: string;
 }
 
-type editInfo = {
-    projectTitle: string;
-    projectId: number;
-    projectTodos: Todo[];
-    todoTitle: string;
-    todoId: number;
+type editTodoInfo = {
+    id: number;
+    title: string;
     description: string;
     date: string;
     priority: string;
+    projectId: number;
+    projectTitle: string;
 }
 
-export type { Project, Todo, editInfo }
+type editProjectInfo = {
+    id: number;
+    title: string;
+}
+
+export type { Project, Todo, editTodoInfo, editProjectInfo }
