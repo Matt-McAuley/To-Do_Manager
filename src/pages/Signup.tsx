@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import {useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
-import {useNavigate} from "react-router";
 import {backendURL} from "../constants.ts";
 
 const Container = styled.div`
@@ -79,6 +78,7 @@ export default function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
+    
     const error = (text: string) => {
         toast.error(text, {
             position: "top-right",
@@ -87,10 +87,11 @@ export default function Signup() {
             pauseOnHover: false,
         });
     }
+    
     const success = (text: string) => {
         toast.success(text, {
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 4000,
             theme: "colored",
             pauseOnHover: false,
         });
@@ -108,14 +109,19 @@ export default function Signup() {
         }
         fetch(`${backendURL}/api/user/`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({email, password}),
             credentials: 'include',
-        }).then(response => {
-            if (response.ok) {
-                success("Account created successfully, redirecting to login page");
-                setTimeout(() => navigate('/'), 3000);
+        }).then(response => response.json()).then(data => {
+            if (data.message) {
+                success("Please verify your email. Redirecting to login...");
+                setTimeout(() => {
+                    navigate('/');
+                }, 5000);
             } else {
-                error("User with that email already exists");
+                error(data.error || "Account creation failed");
             }
         }).catch(() => {error("Account creation failed")});
     }

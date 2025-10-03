@@ -8,7 +8,7 @@ import Signup from "./pages/Signup.tsx";
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
       <BrowserRouter>
-        <Routes>]
+        <Routes>
             <Route index element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="main" element={<App />} />

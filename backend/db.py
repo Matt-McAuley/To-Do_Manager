@@ -91,6 +91,8 @@ class User(db.Model):
   id = db.Column(db.Integer, autoincrement=True, primary_key=True)
   email = db.Column(db.String, nullable=False, unique=True)
   password = db.Column(db.String, nullable=False)
+  is_verified = db.Column(db.Boolean, default=False, nullable=False)
+  verification_token = db.Column(db.String, nullable=True)
 
   def __init__(self, **kwargs):
     """
@@ -99,9 +101,12 @@ class User(db.Model):
     __tablename__ = "user"
     self.email = kwargs.get("email", "")
     self.password = kwargs.get("password", "")
+    self.is_verified = False
+    self.verification_token = kwargs.get("verification_token", None)
 
   def serialize(self):
     return {
       "id": self.id,
-      "email": self.email
+      "email": self.email,
+      "is_verified": self.is_verified,
     }

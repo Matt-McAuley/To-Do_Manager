@@ -1,3 +1,4 @@
+import secrets
 import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -10,6 +11,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
   unset_jwt_cookies
 import os
 from dotenv import load_dotenv
+from email_service import send_verification_email
 
 load_dotenv()
 
@@ -202,16 +204,40 @@ def create_user():
   user = User.query.filter_by(email=email).first()
   if user is not None:
       return failure_response("User already exists!")
-  user = User(email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()))
-  db.session.add(user)
-  db.session.commit()
-  project = Project(title="Example Project", user_id=user.id)
-  db.session.add(project)
-  db.session.commit()
-  todo = Todo(title="Example To-Do", description="This is an example To-Do", due_date=round(time.time() * 1000), priority="low", project_id=project.id, user_id=user.id)
-  db.session.add(todo)
-  db.session.commit()
-  return success_response(user.serialize())
+  
+  verification_token = secrets.token_urlsafe(32)
+  user = User(email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()), verification_token=verification_token)
+
+  if send_verification_email(email, verification_token):
+      db.session.add(user)
+      db.session.commit()
+      return success_response({"message": "Account created! Please check your email to verify your account."})
+  else:
+      return failure_response("Failed to send verification email. Please try again later.")
+
+@app.route('/verify-email', methods=["GET"])
+def verify_email():
+    """
+    Route for verifying a user's email
+    """
+    token = request.args.get("token")
+    if token is None:
+      return failure_response("Verification token required!")
+    
+    user = User.query.filter_by(verification_token=token).first()
+    if user is None:
+      return failure_response("Invalid verification token!")
+    
+    user.is_verified = True
+    user.verification_token = None
+    db.session.commit()
+    project = Project(title="Example Project", user_id=user.id)
+    db.session.add(project)
+    db.session.commit()
+    todo = Todo(title="Example To-Do", description="This is an example To-Do", due_date=round(time.time() * 1000), priority="low", project_id=project.id, user_id=user.id)
+    db.session.add(todo)
+    db.session.commit()
+    return success_response({"message": "Email verified successfully! You can now log in."})
 
 @app.route('/api/login/', methods=["POST"])
 def login():
@@ -228,6 +254,8 @@ def login():
   user = User.query.filter_by(email=email).first()
   if user is None:
     return failure_response("User not found!")
+  if not user.is_verified:
+    return failure_response("Need to verify email!")
   if bcrypt.checkpw(password.encode('utf-8'), user.password):
     access_token = create_access_token(identity=str(user.id))
     response = jsonify({"user": user.serialize()})
@@ -251,7 +279,7 @@ def reset_database():
     with app.app_context():
       db.drop_all()
       db.create_all()
-      user = User(email="test@gmail.com", password=bcrypt.hashpw("password".encode('utf-8'), bcrypt.gensalt()))
+      user = User(email="test@gmail.com", password=bcrypt.hashpw("password".encode('utf-8'), bcrypt.gensalt()), is_verified=True)
       db.session.add(user)
       db.session.commit()
       project = Project(title="Example Project", user_id=user.id)

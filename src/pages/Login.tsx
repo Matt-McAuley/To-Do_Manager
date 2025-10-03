@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import {Link, useNavigate} from "react-router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {backendURL} from "../constants.ts";
 
@@ -78,6 +78,28 @@ export default function Login() {
             pauseOnHover: false,
         });
     }
+    const success = (text: string) => {
+        toast.success(text, {
+            position: "top-right",
+            autoClose: 4000,
+            theme: "colored",
+            pauseOnHover: false,
+        });
+    }
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        if (token) {
+            fetch(`${backendURL}/verify-email?token=${token}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        success(data.message);
+                    }
+                });
+        }
+    }, []);
 
     const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -92,13 +114,19 @@ export default function Login() {
             }),
             method: "POST",
             credentials: "include",
-        }).then(response => {
-            if (!response.ok) {
-                error("Invalid email or password");
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            if (data.error === "Need to verify email!") {
+                error("Please verify your email before logging in.");
+                return;
+            }
+            else if (data.error) {
+                error("Invalid email or password.");
                 return;
             }
             navigate('/main');
-        });
+        })
     }
 
     return (
