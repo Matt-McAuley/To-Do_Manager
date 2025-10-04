@@ -289,6 +289,10 @@ def reset_database():
       db.session.add(todo)
       db.session.commit()
 
+
+if not os.path.exists(db_filename):
+    reset_database()
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=reset_database, trigger='cron', hour=0, minute=0)
 scheduler.start()

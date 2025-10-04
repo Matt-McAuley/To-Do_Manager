@@ -101,7 +101,7 @@ class User(db.Model):
     __tablename__ = "user"
     self.email = kwargs.get("email", "")
     self.password = kwargs.get("password", "")
-    self.is_verified = False
+    self.is_verified = kwargs.get("is_verified", False)
     self.verification_token = kwargs.get("verification_token", None)
 
   def serialize(self):
