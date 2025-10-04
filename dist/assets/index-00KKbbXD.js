@@ -102,7 +102,7 @@ b.version="2.30.1";ED(Te);b.fn=A;b.min=yT;b.max=gT;b.now=vT;b.utc=Sn;b.unix=BE;b
     font-size: 22px;
     transition: all ease-in-out 300ms;
     cursor: pointer;
-    ${t.priority==="low"?"background-color: lightgreen;":t.priority==="medium"?"background-color: yellow;":"background-color: orangered;"}
+    ${t.priority==="low"?"background-color: #b8ff9e;":t.priority==="medium"?"background-color: #fff87d;":"background-color: #ff7d7d;"}
     ${t.priority==="low"||t.priority==="medium","&:hover {background-color: #FFFFFF;}"}
 `;return k.jsxs(a,{onClick:()=>{r({id:t.id,title:t.title,description:t.description,date:b(t.due_date).format("MM/DD/YYYY"),priority:t.priority,projectId:t.projectId,projectTitle:t.projectTitle}),i(4)},children:[k.jsx(PP,{children:t.title}),k.jsxs(EP,{style:{flexDirection:"column",justifyContent:"center",alignItems:"center"},children:[k.jsx(oc,{children:b(t.due_date).format("dddd: MM/DD/YYYY")}),b(t.due_date).dayOfYear()<b().dayOfYear()?k.jsx(oc,{style:t.priority==="high"?{color:"white",fontWeight:"bolder"}:{color:"red",fontWeight:"bolder"},children:"Overdue!"}):null,b().dayOfYear()===b(t.due_date).dayOfYear()?k.jsx(oc,{style:t.priority==="high"?{color:"white",fontWeight:"bolder"}:{color:"red",fontWeight:"bolder"},children:"Due Today!"}):null]}),n.id===-1?k.jsx(OP,{children:t.projectTitle}):null]})},NP=L.div`
   grid-column: 2 / 3;
