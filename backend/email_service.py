@@ -18,7 +18,7 @@ def send_verification_email(email, verification_token):
     if not sender_email or not sender_password:
         raise ValueError("Email credentials not configured")
 
-    verification_url = f"http://localhost:8000?token={verification_token}"
+    verification_url = f"{os.environ.get('URL')}?token={verification_token}"
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Verify your email - To-Do Manager"
