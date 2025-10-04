@@ -58,7 +58,7 @@ const TodoContainer = (props: Props) => {
     font-size: 22px;
     transition: all ease-in-out 300ms;
     cursor: pointer;
-    ${todo.priority === 'low' ? 'background-color: lightgreen;' : todo.priority === 'medium' ? 'background-color: yellow;' : 'background-color: orangered;'}
+    ${todo.priority === 'low' ? 'background-color: #b8ff9e;' : todo.priority === 'medium' ? 'background-color: #fff87d;' : 'background-color: #ff7d7d;'}
     ${todo.priority === 'low' ? '&:hover {background-color: #FFFFFF;}' : todo.priority === 'medium' ? '&:hover {background-color: #FFFFFF;}' : '&:hover {background-color: #FFFFFF;}'}
 `;
 
