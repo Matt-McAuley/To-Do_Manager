@@ -4,6 +4,7 @@ services:
         to-do-manager:
                 volumes:
                 - /home/ubuntu/todo.db:/usr/app/instance/todo.db
+                - /home/ubuntu/.env:/usr/app/backend/.env
                 image: mattmcauley/to-do-manager
                 env_file: .env
                 ports:

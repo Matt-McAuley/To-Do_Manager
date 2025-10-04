@@ -2,10 +2,10 @@ FROM python:3.10-slim
 
 ENV CONTAINER_HOME=/usr/app
 
-ADD . $CONTAINER_HOME
 WORKDIR $CONTAINER_HOME
 
-RUN pip install -r $CONTAINER_HOME/backend/requirements.txt
+COPY backend/requirements.txt $CONTAINER_HOME/backend/requirements.txt
+RUN pip install -r backend/requirements.txt
 
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -35,6 +35,9 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # install node dependencies
+COPY package*.json ./
 RUN npm install
+
+COPY . .
 
 CMD python backend/app.py
