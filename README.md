@@ -19,7 +19,7 @@ The backend API for persisting user data and logging in is done with Flask and t
 I then decided to host the website on an Oracle Cloud Infrastructure instance to get more experience with cloud computing outside of AWS. I created a Dockerfile to containerize the project that was very similar to the one used for my [Exercise Engine](https://github.com/matt-mcauley/Exercise_Engine/) project as they have similar structures. I created an always free ARM instance on OCI and used PuTTY to SSH into the instance and run the container. I had to open the necessary ports and configure the security group to allow for incoming traffic to the website, as well as installing Docker on the VM to get the container running. The process was very similar to AWS so it was much more straightforward this time with the only difference being that I had to use Docker buildx to build for a different architecture.
 
 ## Online Hosting
-The website is hosted on an [Oracle Cloud Instance](http://150.136.36.76/).
+The website is hosted at [https://todomanager.best](https://todomanager.best).
 
 Email: test@gmail.com
 
@@ -78,6 +78,22 @@ You need to install dependencies by running `python -m pip install -r requiremen
 
 ## Author
 
-[Matt McAuley](https://mattmcauley.com) | Software Engineer | Cornell Computer Science  
-mwm223@cornell.edu
+<div align="center">
+
+### Matt McAuley
+
+<table align="center" style="border: none; border-collapse: collapse; margin: 0 auto; margin-top: -6px; margin-bottom: 14px; width: 440px;">
+  <tr style="border: none;">
+    <td align="right" style="border: none; padding: 0 10px 0 0; width: 50%; white-space: nowrap;">Software Engineer</td>
+    <td style="border: none; padding: 0; width: 1px; color: #888;">|</td>
+    <td align="left" style="border: none; padding: 0 0 0 10px; width: 50%; white-space: nowrap;">Cornell Computer Science</td>
+  </tr>
+</table>
+
+[![Website](https://img.shields.io/badge/Website-mattmcauley.com-0078D4?style=flat-square&logo=googlechrome&logoColor=white)](https://mattmcauley.com)&nbsp;&nbsp;
+[![Email](https://img.shields.io/badge/Email-mwm223@cornell.edu-b31b1b?style=flat-square&logo=gmail&logoColor=white)](mailto:mwm223@cornell.edu)&nbsp;&nbsp;
+[![GitHub](https://img.shields.io/badge/GitHub-matt--mcauley-6e5494?style=flat-square&logo=github)](https://github.com/matt-mcauley)
+
+</div>
+
 
