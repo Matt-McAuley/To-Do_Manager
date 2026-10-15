@@ -6,7 +6,7 @@
 - [Online Hosting](#online-hosting)
 - [Images](#images)
 - [Running Locally](#running-locally)
-- [Authors](#authors)
+- [Author](#author)
 
 ## Description
 
@@ -17,8 +17,6 @@ My very first iteration initially consisted of a static HTML, CSS, and JS websit
 The backend API for persisting user data and logging in is done with Flask and the database is SQLAlchemy which is all contained under the backend/ directory.  I learned about using both of these tools through following along with the [Cornell AppDev](https://www.youtube.com/@CornellAppDev) backend tutorials on YouTube. The SQLAlchemy ORM was used to allow for easy object-oriented python implementation of the database with models for Projects and Todos at first and then eventually Users when I added authentication. The API is RESTful and has endpoints for creating, reading, updating, and deleting Projects and Todos. It also uses the build folder created by the React frontend to serve the HTML, CSS, and JS to the user upon visiting the root URL. For authentication, the DB uses bcrypt to hash the user's password and check against it when logging in. The API handles authenticating a user with flask-jwt-extended and stores the JWT in a cookie to keep the user logged in. There is also email verification where users cannot log in until their account is marked verified, which is done by accessing the login screen link with the verification token attached to the email.
 
 I then decided to host the website on an Oracle Cloud Infrastructure instance to get more experience with cloud computing outside of AWS. I created a Dockerfile to containerize the project that was very similar to the one used for my [Exercise Engine](https://github.com/matt-mcauley/Exercise_Engine/) project as they have similar structures. I created an always free ARM instance on OCI and used PuTTY to SSH into the instance and run the container. I had to open the necessary ports and configure the security group to allow for incoming traffic to the website, as well as installing Docker on the VM to get the container running. The process was very similar to AWS so it was much more straightforward this time with the only difference being that I had to use Docker buildx to build for a different architecture.
-
-This project is something I'm very proud of because it was constructed over many months, and I learned a lot about web development in the process. Starting with a simple static website and then continuing to add new technologies and concepts as I learned them has been a great way to reinforce my understanding. There were many design decisions that I had to make along the way, and I'm happy with how the website turned out in the end. I'm excited to continue to work on this project and add new features as I learn about them. Overall, this project taught me about building a React frontend, using Typescript, client side vs server side routing, creating a Flask API, using SQLAlchemy and ORMs, user authentication, and hosting a website on the cloud.
 
 ## Online Hosting
 The website is hosted on an [Oracle Cloud Instance](http://150.136.36.76/).
@@ -78,13 +76,8 @@ You need to install dependencies by running `python -m pip install -r requiremen
 #### Step 4: Command to run project locally:
 ```python backend/app.py```
 
-## Authors
+## Author
 
-<table style="border-collapse: collapse; border:none;">
-  <tr  style="border:none;">
-    <td style="border:none;"><strong>Matthew McAuley</strong></td>
-  </tr>
-  <tr style="border:none;">
-    <td style="border:none;">mwm223@cornell.edu</td>
-  </tr>
-</table>
+[Matt McAuley](https://mattmcauley.com) | Software Engineer | Cornell Computer Science  
+mwm223@cornell.edu
+
