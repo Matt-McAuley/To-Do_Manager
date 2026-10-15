@@ -6,7 +6,7 @@
 - [Online Hosting](#online-hosting)
 - [Images](#images)
 - [Running Locally](#running-locally)
-- [Authors](#authors)
+- [Author](#author)
 
 ## Description
 
@@ -18,10 +18,8 @@ The backend API for persisting user data and logging in is done with Flask and t
 
 I then decided to host the website on an Oracle Cloud Infrastructure instance to get more experience with cloud computing outside of AWS. I created a Dockerfile to containerize the project that was very similar to the one used for my [Exercise Engine](https://github.com/matt-mcauley/Exercise_Engine/) project as they have similar structures. I created an always free ARM instance on OCI and used PuTTY to SSH into the instance and run the container. I had to open the necessary ports and configure the security group to allow for incoming traffic to the website, as well as installing Docker on the VM to get the container running. The process was very similar to AWS so it was much more straightforward this time with the only difference being that I had to use Docker buildx to build for a different architecture.
 
-This project is something I'm very proud of because it was constructed over many months, and I learned a lot about web development in the process. Starting with a simple static website and then continuing to add new technologies and concepts as I learned them has been a great way to reinforce my understanding. There were many design decisions that I had to make along the way, and I'm happy with how the website turned out in the end. I'm excited to continue to work on this project and add new features as I learn about them. Overall, this project taught me about building a React frontend, using Typescript, client side vs server side routing, creating a Flask API, using SQLAlchemy and ORMs, user authentication, and hosting a website on the cloud.
-
 ## Online Hosting
-The website is hosted on an [Oracle Cloud Instance](http://150.136.36.76/).
+The website is hosted at [https://todomanager.best](https://todomanager.best).
 
 Email: test@gmail.com
 
@@ -78,13 +76,16 @@ You need to install dependencies by running `python -m pip install -r requiremen
 #### Step 4: Command to run project locally:
 ```python backend/app.py```
 
-## Authors
+## Author
 
-<table style="border-collapse: collapse; border:none;">
-  <tr  style="border:none;">
-    <td style="border:none;"><strong>Matthew McAuley</strong></td>
-  </tr>
-  <tr style="border:none;">
-    <td style="border:none;">mwm223@cornell.edu</td>
-  </tr>
-</table>
+<div align="center">
+
+### Matt McAuley
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Software Engineer &nbsp;|&nbsp; Cornell Computer Science
+
+[![Website](https://img.shields.io/badge/Website-mattmcauley.com-0078D4?style=flat-square&logo=googlechrome&logoColor=white)](https://mattmcauley.com)&nbsp;&nbsp;
+[![Email](https://img.shields.io/badge/Email-mwm223@cornell.edu-b31b1b?style=flat-square&logo=gmail&logoColor=white)](mailto:mwm223@cornell.edu)&nbsp;&nbsp;
+[![GitHub](https://img.shields.io/badge/GitHub-matt--mcauley-6e5494?style=flat-square&logo=github)](https://github.com/matt-mcauley)
+
+</div>
